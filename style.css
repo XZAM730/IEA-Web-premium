@@ -1,224 +1,275 @@
-/* ===================== */
-/* FONT & RESET          */
-/* ===================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* =========================
+   IEA ASTRONOMI - style.css
+   =========================
+   Copy this file exactly as-is into "style.css"
+*/
+
+/* =========================
+   VARIABLES & RESET
+   ========================= */
+:root{
+  --bg-900: #020117;
+  --bg-800: #031024;
+  --panel: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.03);
+  --accent1: #6b21ff;
+  --accent2: #ff4fc1;
+  --muted: #bfc7d6;
+  --white: #ffffff;
+  --shadow-strong: rgba(11,8,28,0.55);
+  --card-radius: 14px;
+  --ease: cubic-bezier(.2,.9,.18,1);
+  --max-width: 1200px;
+  --ff: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --glass-border: rgba(255,255,255,0.04);
 }
 
-body, html {
-    font-family: 'Poppins', sans-serif;
-    overflow-x: hidden;
-    background: #000;
-    color: #fff;
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg-900);font-family:var(--ff);color:var(--white);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+/* =========================
+   BACKGROUND LAYERS
+   ========================= */
+/* canvas #bgCanvas sits behind everything */
+#bgCanvas{position:fixed;inset:0;z-index:-4;display:block}
+
+/* soft gradient layers to add depth */
+.bg-gradient{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(107,33,255,0.08), transparent 8%),
+    radial-gradient(ellipse at 82% 78%, rgba(255,79,193,0.06), transparent 12%),
+    linear-gradient(180deg,var(--bg-800) 0%, var(--bg-900) 100%);
 }
 
-/* ===================== */
-/* STARFIELD CANVAS       */
-/* ===================== */
-#stars {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: black;
+/* =========================
+   LAYOUT CONTAINERS
+   ========================= */
+.container{
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:28px;
+  position:relative;
+  z-index:1;
 }
 
-/* ===================== */
-/* HERO SECTION           */
-/* ===================== */
-.hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 20px;
+/* flex header */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:22px;
 }
 
-.hero .glow {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #fff;
-    text-shadow: 0 0 20px #9d00ff, 0 0 40px #d100ff, 0 0 60px #ff00ff;
-    margin-bottom: 20px;
+/* brand block */
+.brand{display:flex;align-items:center;gap:14px}
+.logo{
+  width:56px;height:56px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  box-shadow:0 10px 30px rgba(107,33,255,0.18);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff;
+}
+.title{font-size:20px;font-weight:700;line-height:1}
+.subtitle{font-size:13px;color:var(--muted);line-height:1.1}
+
+/* =========================
+   SEARCH / FILTER
+   ========================= */
+.search-wrap{display:flex;gap:8px;align-items:center}
+.search-box{
+  background:var(--panel);
+  padding:8px 12px;
+  border-radius:12px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.6);
+  border:1px solid var(--glass-border);
+}
+.search-box svg{opacity:0.9}
+.search-box input{
+  background:transparent;border:none;outline:none;color:var(--white);font-size:14px;width:220px;
+}
+.badge-row{display:flex;gap:8px;align-items:center;margin-left:10px}
+.filter-badges{display:flex;gap:8px;align-items:center;margin-left:10px}
+.badge{
+  font-size:12px;padding:6px 10px;border-radius:999px;
+  background:rgba(255,255,255,0.03);color:var(--muted);cursor:pointer;border:1px solid rgba(255,255,255,0.02);
+  transition:all .25s var(--ease);
+}
+.badge:hover{transform:translateY(-2px)}
+.badge.active{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;border:none;
+  box-shadow:0 8px 26px rgba(107,33,255,0.12)
 }
 
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    max-width: 600px;
+/* =========================
+   HERO
+   ========================= */
+.hero{
+  padding:28px;margin-bottom:24px;border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  display:flex;gap:24px;align-items:center;justify-content:space-between;
+  box-shadow:0 6px 40px rgba(0,0,0,0.45);
+  border:1px solid rgba(255,255,255,0.02);
+}
+.hero-left{flex:1}
+.hero h1{font-size:28px;margin:0 0 6px 0}
+.hero p{margin:0;color:var(--muted);max-width:780px;line-height:1.6}
+.hero-right{width:220px;text-align:center}
+
+/* primary button */
+.btn-primary{
+  display:inline-block;padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;border:none;cursor:pointer;font-weight:600;box-shadow:0 10px 30px rgba(107,33,255,0.12);
+  transition:transform .18s var(--ease), box-shadow .18s var(--ease);
+}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(107,33,255,0.16)}
+
+/* ghost button */
+.btn-ghost{
+  padding:8px 12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.06);
+  color:var(--muted);cursor:pointer;transition:all .18s var(--ease)
+}
+.btn-ghost:hover{background:rgba(255,255,255,0.02);transform:translateY(-3px)}
+
+/* =========================
+   GRID / CARDS
+   ========================= */
+.section{padding:40px 0;min-height:60vh}
+.title{font-size:clamp(20px,2.4vw,32px);font-weight:700;text-align:center;margin-bottom:8px;color:var(--white);text-shadow:0 0 8px rgba(107,33,255,0.12)}
+.description{color:var(--muted);text-align:center;max-width:900px;margin:8px auto 20px auto;line-height:1.5}
+
+/* grid responsive */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:18px;margin-top:22px;
 }
 
-.hero .btn {
-    padding: 15px 35px;
-    border-radius: 30px;
-    background: linear-gradient(90deg, #7a00ff, #d100ff);
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.4s;
+/* card */
+.card{
+  border-radius:var(--card-radius);
+  padding:18px;background:var(--glass);cursor:pointer;position:relative;overflow:hidden;
+  border:1px solid var(--glass-border);
+  transition:transform .32s var(--ease), box-shadow .32s var(--ease);
+  display:flex;gap:12px;align-items:center;min-height:98px;
+}
+.card:focus{outline:3px solid rgba(107,33,255,0.14);outline-offset:3px}
+.card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(11,8,28,0.45)}
+.card .icon{
+  width:86px;height:86px;border-radius:999px;flex:0 0 86px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;
+  box-shadow:inset 0 -6px 30px rgba(0,0,0,0.35);
+  border:1px solid rgba(255,255,255,0.04);
+}
+.card .meta{flex:1}
+.card h3{margin:0 0 6px 0;font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:13px;line-height:1.35}
+
+/* =========================
+   PLANET / OBJECT VISUAL CLASSES
+   (These classes represent the preview circle styling)
+   ========================= */
+.planet-sun{background:radial-gradient(circle at 35% 35%, #fff6c0,#ffd36b 20%,#ffae00 50%,#ff6600 80%);}
+.planet-mercury{background:linear-gradient(180deg,#6e6e6e,#4b4b4b)}
+.planet-venus{background:linear-gradient(180deg,#ead4a7,#c89a5b)}
+.planet-earth{background:linear-gradient(180deg,#2fa0ff,#06537f);border:2px solid rgba(255,255,255,0.02)}
+.planet-moon{background:linear-gradient(180deg,#cfcfcf,#9f9f9f)}
+.planet-mars{background:linear-gradient(180deg,#ff7a40,#b33a20)}
+.planet-jupiter{background:linear-gradient(180deg,#f5d6b3,#d19b63)}
+.planet-saturn{background:linear-gradient(180deg,#f6e3ad,#d0ae6d)}
+.planet-uranus{background:linear-gradient(180deg,#bfe9ff,#7fd2e6)}
+.planet-neptune{background:linear-gradient(180deg,#6ea7ff,#234b9a)}
+.planet-pluto{background:linear-gradient(180deg,#c8a9d0,#8f6c9a)}
+.planet-asteroid{background:linear-gradient(180deg,#7d7d7d,#4e4e4e)}
+.planet-kuiper{background:linear-gradient(180deg,#94bfff,#5f9ad1)}
+.obj-star{background: radial-gradient(circle at 35% 35%, #fff,#ffd); box-shadow:0 0 18px rgba(255,255,200,0.08)}
+.obj-nebula{background: radial-gradient(circle at 20% 20%, #ff7ab3,#7a00ff); box-shadow:0 0 30px rgba(122,0,255,0.08)}
+.obj-galaxy{background: linear-gradient(135deg,#9d00ff,#ff6fb3)}
+
+/* small text */
+.kv{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* =========================
+   MODAL STYLES
+   ========================= */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-inner{
+  width:min(1100px,98%);max-height:90vh;overflow:auto;background:
+  linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.04);
+  box-shadow:0 30px 80px rgba(11,8,28,0.7);
+}
+.modal-nav{display:flex;gap:8px;justify-content:flex-end;margin-bottom:8px;align-items:center}
+.small-muted{font-size:12px;color:var(--muted)}
+
+/* modal grid */
+.modal-grid{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start}
+.modal-preview{height:320px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);
+  display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25)}
+.modal-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.modal-preview .planet-large{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:#fff}
+
+/* facts block */
+.facts{margin-top:12px;border-radius:10px;padding:12px;background:rgba(0,0,0,0.28);font-size:13px}
+.facts table{width:100%;border-collapse:collapse}
+.facts td{padding:8px 6px;color:var(--muted);font-size:13px;border-bottom:1px dashed rgba(255,255,255,0.02)}
+.facts td:first-child{width:45%;color:var(--muted);font-weight:600}
+
+/* content */
+.modal-content h2{margin:0 0 6px 0;font-size:22px}
+.modal-content .long-desc{margin-top:12px;color:#e6eefc;line-height:1.65}
+.modal-content .funlist{margin-top:12px;color:var(--muted);font-size:14px}
+.btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* =========================
+   FOOTER
+   ========================= */
+.footer{margin-top:28px;padding:18px;text-align:center;color:var(--muted);font-size:13px}
+
+/* =========================
+   ACCESSIBILITY / FOCUS
+   ========================= */
+:focus{outline:none}
+a:focus, button:focus, .card:focus{box-shadow:0 0 0 4px rgba(107,33,255,0.12);border-radius:8px}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width:900px){
+  .modal-grid{grid-template-columns:1fr}
+  .modal-preview{height:240px}
+  .hero{flex-direction:column;align-items:flex-start;padding:22px}
+  .search-box input{width:120px}
+  .logo{width:48px;height:48px;font-size:16px}
+  .title{font-size:16px}
+  .grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+  .card{min-height:88px;padding:14px}
 }
 
-.hero .btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px #d100ff, 0 0 50px #ff00ff;
+/* =========================
+   SMALL UI POLISHES
+   ========================= */
+/* subtle hover ripple for icons */
+.card .icon{transition:transform .28s var(--ease), box-shadow .28s var(--ease)}
+.card:hover .icon{transform:scale(1.03);box-shadow:inset 0 -10px 40px rgba(0,0,0,0.4)}
+
+/* scrollbar in modal (nicer look) */
+.modal-inner::-webkit-scrollbar{width:10px;height:10px}
+.modal-inner::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent1),var(--accent2));border-radius:10px}
+.modal-inner::-webkit-scrollbar-track{background:transparent}
+
+/* reduce motion preference */
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
 }
-
-/* ===================== */
-/* SECTION BASE           */
-/* ===================== */
-.section {
-    padding: 80px 20px;
-    min-height: 80vh;
-}
-
-.title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #fff;
-    text-shadow: 0 0 10px #d100ff;
-}
-
-.description, .long-text {
-    text-align: center;
-    font-size: 1rem;
-    max-width: 900px;
-    margin: 0 auto 40px auto;
-    line-height: 1.8;
-    color: #ccc;
-}
-
-/* ===================== */
-/* GRID CARD              */
-/* ===================== */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    justify-items: center;
-}
-
-.card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.4s;
-    width: 100%;
-    max-width: 250px;
-    box-shadow: 0 0 15px #7a00ff;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 25px #d100ff, 0 0 50px #ff00ff;
-}
-
-/* ===================== */
-/* MODAL                  */
-/* ===================== */
-.modal {
-    display: none;
-    position: fixed;
-    top:0; left:0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.modal-box {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
-    padding: 30px;
-    border-radius: 20px;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0 0 25px #9d00ff;
-    animation: fadeIn 0.4s ease forwards;
-}
-
-.modal-box h2 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #fff;
-}
-
-.modal-box p {
-    font-size: 1rem;
-    margin-bottom: 20px;
-    color: #ccc;
-}
-
-.modal-box button {
-    padding: 10px 25px;
-    border-radius: 20px;
-    background: #7a00ff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.modal-box button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px #d100ff;
-}
-
-@keyframes fadeIn {
-    from {opacity:0; transform: translateY(-20px);}
-    to {opacity:1; transform: translateY(0);}
-}
-
-/* ===================== */
-/* FOOTER                 */
-/* ===================== */
-footer {
-    text-align: center;
-    padding: 40px 20px;
-    background: rgba(0,0,0,0.8);
-    color: #aaa;
-    font-size: 0.9rem;
-}
-
-/* ===================== */
-/* RESPONSIVE             */
-/* ===================== */
-@media(max-width:768px) {
-    .hero .glow {
-        font-size: 2rem;
-    }
-    .grid {
-        gap: 20px;
-    }
-}
-
-/* ===================== */
-/* PLANET/GALAKSI/BLACKHOLE PREVIEW */
-/* ===================== */
-.planet-preview, .galaxy-preview, .blackhole-preview {
-    width: 100%;
-    height: 400px;
-    border-radius: 20px;
-    margin-top: 20px;
-    background: rgba(255,255,255,0.02);
-    box-shadow: 0 0 25px #d100ff;
-}
-
-/* Bisa dipakai nanti untuk Three.js */
-
 
