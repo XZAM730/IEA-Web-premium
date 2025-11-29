@@ -1,63 +1,98 @@
-<!-- Ultra Premium Astronomy Website Template -->
-<!-- You can edit HTML, CSS, and JS inside this canvas. -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IEA Universe | Ultra Premium</title>
+    <title>Eksplorasi Astronomi – IEA</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <!-- STARFIELD CANVAS -->
     <canvas id="stars"></canvas>
-    <header class="hero">
-        <h1 class="glow">IEA ULTRA PREMIUM UNIVERSE</h1>
-        <p>Portal Eksplorasi Kosmik Paling Lengkap & Modern</p>
-        <a href="#explore" class="btn">Mulai Jelajah</a>
-    </header>
 
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1 class="glow">Selamat Datang di IEA Astronomi</h1>
+        <p>Jelajahi planet, galaksi, dan misteri alam semesta secara interaktif.</p>
+        <a href="#explore" class="btn">Mulai Eksplorasi</a>
+    </section>
+
+    <!-- EKSPLORASI SECTION -->
     <section id="explore" class="section">
-    <h2 class="title">Eksplorasi Astronomi</h2>
+        <h2 class="title">Eksplorasi Astronomi</h2>
+        <p class="description">Klik salah satu card untuk memulai petualangan interaktifmu:</p>
 
-    <div class="grid">
-        <div class="card">Planet 3D</div>
-        <div class="card">Galaksi Interaktif</div>
-        <div class="card">Black Hole Simulation</div>
-        <div class="card">Dark Matter Map</div>
+        <div class="grid">
+            <div class="card" onclick="openModal('planetModal')">Planet 3D</div>
+            <div class="card" onclick="openModal('galaxyModal')">Galaksi Interaktif</div>
+            <div class="card" onclick="openModal('blackholeModal')">Black Hole Simulation</div>
+            <div class="card" onclick="openModal('darkmatterModal')">Dark Matter Map</div>
+        </div>
+    </section>
+
+    <!-- INFORMASI ASTRONOMI SECTION -->
+    <section id="info" class="section">
+        <h2 class="title">Informasi Astronomi Lengkap</h2>
+        <p class="long-text">
+            Alam semesta adalah tempat yang sangat luas dan menakjubkan. Di sini kamu bisa belajar tentang planet,
+            galaksi, lubang hitam, materi gelap, nebula, dan berbagai fenomena kosmik. Planet-planet memiliki orbit
+            unik, komposisi berbeda, dan beberapa bahkan memiliki satelit alami atau cincin yang indah. Galaksi
+            mengandung miliaran bintang, nebula, dan cluster yang membentuk pola spiral, eliptik, atau tidak beraturan.
+            Lubang hitam adalah objek dengan gravitasi luar biasa, mampu menelan cahaya dan materi. Materi gelap
+            adalah misteri yang belum sepenuhnya dipahami, tapi berpengaruh besar terhadap pergerakan galaksi.
+        </p>
+        <p class="long-text">
+            Setiap objek astronomi dapat dipelajari dengan teknologi modern seperti teleskop Hubble, James Webb,
+            dan simulasi komputer. Dengan modul interaktif, kamu bisa memutar planet, memperbesar galaksi,
+            dan menyimulasikan gaya gravitasi lubang hitam. Website ini dirancang untuk menggabungkan edukasi
+            dan eksplorasi visual sehingga pengalaman astronomimu menjadi lebih hidup.
+        </p>
+    </section>
+
+    <!-- MODAL PLANET 3D -->
+    <div id="planetModal" class="modal">
+        <div class="modal-box">
+            <h2>Planet 3D Viewer</h2>
+            <p>Klik dan putar planet 3D secara interaktif. (Siap ditambah Three.js)</p>
+            <button onclick="closeModal('planetModal')">Tutup</button>
+        </div>
     </div>
-</section>
-<!-- MODAL PLANET 3D -->
-<div id="planetModal" class="modal">
-    <div class="modal-box">
-        <h2>Planet 3D Viewer</h2>
-        <p>Konten planet 3D akan muncul di sini.</p>
-        <button onclick="closeModal('planetModal')">Tutup</button>
+
+    <!-- MODAL GALAKSI -->
+    <div id="galaxyModal" class="modal">
+        <div class="modal-box">
+            <h2>Galaksi Interaktif</h2>
+            <p>Jelajahi galaksi spiral dan cluster bintang. (Siap ditambah Three.js)</p>
+            <button onclick="closeModal('galaxyModal')">Tutup</button>
+        </div>
     </div>
-</div>
 
-<!-- MODAL GALAKSI -->
-<div id="galaxyModal" class="modal">
-    <div class="modal-box">
-        <h2>Galaksi Interaktif</h2>
-        <p>Konten galaksi interaktif akan muncul di sini.</p>
-        <button onclick="closeModal('galaxyModal')">Tutup</button>
+    <!-- MODAL BLACK HOLE -->
+    <div id="blackholeModal" class="modal">
+        <div class="modal-box">
+            <h2>Black Hole Simulation</h2>
+            <p>Simulasi lubang hitam dan accretion disk. (Siap ditambah Three.js)</p>
+            <button onclick="closeModal('blackholeModal')">Tutup</button>
+        </div>
     </div>
-</div>
 
-<!-- MODAL BLACK HOLE -->
-<div id="blackholeModal" class="modal">
-    <div class="modal-box">
-        <h2>Black Hole Simulation</h2>
-        <p>Konten black hole akan muncul di sini.</p>
-        <button onclick="closeModal('blackholeModal')">Tutup</button>
+    <!-- MODAL DARK MATTER -->
+    <div id="darkmatterModal" class="modal">
+        <div class="modal-box">
+            <h2>Dark Matter Map</h2>
+            <p>Pelajari lokasi materi gelap dan pengaruhnya pada galaksi.</p>
+            <button onclick="closeModal('darkmatterModal')">Tutup</button>
+        </div>
     </div>
-</div>
 
-
+    <!-- FOOTER -->
     <footer>
-        <p>© IEA Premium Universe</p>
+        &copy; 2025 IEA Astronomi. Semua hak cipta dilindungi.
     </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
+
