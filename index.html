@@ -159,7 +159,7 @@ a{color:inherit;text-decoration:none}
     <p class="description">Klik satu objek untuk melihat informasi lengkap. Ada data ringkas, deskripsi panjang, fakta menarik, dan link baca lebih lanjut.</p>
 
     <div id="grid" class="grid">
-      <!-- Cards: each card has data-id and data-type -->
+      <!-- existing planet cards (kept as-is) -->
       <div class="card" data-id="sun" data-type="system" title="Matahari">
         <div class="icon planet-sun">Sun</div>
         <div class="meta">
@@ -264,7 +264,7 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
-      <!-- Stars -->
+      <!-- existing stars -->
       <div class="card" data-id="sirius" data-type="star" title="Sirius">
         <div class="icon obj-star">Si</div>
         <div class="meta">
@@ -289,7 +289,7 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
-      <!-- Nebula & Galaxy -->
+      <!-- existing nebula & galaxy -->
       <div class="card" data-id="orion-nebula" data-type="nebula" title="Nebula Orion (M42)">
         <div class="icon obj-nebula">Or</div>
         <div class="meta">
@@ -314,13 +314,281 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
+      <!-- === NEW CARDS ADDED (moons, dwarf planets, stars, nebulae, galaxies, black holes, comets, asteroids, exoplanets) === -->
+
+      <!-- Moons -->
+      <div class="card" data-id="ganymede" data-type="moon" title="Ganymede">
+        <div class="icon planet-jupiter">Ga</div>
+        <div class="meta">
+          <h3>Ganymede</h3>
+          <p>Bulan terbesar di Tata Surya — satelit Jupiter.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="europa" data-type="moon" title="Europa">
+        <div class="icon planet-moon">Eu</div>
+        <div class="meta">
+          <h3>Europa</h3>
+          <p>Bulan berlapis es Jupiter; kandidat samudra bawah permukaan.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="titan" data-type="moon" title="Titan">
+        <div class="icon planet-saturn">Ti</div>
+        <div class="meta">
+          <h3>Titan</h3>
+          <p>Bulan Saturnus dengan atmosfer tebal dan danau hidrokarbon.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="enceladus" data-type="moon" title="Enceladus">
+        <div class="icon planet-moon">En</div>
+        <div class="meta">
+          <h3>Enceladus</h3>
+          <p>Bulan kecil Saturnus yang memuntahkan geyser es — target astrobiologi.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="io" data-type="moon" title="Io">
+        <div class="icon planet-moon">Io</div>
+        <div class="meta">
+          <h3>Io</h3>
+          <p>Bulan paling vulkanik di Tata Surya (Jupiter).</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="callisto" data-type="moon" title="Callisto">
+        <div class="icon planet-moon">Ca</div>
+        <div class="meta">
+          <h3>Callisto</h3>
+          <p>Bulan bergaris kawah tua di Jupiter — permukaan sangat terkrater.</p>
+        </div>
+      </div>
+
+      <!-- Dwarf planets / Kuiper -->
+      <div class="card" data-id="ceres" data-type="dwarf" title="Ceres">
+        <div class="icon planet-asteroid">Ce</div>
+        <div class="meta">
+          <h3>Ceres</h3>
+          <p>Planet kerdil terbesar di sabuk asteroid — pernah dikunjungi Dawn.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="eris" data-type="dwarf" title="Eris">
+        <div class="icon planet-pluto">Er</div>
+        <div class="meta">
+          <h3>Eris</h3>
+          <p>Objek trans-Neptunian besar yang memicu diskusi definisi planet.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="haumea" data-type="dwarf" title="Haumea">
+        <div class="icon planet-kuiper">Ha</div>
+        <div class="meta">
+          <h3>Haumea</h3>
+          <p>Planet kerdil memipih akibat rotasi cepat — Kuiper Belt.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="makemake" data-type="dwarf" title="Makemake">
+        <div class="icon planet-kuiper">Ma</div>
+        <div class="meta">
+          <h3>Makemake</h3>
+          <p>Planet kerdil di Kuiper Belt — permukaan beku.</p>
+        </div>
+      </div>
+
+      <!-- Nearby stars & stellar neighbors -->
+      <div class="card" data-id="proxima-centauri" data-type="star" title="Proxima Centauri">
+        <div class="icon obj-star">Pc</div>
+        <div class="meta">
+          <h3>Proxima Centauri</h3>
+          <p>Red dwarf terdekat — memiliki exoplanet Proxima b.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="alpha-centauri-a" data-type="star" title="Alpha Centauri A">
+        <div class="icon obj-star">Aa</div>
+        <div class="meta">
+          <h3>Alpha Centauri A</h3>
+          <p>Bintang tipe G di sistem terdekat Alpha Centauri.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="alpha-centauri-b" data-type="star" title="Alpha Centauri B">
+        <div class="icon obj-star">Ab</div>
+        <div class="meta">
+          <h3>Alpha Centauri B</h3>
+          <p>Pasangan Alpha Centauri A — lebih dingin & lebih kecil.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="vega" data-type="star" title="Vega">
+        <div class="icon obj-star">Ve</div>
+        <div class="meta">
+          <h3>Vega</h3>
+          <p>Bintang terang biru-putih; pernah dijadikan referensi magnitudo.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="rigel" data-type="star" title="Rigel">
+        <div class="icon obj-star">Ri</div>
+        <div class="meta">
+          <h3>Rigel</h3>
+          <p>Blue supergiant di rasi Orion — salah satu bintang sangat terang.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="deneb" data-type="star" title="Deneb">
+        <div class="icon obj-star">De</div>
+        <div class="meta">
+          <h3>Deneb</h3>
+          <p>Supergiant terang—anggota Summer Triangle.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="antares" data-type="star" title="Antares">
+        <div class="icon obj-star">An</div>
+        <div class="meta">
+          <h3>Antares</h3>
+          <p>Supergiant merah di Scorpius — bintang besar & terang.</p>
+        </div>
+      </div>
+
+      <!-- Clusters / Nebulae -->
+      <div class="card" data-id="pleiades" data-type="cluster" title="Pleiades (M45)">
+        <div class="icon obj-galaxy">Pl</div>
+        <div class="meta">
+          <h3>Pleiades (M45)</h3>
+          <p>Gugus bintang muda yang mudah dikenali — \"Tujuh Saudara\".</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="eagle-nebula" data-type="nebula" title="Eagle Nebula (M16)">
+        <div class="icon obj-nebula">Eg</div>
+        <div class="meta">
+          <h3>Eagle Nebula (M16)</h3>
+          <p>Region 'Pillars of Creation' — pabrik bintang aktif.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="horsehead-nebula" data-type="nebula" title="Horsehead Nebula">
+        <div class="icon obj-nebula">Hh</div>
+        <div class="meta">
+          <h3>Horsehead Nebula</h3>
+          <p>Nebula gelap di Orion berbentuk kepala kuda (silhouette).</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="lagoon-nebula" data-type="nebula" title="Lagoon Nebula (M8)">
+        <div class="icon obj-nebula">Lg</div>
+        <div class="meta">
+          <h3>Lagoon Nebula (M8)</h3>
+          <p>Nebula emisi besar — cluster bintang muda di dalamnya.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="helix-nebula" data-type="nebula" title="Helix Nebula">
+        <div class="icon obj-nebula">He</div>
+        <div class="meta">
+          <h3>Helix Nebula</h3>
+          <p>Nebula planet dekat — tampak seperti 'mata bercahaya'.</p>
+        </div>
+      </div>
+
+      <!-- Galaxies -->
+      <div class="card" data-id="milky-way" data-type="galaxy" title="Bima Sakti (Milky Way)">
+        <div class="icon obj-galaxy">MW</div>
+        <div class="meta">
+          <h3>Bima Sakti</h3>
+          <p>Galaksi tempat kita tinggal — lengan spiral & pusat berisi Sgr A*.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="triangulum" data-type="galaxy" title="Triangulum (M33)">
+        <div class="icon obj-galaxy">Tr</div>
+        <div class="meta">
+          <h3>Triangulum (M33)</h3>
+          <p>Galaksi spiral relatif kecil di Grup Lokal.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="whirlpool" data-type="galaxy" title="Whirlpool Galaxy (M51)">
+        <div class="icon obj-galaxy">Wp</div>
+        <div class="meta">
+          <h3>Whirlpool (M51)</h3>
+          <p>Galaksi spiral berinteraksi yang menampilkan lengan jelas.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="sombrero" data-type="galaxy" title="Sombrero Galaxy (M104)">
+        <div class="icon obj-galaxy">Sm</div>
+        <div class="meta">
+          <h3>Sombrero (M104)</h3>
+          <p>Galaksi fotogenik dengan bulge terang & disk debu tipis.</p>
+        </div>
+      </div>
+
+      <!-- Black holes -->
+      <div class="card" data-id="sagittarius-a-star" data-type="blackhole" title="Sagittarius A*">
+        <div class="icon obj-galaxy">Sgr</div>
+        <div class="meta">
+          <h3>Sagittarius A*</h3>
+          <p>Lubang hitam supermasif di pusat Bima Sakti.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="cygnus-x1" data-type="blackhole" title="Cygnus X-1">
+        <div class="icon obj-galaxy">Cx</div>
+        <div class="meta">
+          <h3>Cygnus X-1</h3>
+          <p>Sistem lubang hitam biner — salah satu sumber sinar-X paling terkenal.</p>
+        </div>
+      </div>
+
+      <!-- Comets & asteroids -->
+      <div class="card" data-id="halley-comet" data-type="comet" title="Komet Halley">
+        <div class="icon planet-asteroid">Hk</div>
+        <div class="meta">
+          <h3>Komet Halley</h3>
+          <p>Komet periodik terkenal (~76 tahun) — terakhir terlihat 1986.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="vesta" data-type="asteroid" title="Vesta">
+        <div class="icon planet-asteroid">Ve</div>
+        <div class="meta">
+          <h3>Vesta</h3>
+          <p>Asteroid besar di sabuk utama — bukti vulkanisme purba.</p>
+        </div>
+      </div>
+
+      <!-- Exoplanets -->
+      <div class="card" data-id="trappist-1e" data-type="exoplanet" title="TRAPPIST-1e">
+        <div class="icon planet-earth">T1</div>
+        <div class="meta">
+          <h3>TRAPPIST-1e</h3>
+          <p>Exoplanet di sistem TRAPPIST-1, potensial berada di zona laik huni.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="kepler-186f" data-type="exoplanet" title="Kepler-186f">
+        <div class="icon planet-earth">K6</div>
+        <div class="meta">
+          <h3>Kepler-186f</h3>
+          <p>Exoplanet mirip Bumi yang ditemukan di zona laik huni bintang induknya.</p>
+        </div>
+      </div>
+
+      <!-- ===== END NEW CARDS ===== -->
+
     </div>
   </section>
 
   <div class="footer">IEA Astronomi • Konten edukatif dan interaktif. Sumber & gambar diambil dari Wikipedia / NASA bila tersedia.</div>
 </div>
 
-<!-- Modal (single modal untuk semua objek) -->
+<!-- Modal (single modal for all objects) -->
 <div id="modal" class="modal" role="dialog" aria-hidden="true">
   <div class="modal-inner" role="document">
     <div class="modal-nav">
@@ -394,6 +662,7 @@ drawBG();
 
 /* =========================
    DATA: encyclopedia entries (detailed + wikipedia keys)
+   NOTE: keys must match data-id values in the cards above
    ========================= */
 const DATA = {
   "sun": {
@@ -415,290 +684,442 @@ const DATA = {
     link:"https://en.wikipedia.org/wiki/Sun"
   },
 
-  /* Planets (detailed fields) */
-  "mercury": {
-    title:"Merkurius",
-    type:"Planet",
-    wikipedia:"Mercury_(planet)",
-    previewClass:"planet-mercury",
-    facts:{
-      "Jarak dari Matahari":"~57.9 juta km",
-      "Radius":"~2,440 km",
-      "Massa":"~3.30 × 10^23 kg",
-      "Hari (rotasi)":"~58.6 hari Bumi",
-      "Tahun (revolusi)":"~88 hari Bumi",
-      "Suhu permukaan":"-173°C hingga 427°C",
-      "Gravitasi permukaan":"~0.38 g"
+  /* Planets (kept existing ones) */
+  "mercury": { title:"Merkurius", type:"Planet", wikipedia:"Mercury_(planet)", previewClass:"planet-mercury", facts:{"Jarak dari Matahari":"~57.9 juta km","Radius":"~2,440 km","Massa":"~3.30 × 10^23 kg","Hari (rotasi)":"~58.6 hari Bumi","Tahun (revolusi)":"~88 hari Bumi","Suhu permukaan":"-173°C hingga 427°C","Gravitasi permukaan":"~0.38 g"}, desc:"Merkurius adalah planet paling dekat dengan Matahari...", fun:["Merkurius memiliki medan magnet meski kecil.","Waktu siang di Merkurius panjang karena rotasinya lambat."], link:"https://en.wikipedia.org/wiki/Mercury_(planet)"},
+  "venus": { title:"Venus", type:"Planet", wikipedia:"Venus", previewClass:"planet-venus", facts:{"Jarak dari Matahari":"~108.2 juta km","Radius":"~6,052 km","Massa":"~4.87 × 10^24 kg","Hari (rotasi)":"~243 hari Bumi (retrograde)","Tahun (revolusi)":"~225 hari Bumi","Suhu permukaan":"~465 °C","Tekanan permukaan":"~92 kali Bumi"}, desc:"Venus memiliki atmosfer tebal...", fun:["Tekanan permukaan Venus ~92 kali tekanan di Bumi.","Venus memantulkan banyak cahaya sehingga sangat terang di langit malam."], link:"https://en.wikipedia.org/wiki/Venus"},
+  "earth": { title:"Bumi", type:"Planet", wikipedia:"Earth", previewClass:"planet-earth", facts:{"Jarak dari Matahari":"~149.6 juta km (1 AU)","Radius":"~6,371 km","Massa":"~5.97 × 10^24 kg","Hari (rotasi)":"~24 jam","Tahun (revolusi)":"~365.25 hari","Komposisi":"Air, kerak batuan, atmosfer N₂-O₂","Jumlah satelit":"1 (Bulan)"}, desc:"Bumi mendukung kehidupan berkat kombinasi air cair, atmosfer pelindung, dan medan magnet.", fun:["70% permukaan Bumi tertutup air.","Bulan mempengaruhi stabilitas rotasi Bumi dan pasang surut."], link:"https://en.wikipedia.org/wiki/Earth"},
+  "moon": { title:"Bulan (Moon)", type:"Satelit Bumi", wikipedia:"Moon", previewClass:"planet-moon", facts:{"Jarak ke Bumi":"~384,400 km","Radius":"~1,737 km","Massa":"~7.35 × 10^22 kg","Rotasi":"Synchronous (muka sama ke Bumi)","Usia":"~4.5 miliar tahun"}, desc:"Bulan terbentuk kemungkinan besar akibat tabrakan besar antara Bumi dan objek seukuran Mars.", fun:["Bulan tidak memiliki atmosfer yang signifikan.","Gerhana Bulan terjadi saat Bumi menghalangi cahaya Matahari ke Bulan."], link:"https://en.wikipedia.org/wiki/Moon"},
+  "mars": { title:"Mars", type:"Planet", wikipedia:"Mars", previewClass:"planet-mars", facts:{"Jarak dari Matahari":"~227.9 juta km","Radius":"~3,390 km","Massa":"~6.42 × 10^23 kg","Hari (rotasi)":"~24.6 jam","Tahun (revolusi)":"~687 hari Bumi","Suhu rata-rata":"~-63 °C","Jumlah satelit":"2 (Phobos & Deimos)"}, desc:"Mars memiliki banyak fitur geologi menarik...", fun:["Olympus Mons adalah gunung terbesar di Tata Surya.","Eksplorasi robotik (rovers) terus mencari bukti kehidupan mikroba purba."], link:"https://en.wikipedia.org/wiki/Mars"},
+  "jupiter": { title:"Jupiter", type:"Raksasa Gas", wikipedia:"Jupiter", previewClass:"planet-jupiter", facts:{"Jarak dari Matahari":"~778.5 juta km","Radius":"~69,911 km","Massa":"~1.898 × 10^27 kg","Hari (rotasi)":"~9.9 jam","Tahun (revolusi)":"~11.86 tahun Bumi","Jumlah satelit":"~80+","Ciri khas":"Great Red Spot (badai raksasa)"}, desc:"Jupiter adalah planet terbesar...", fun:["Ganymede lebih besar dari Merkurius.","Europa mungkin menyimpan lautan di bawah lapisan es."], link:"https://en.wikipedia.org/wiki/Jupiter"},
+  "saturn": { title:"Saturnus", type:"Raksasa Gas", wikipedia:"Saturn", previewClass:"planet-saturn", facts:{"Jarak dari Matahari":"~1.429 miliar km","Radius":"~58,232 km","Massa":"~5.683 × 10^26 kg","Hari (rotasi)":"~10.7 jam","Tahun (revolusi)":"~29.46 tahun Bumi","Jumlah satelit":"~80+","Ciri khas":"Sistem cincin es & debu"}, desc:"Saturnus terkenal karena cincin yang indah...", fun:["Titan memiliki atmosfer yang kaya nitrogen dan danau hidrokarbon.","Cincin Saturnus tersusun dari partikel es dan batu kecil."], link:"https://en.wikipedia.org/wiki/Saturn"},
+  "uranus": { title:"Uranus", type:"Planet Es", wikipedia:"Uranus", previewClass:"planet-uranus", facts:{"Jarak dari Matahari":"~2.871 miliar km","Radius":"~25,362 km","Massa":"~8.681 × 10^25 kg","Hari (rotasi)":"~17.2 jam","Tahun (revolusi)":"~84 tahun Bumi","Ciri khas":"Aksis sangat miring (~98°)"}, desc:"Uranus memiliki sumbu rotasi hampir terbaring...", fun:["Sumbu ekstrem membuat kutub mengalami malam/dengan durasi panjang.","Uranus memiliki cincin tipis."], link:"https://en.wikipedia.org/wiki/Uranus"},
+  "neptune": { title:"Neptunus", type:"Planet Es", wikipedia:"Neptune", previewClass:"planet-neptune", facts:{"Jarak dari Matahari":"~4.495 miliar km","Radius":"~24,622 km","Massa":"~1.024 × 10^26 kg","Hari (rotasi)":"~16.1 jam","Tahun (revolusi)":"~164.8 tahun Bumi","Ciri khas":"Angin sangat kencang"}, desc:"Neptunus adalah planet es dengan aktivitas atmosfer dan badai besar.", fun:["Neptunus menampilkan badai dan bintik gelap serupa Jupiter.","Angin terkuat di Tata Surya tercatat di Neptunus."], link:"https://en.wikipedia.org/wiki/Neptune"},
+  "pluto": { title:"Pluto", type:"Planet Kerdil", wikipedia:"Pluto", previewClass:"planet-pluto", facts:{"Jarak dari Matahari":"~5.9 miliar km","Radius":"~1,188 km","Massa":"~1.309 × 10^22 kg","Orbit":"Eksentrik & miring","Jumlah satelit":"5 (termasuk Charon)"}, desc:"Pluto berada di Kuiper Belt dan dikategorikan sebagai planet kerdil.", fun:["Charon relatif besar dibanding Pluto — mereka membentuk sistem biner yang unik.","New Horizons memetakan permukaan Pluto secara detail."], link:"https://en.wikipedia.org/wiki/Pluto"},
+
+  /* existing regions & objects */
+  "asteroid-belt": { title:"Sabuk Asteroid", type:"Tata Surya (Region)", wikipedia:"Asteroid_belt", previewClass:"planet-asteroid", facts:{"Lokasi":"Antara Mars & Jupiter","Komposisi":"Batu & logam","Objek terkenal":"Ceres (planet kerdil)"}, desc:"Sabuk Asteroid berisi banyak benda kecil sebagai sisa pembentukan Tata Surya.", fun:["Ceres adalah objek terbesar di sabuk dan diklasifikasikan sebagai planet kerdil."], link:"https://en.wikipedia.org/wiki/Asteroid_belt"},
+  "kuiper-belt": { title:"Kuiper Belt", type:"Tata Surya (Region)", wikipedia:"Kuiper_belt", previewClass:"planet-kuiper", facts:{"Lokasi":"Luar Neptunus","Komposisi":"Es & objek trans-Neptunian","Objek terkenal":"Pluto, Eris, Makemake"}, desc:"Kuiper Belt adalah area benda beku dan sumber bagi beberapa komet periode pendek.", fun:["Beberapa komet periode pendek berasal dari Kuiper Belt."], link:"https://en.wikipedia.org/wiki/Kuiper_belt"},
+
+  /* existing stars & nebula & galaxy (kept) */
+  "sirius": { title:"Sirius", type:"Bintang", wikipedia:"Sirius", previewClass:"obj-star", facts:{"Jarak ke Bumi":"~8.6 tahun cahaya","Jenis":"A1V","Keterangan":"Sistem bintang ganda"}, desc:"Sirius adalah bintang terang di rasi Canis Major.", fun:["Sirius terlihat sangat terang karena kecerahan absolut dan kedekatannya ke Bumi."], link:"https://en.wikipedia.org/wiki/Sirius"},
+  "betelgeuse": { title:"Betelgeuse", type:"Supergiant Merah", wikipedia:"Betelgeuse", previewClass:"obj-star", facts:{"Jarak ke Bumi":"~642 tahun cahaya","Jenis":"Red supergiant","Ukuran":"Sangat besar"}, desc:"Betelgeuse adalah supergiant merah yang sangat besar; peneliti terus memantau kemungkinannya menjadi supernova.", fun:["Jika diletakkan di pusat Tata Surya, Betelgeuse bisa menelan orbit Jupiter."], link:"https://en.wikipedia.org/wiki/Betelgeuse"},
+  "polaris": { title:"Polaris", type:"Bintang (North Star)", wikipedia:"Polaris", previewClass:"obj-star", facts:{"Jarak ke Bumi":"~433 tahun cahaya","Peran":"Bintang penunjuk utara"}, desc:"Polaris berada dekat titik kutub utara langit dan telah lama digunakan untuk navigasi.", fun:["Posisi Polaris berubah perlahan akibat presesi sumbu Bumi."], link:"https://en.wikipedia.org/wiki/Polaris"},
+  "orion-nebula": { title:"Nebula Orion (M42)", type:"Nebula", wikipedia:"Orion_Nebula", previewClass:"obj-nebula", facts:{"Jarak ke Bumi":"~1,344 tahun cahaya","Jenis":"Nebula emisi","Keterangan":"Region pembentukan bintang"}, desc:"Nebula Orion adalah awan gas & debu yang menjadi tempat kelahiran bintang.", fun:["Tampak sebagai bintik kabur di rasi Orion; mudah diamati dengan teleskop kecil."], link:"https://en.wikipedia.org/wiki/Orion_Nebula"},
+  "crab-nebula": { title:"Crab Nebula (M1)", type:"Sisa Supernova", wikipedia:"Crab_Nebula", previewClass:"obj-nebula", facts:{"Jarak ke Bumi":"~6,500 tahun cahaya","Asal":"Ledakan supernova 1054 M","Ciri":"Mengandung pulsar di pusat"}, desc:"Crab Nebula terbentuk dari ledakan supernova yang tercatat pada tahun 1054 M.", fun:["Memberikan wawasan tentang ledakan supernova dan evolusi bintang masif."], link:"https://en.wikipedia.org/wiki/Crab_Nebula"},
+  "andromeda": { title:"Andromeda (M31)", type:"Galaksi Spiral", wikipedia:"Andromeda_Galaxy", previewClass:"obj-galaxy", facts:{"Jarak ke Bima Sakti":"~2.54 juta tahun cahaya","Jenis":"Spiral","Ukuran":"Miliaran bintang"}, desc:"Andromeda adalah galaksi spiral besar terdekat; akan berinteraksi (bertabrakan-gravitasi) dengan Bima Sakti dalam miliaran tahun.", fun:["Andromeda dapat terlihat dengan mata telanjang dari lokasi gelap."], link:"https://en.wikipedia.org/wiki/Andromeda_Galaxy"},
+
+  /* =========================
+     NEW ENTRIES (match new cards above)
+     ========================= */
+
+  /* Moons */
+  "ganymede": {
+    title: "Ganymede",
+    type: "Bulan (Jupiter)",
+    wikipedia: "Ganymede_(moon)",
+    previewClass: "planet-jupiter",
+    facts: {
+      "Diameter": "~5,262 km",
+      "Massa": "~1.48 × 10^23 kg",
+      "Orbit": "Mengorbit Jupiter (7.15 hari)",
+      "Ciri": "Bulan terbesar di Tata Surya"
     },
-    desc:`Merkurius adalah planet paling dekat dengan Matahari. Permukaannya penuh kawah dan didominasi batuan karena hampir tidak memiliki atmosfer tebal untuk menahan suhu. Magnetosfer lemah namun terdeteksi.`,
-    fun:[ "Merkurius memiliki medan magnet meski kecil.", "Waktu siang di Merkurius panjang karena rotasinya lambat." ],
-    link:"https://en.wikipedia.org/wiki/Mercury_(planet)"
+    desc: "Ganymede adalah bulan terbesar di Tata Surya, lebih besar dari planet Merkurius. Memiliki inti metalik, medan magnet lemah, dan indikasi lautan asin di bawah kerak esnya.",
+    fun: ["Ganymede satu-satunya bulan yang diketahui memiliki medan magnet sendiri.", "Memiliki aurora kutub yang dipicu interaksi magnetik dengan lingkungan Jupiter."],
+    link: "https://en.wikipedia.org/wiki/Ganymede_(moon)"
   },
 
-  "venus": {
-    title:"Venus",
-    type:"Planet",
-    wikipedia:"Venus",
-    previewClass:"planet-venus",
-    facts:{
-      "Jarak dari Matahari":"~108.2 juta km",
-      "Radius":"~6,052 km",
-      "Massa":"~4.87 × 10^24 kg",
-      "Hari (rotasi)":"~243 hari Bumi (retrograde)",
-      "Tahun (revolusi)":"~225 hari Bumi",
-      "Suhu permukaan":"~465 °C",
-      "Tekanan permukaan":"~92 kali Bumi"
+  "europa": {
+    title: "Europa",
+    type: "Bulan (Jupiter)",
+    wikipedia: "Europa_(moon)",
+    previewClass: "planet-moon",
+    facts: {
+      "Diameter": "~3,121 km",
+      "Massa": "~4.80 × 10^22 kg",
+      "Orbit": "Mengorbit Jupiter (3.55 hari)",
+      "Ciri": "Permukaan es & kemungkinan lautan bawah permukaan"
     },
-    desc:`Venus memiliki atmosfer tebal, komposisi CO₂ dominan, dan efek rumah kaca ekstrem menghasilkan suhu permukaan yang tinggi. Rotasinya retrograde (berlawanan arah planet lain) dan sangat lambat.`,
-    fun:[ "Tekanan permukaan Venus ~92 kali tekanan di Bumi.", "Venus memantulkan banyak cahaya sehingga sangat terang di langit malam." ],
-    link:"https://en.wikipedia.org/wiki/Venus"
+    desc: "Europa memiliki permukaan es dengan retakan panjang. Data menunjukkan kemungkinan keberadaan lautan global cair di bawah permukaan — kandidat utama untuk mencari tanda-tanda kehidupan mikroba.",
+    fun: ["Diperkirakan memiliki samudra cair yang luas di bawah lapisan es.", "Telah terdeteksi plumes (semacam semburan) yang mungkin berasal dari samudra bawah permukaan."],
+    link: "https://en.wikipedia.org/wiki/Europa_(moon)"
   },
 
-  "earth": {
-    title:"Bumi",
-    type:"Planet",
-    wikipedia:"Earth",
-    previewClass:"planet-earth",
-    facts:{
-      "Jarak dari Matahari":"~149.6 juta km (1 AU)",
-      "Radius":"~6,371 km",
-      "Massa":"~5.97 × 10^24 kg",
-      "Hari (rotasi)":"~24 jam",
-      "Tahun (revolusi)":"~365.25 hari",
-      "Komposisi":"Air, kerak batuan, atmosfer N₂-O₂",
-      "Jumlah satelit":"1 (Bulan)"
+  "titan": {
+    title: "Titan",
+    type: "Bulan (Saturnus)",
+    wikipedia: "Titan_(moon)",
+    previewClass: "planet-saturn",
+    facts: {
+      "Diameter": "~5,151 km",
+      "Massa": "~1.345 × 10^23 kg",
+      "Orbit": "Mengorbit Saturnus (15.95 hari)",
+      "Ciri": "Atmosfer tebal, danau & sungai hidrokarbon"
     },
-    desc:`Bumi mendukung kehidupan berkat kombinasi air cair, atmosfer pelindung, dan medan magnet. Siklus air, tektonik lempeng, dan biosfer berinteraksi kompleks membentuk lingkungan tempat hidup makhluk beragam.`,
-    fun:[ "70% permukaan Bumi tertutup air.", "Bulan mempengaruhi stabilitas rotasi Bumi dan pasang surut." ],
-    link:"https://en.wikipedia.org/wiki/Earth"
+    desc: "Titan adalah bulan Saturnus yang memiliki atmosfer tebal kaya nitrogen serta lautan dan sungai hidrokarbon (metana & etana). Kondisi kimianya menarik untuk studi pra-biologis dan astrobiologi.",
+    fun: ["Titan menunjukkan siklus cuaca metana—awan, hujan, aliran sungai, danau.", "Misi Cassini–Huygens memberi banyak data penting tentang Titan."],
+    link: "https://en.wikipedia.org/wiki/Titan_(moon)"
   },
 
-  "moon": {
-    title:"Bulan (Moon)",
-    type:"Satelit Bumi",
-    wikipedia:"Moon",
-    previewClass:"planet-moon",
-    facts:{
-      "Jarak ke Bumi":"~384,400 km",
-      "Radius":"~1,737 km",
-      "Massa":"~7.35 × 10^22 kg",
-      "Rotasi":"Synchronous (muka sama ke Bumi)",
-      "Usia":"~4.5 miliar tahun"
+  "enceladus": {
+    title: "Enceladus",
+    type: "Bulan (Saturnus)",
+    wikipedia: "Enceladus",
+    previewClass: "planet-moon",
+    facts: {
+      "Diameter": "~504 km",
+      "Orbit": "Mengorbit Saturnus",
+      "Ciri": "Geyser es & indikasi lautan bawah permukaan"
     },
-    desc:`Bulan terbentuk kemungkinan besar akibat tabrakan besar antara Bumi dan objek seukuran Mars (hipotesis Theia). Permukaan penuh kawah; manusia mendarat di sana pada misi Apollo (1969–1972).`,
-    fun:[ "Bulan tidak memiliki atmosfer yang signifikan.", "Gerhana Bulan terjadi saat Bumi menghalangi cahaya Matahari ke Bulan." ],
-    link:"https://en.wikipedia.org/wiki/Moon"
+    desc: "Enceladus memuntahkan material es dari celah-celah di dekat kutub selatannya; analisis material menunjukkan adanya air dan molekul organik, menjadikannya target astrobiologi penting.",
+    fun: ["Geyser Enceladus menyuplai partikel ke cincin E Saturnus.", "Material yang disembur seringkali mengandung molekul organik kompleks."],
+    link: "https://en.wikipedia.org/wiki/Enceladus"
   },
 
-  "mars": {
-    title:"Mars",
-    type:"Planet",
-    wikipedia:"Mars",
-    previewClass:"planet-mars",
-    facts:{
-      "Jarak dari Matahari":"~227.9 juta km",
-      "Radius":"~3,390 km",
-      "Massa":"~6.42 × 10^23 kg",
-      "Hari (rotasi)":"~24.6 jam",
-      "Tahun (revolusi)":"~687 hari Bumi",
-      "Suhu rata-rata":"~-63 °C",
-      "Jumlah satelit":"2 (Phobos & Deimos)"
+  "io": {
+    title: "Io",
+    type: "Bulan (Jupiter)",
+    wikipedia: "Io_(moon)",
+    previewClass: "planet-moon",
+    facts: {
+      "Diameter": "~3,643 km",
+      "Orbit": "Mengorbit Jupiter (1.77 hari)",
+      "Ciri": "Sangat vulkanik — aktivitas vulkanik terbanyak"
     },
-    desc:`Mars memiliki banyak fitur geologi menarik (lembah besar, gunung vulkanik Olympus Mons). Ada bukti adanya air dalam bentuk es dan bekas aliran permukaan yang menunjukkan kondisi lebih basah di masa lalu.`,
-    fun:[ "Olympus Mons adalah gunung terbesar di Tata Surya.", "Eksplorasi robotik (rovers) terus mencari bukti kehidupan mikroba purba." ],
-    link:"https://en.wikipedia.org/wiki/Mars"
+    desc: "Io adalah benda paling vulkanik di Tata Surya karena pemanasan pasang surut yang kuat dari gravitasi Jupiter dan interaksi orbital dengan Europa & Ganymede. Permukaannya penuh aktivitas vulkanik.",
+    fun: ["Letusan vulkanik Io memuntahkan sulfur dan material lain hingga ratusan kilometer.", "Permukaan Io selalu berubah akibat letusan vulkanik."],
+    link: "https://en.wikipedia.org/wiki/Io_(moon)"
   },
 
-  "jupiter": {
-    title:"Jupiter",
-    type:"Raksasa Gas",
-    wikipedia:"Jupiter",
-    previewClass:"planet-jupiter",
-    facts:{
-      "Jarak dari Matahari":"~778.5 juta km",
-      "Radius":"~69,911 km",
-      "Massa":"~1.898 × 10^27 kg",
-      "Hari (rotasi)":"~9.9 jam",
-      "Tahun (revolusi)":"~11.86 tahun Bumi",
-      "Jumlah satelit":"~80+",
-      "Ciri khas":"Great Red Spot (badai raksasa)"
+  "callisto": {
+    title: "Callisto",
+    type: "Bulan (Jupiter)",
+    wikipedia: "Callisto_(moon)",
+    previewClass: "planet-moon",
+    facts: {
+      "Diameter": "~4,820 km",
+      "Orbit": "Mengorbit Jupiter (16.69 hari)",
+      "Ciri": "Permukaan sangat terkrater—geologi relatif tenang"
     },
-    desc:`Jupiter adalah planet terbesar, terutama hidrogen & helium. Gravitasi Jupiter mempengaruhi banyak komet/asteroid dan memiliki sistem satelit besar, beberapa memiliki kondisi penting (Europa diliputi es dengan kemungkinan lautan cair).`,
-    fun:[ "Ganymede lebih besar dari Merkurius.", "Europa mungkin menyimpan lautan di bawah lapisan es." ],
-    link:"https://en.wikipedia.org/wiki/Jupiter"
+    desc: "Callisto merupakan bulan bertabur kawah dan termasuk yang tertua secara permukaan di Tata Surya; aktivitas geologinya rendah dibandingkan saudara-saudarnya.",
+    fun: ["Memiliki permukaan sangat banyak kawah—menunjukkan usia permukaan yang tua.", "Mungkin memiliki samudra di bawah permukaan, meski bukti lebih samar daripada Europa."],
+    link: "https://en.wikipedia.org/wiki/Callisto_(moon)"
   },
 
-  "saturn": {
-    title:"Saturnus",
-    type:"Raksasa Gas",
-    wikipedia:"Saturn",
-    previewClass:"planet-saturn",
-    facts:{
-      "Jarak dari Matahari":"~1.429 miliar km",
-      "Radius":"~58,232 km",
-      "Massa":"~5.683 × 10^26 kg",
-      "Hari (rotasi)":"~10.7 jam",
-      "Tahun (revolusi)":"~29.46 tahun Bumi",
-      "Jumlah satelit":"~80+",
-      "Ciri khas":"Sistem cincin es & debu"
+  /* Dwarf planets & Kuiper objects */
+  "ceres": {
+    title: "Ceres",
+    type: "Planet Kerdil",
+    wikipedia: "Ceres_(dwarf_planet)",
+    previewClass: "planet-asteroid",
+    facts: {
+      "Diameter": "~946 km",
+      "Massa": "~9.39 × 10^20 kg",
+      "Orbit": "Sabuk Asteroid",
+      "Ciri": "Planet kerdil terbesar di sabuk asteroid"
     },
-    desc:`Saturnus terkenal karena cincin yang indah. Titan, satelit terbesar, memiliki atmosfer tebal dan sungai hidrokarbon — membuatnya menarik untuk studi prebiotic chemistry.`,
-    fun:[ "Titan memiliki atmosfer yang kaya nitrogen dan danau hidrokarbon.", "Cincin Saturnus tersusun dari partikel es dan batu kecil." ],
-    link:"https://en.wikipedia.org/wiki/Saturn"
+    desc: "Ceres adalah objek terbesar di sabuk asteroid antara Mars & Jupiter. Misi Dawn memetakan permukaannya dan menemukan area cerah (deposit garam) serta kemungkinan aktivitas geologi.",
+    fun: ["Permukaan 'bintik putih' di beberapa cekungan terkait deposit garam.", "Ditemukan pada 1801 dan dinamai sesuai dewi Romawi."],
+    link: "https://en.wikipedia.org/wiki/Ceres_(dwarf_planet)"
   },
 
-  "uranus": {
-    title:"Uranus",
-    type:"Planet Es",
-    wikipedia:"Uranus",
-    previewClass:"planet-uranus",
-    facts:{
-      "Jarak dari Matahari":"~2.871 miliar km",
-      "Radius":"~25,362 km",
-      "Massa":"~8.681 × 10^25 kg",
-      "Hari (rotasi)":"~17.2 jam",
-      "Tahun (revolusi)":"~84 tahun Bumi",
-      "Ciri khas":"Aksis sangat miring (~98°)"
+  "eris": {
+    title: "Eris",
+    type: "Planet Kerdil",
+    wikipedia: "Eris_(dwarf_planet)",
+    previewClass: "planet-pluto",
+    facts: {
+      "Diameter": "~2,326 km (perk.)",
+      "Orbit": "Trans-Neptunian (Kuiper Belt)",
+      "Ciri": "Salah satu planet kerdil terbesar"
     },
-    desc:`Uranus memiliki sumbu rotasi hampir terbaring, menyebabkan musim ekstrem bertahan puluhan tahun. Komposisi es & atmosfer menghasilkan warna kebiruan.`,
-    fun:[ "Sumbu ekstrem membuat kutub mengalami malam/dengan durasi panjang.", "Uranus memiliki cincin tipis." ],
-    link:"https://en.wikipedia.org/wiki/Uranus"
+    desc: "Eris adalah objek trans-Neptunian yang ukurannya memicu diskusi ulang definisi planet. Memiliki satelit Dysnomia dan orbit yang sangat eksentrik.",
+    fun: ["Eris memiliki satelit yang dikenal (Dysnomia).", "Orbitnya sangat jauh sehingga periode orbitalnya sangat panjang."],
+    link: "https://en.wikipedia.org/wiki/Eris_(dwarf_planet)"
   },
 
-  "neptune": {
-    title:"Neptunus",
-    type:"Planet Es",
-    wikipedia:"Neptune",
-    previewClass:"planet-neptune",
-    facts:{
-      "Jarak dari Matahari":"~4.495 miliar km",
-      "Radius":"~24,622 km",
-      "Massa":"~1.024 × 10^26 kg",
-      "Hari (rotasi)":"~16.1 jam",
-      "Tahun (revolusi)":"~164.8 tahun Bumi",
-      "Ciri khas":"Angin sangat kencang"
+  "haumea": {
+    title: "Haumea",
+    type: "Planet Kerdil",
+    wikipedia: "136108_Haumea",
+    previewClass: "planet-kuiper",
+    facts: {
+      "Ciri": "Bentuk memanjang akibat rotasi cepat",
+      "Orbit": "Kuiper Belt",
+      "Satelit": "Hiʻiaka, Namaka"
     },
-    desc:`Neptunus adalah planet es dengan aktivitas atmosfer dan badai besar. Triton, satelitnya, menunjukkan aktivitas geyser dan mungkin ditangkap dari Kuiper Belt.`,
-    fun:[ "Neptunus menampilkan badai dan bintik gelap serupa Jupiter.", "Angin terkuat di Tata Surya tercatat di Neptunus." ],
-    link:"https://en.wikipedia.org/wiki/Neptune"
+    desc: "Haumea memiliki rotasi sangat cepat yang merubah bentuknya menjadi agak memipih. Memiliki beberapa satelit dan permukaan yang sebagian besar terdiri dari es.",
+    fun: ["Rotasi sangat cepat mempengaruhi bentuk fisiknya.", "Memiliki beberapa satelit kecil yang ditemukan kemudian."],
+    link: "https://en.wikipedia.org/wiki/136108_Haumea"
   },
 
-  "pluto": {
-    title:"Pluto",
-    type:"Planet Kerdil",
-    wikipedia:"Pluto",
-    previewClass:"planet-pluto",
-    facts:{
-      "Jarak dari Matahari":"~5.9 miliar km",
-      "Radius":"~1,188 km",
-      "Massa":"~1.309 × 10^22 kg",
-      "Orbit":"Eksentrik & miring",
-      "Jumlah satelit":"5 (termasuk Charon)"
+  "makemake": {
+    title: "Makemake",
+    type: "Planet Kerdil",
+    wikipedia: "Makemake",
+    previewClass: "planet-kuiper",
+    facts: {
+      "Orbit": "Kuiper Belt",
+      "Ciri": "Objek trans-Neptunian, permukaan es"
     },
-    desc:`Pluto berada di Kuiper Belt dan dikategorikan sebagai planet kerdil. Misi New Horizons pada 2015 memberikan gambaran close-up yang mengubah pemahaman kita tentang permukaan dan sejarahnya.`,
-    fun:[ "Charon relatif besar dibanding Pluto — mereka membentuk sistem biner yang unik.", "New Horizons memetakan permukaan Pluto secara detail." ],
-    link:"https://en.wikipedia.org/wiki/Pluto"
+    desc: "Makemake adalah planet kerdil di Kuiper Belt dengan permukaan dingin dan area kaya es; ditemukan relatif baru dibanding planet tradisional.",
+    fun: ["Permukaannya dingin dan sedikit atmosfer jika ada bersifat sementara saat perihelion."],
+    link: "https://en.wikipedia.org/wiki/Makemake"
   },
 
-  "asteroid-belt": {
-    title:"Sabuk Asteroid",
-    type:"Tata Surya (Region)",
-    wikipedia:"Asteroid_belt",
-    previewClass:"planet-asteroid",
-    facts:{
-      "Lokasi":"Antara Mars & Jupiter",
-      "Komposisi":"Batu & logam",
-      "Objek terkenal":"Ceres (planet kerdil)"
+  /* Nearby stars */
+  "proxima-centauri": {
+    title: "Proxima Centauri",
+    type: "Bintang (Red Dwarf)",
+    wikipedia: "Proxima_Centauri",
+    previewClass: "obj-star",
+    facts: {
+      "Jarak ke Bumi": "~4.24 tahun cahaya",
+      "Jenis": "Red dwarf",
+      "Catatan": "Bintang terdekat dengan Tata Surya"
     },
-    desc:`Sabuk Asteroid berisi banyak benda kecil sebagai sisa pembentukan Tata Surya. Interaksi gravitasi Jupiter mencegah pembentukan planet di area ini.`,
-    fun:[ "Ceres adalah objek terbesar di sabuk dan diklasifikasikan sebagai planet kerdil." ],
-    link:"https://en.wikipedia.org/wiki/Asteroid_belt"
+    desc: "Proxima Centauri adalah red dwarf terdekat, bagian dari sistem Alpha Centauri. Memiliki exoplanet (Proxima b) yang mendapat banyak perhatian astrobiologi.",
+    fun: ["Meskipun dekat, Proxima Centauri redup dibanding bintang terang lainnya.", "Sering mengalami flare tinggi (peningkatan aktivitas radiasi)."],
+    link: "https://en.wikipedia.org/wiki/Proxima_Centauri"
   },
 
-  "kuiper-belt": {
-    title:"Kuiper Belt",
-    type:"Tata Surya (Region)",
-    wikipedia:"Kuiper_belt",
-    previewClass:"planet-kuiper",
-    facts:{
-      "Lokasi":"Luar Neptunus",
-      "Komposisi":"Es & objek trans-Neptunian",
-      "Objek terkenal":"Pluto, Eris, Makemake"
-    },
-    desc:`Kuiper Belt adalah area benda beku dan sumber bagi beberapa komet periode pendek. Mengandung banyak objek kecil dan kerdil yang penting untuk sejarah pembentukan Tata Surya.`,
-    fun:[ "Beberapa komet periode pendek berasal dari Kuiper Belt." ],
-    link:"https://en.wikipedia.org/wiki/Kuiper_belt"
+  "alpha-centauri-a": {
+    title: "Alpha Centauri A",
+    type: "Bintang",
+    wikipedia: "Alpha_Centauri",
+    previewClass: "obj-star",
+    facts: { "Jarak": "~4.37 tahun cahaya", "Jenis":"G-type (mirip Matahari)" },
+    desc: "Alpha Centauri A adalah salah satu komponen sistem bintang terdekat; mirip Matahari dan menarik untuk studi exoplanet di lingkungan dekat.",
+    fun: ["Sistem Alpha Centauri adalah target misi dan studi pencarian exoplanet masa depan."],
+    link: "https://en.wikipedia.org/wiki/Alpha_Centauri"
   },
 
-  /* Stars */
-  "sirius": {
-    title:"Sirius",
-    type:"Bintang",
-    wikipedia:"Sirius",
-    previewClass:"obj-star",
-    facts:{"Jarak ke Bumi":"~8.6 tahun cahaya","Jenis":"A1V","Keterangan":"Sistem bintang ganda"},
-    desc:"Sirius adalah bintang terang di rasi Canis Major, terdiri dari Sirius A (bintang utama) dan Sirius B (katai putih).",
-    fun:["Sirius terlihat sangat terang karena kecerahan absolut dan kedekatannya ke Bumi."],
-    link:"https://en.wikipedia.org/wiki/Sirius"
+  "alpha-centauri-b": {
+    title: "Alpha Centauri B",
+    type: "Bintang",
+    wikipedia: "Alpha_Centauri",
+    previewClass: "obj-star",
+    facts: { "Jenis":"K-type (lebih kecil & dingin dari Matahari)" },
+    desc: "Alpha Centauri B adalah pasangan di sistem Alpha Centauri; keduanya bersama Proxima membentuk lingkungan bintang terdekat bagi studi astronomi.",
+    fun: ["Bersama Alpha Centauri A membentuk pasangan bintang stabil."],
+    link: "https://en.wikipedia.org/wiki/Alpha_Centauri"
   },
 
-  "betelgeuse": {
-    title:"Betelgeuse",
-    type:"Supergiant Merah",
-    wikipedia:"Betelgeuse",
-    previewClass:"obj-star",
-    facts:{"Jarak ke Bumi":"~642 tahun cahaya","Jenis":"Red supergiant","Ukuran":"Sangat besar"},
-    desc:"Betelgeuse adalah supergiant merah yang sangat besar; peneliti terus memantau kemungkinannya menjadi supernova dalam skala waktu astronomi.",
-    fun:["Jika diletakkan di pusat Tata Surya, Betelgeuse bisa menelan orbit Jupiter."],
-    link:"https://en.wikipedia.org/wiki/Betelgeuse"
+  "vega": {
+    title: "Vega",
+    type: "Bintang",
+    wikipedia: "Vega",
+    previewClass: "obj-star",
+    facts: {"Jarak":"~25 tahun cahaya","Jenis":"A0V"},
+    desc: "Vega adalah bintang terang biru-putih yang pernah digunakan sebagai referensi sistem magnitudo. Memiliki debu circumstellar yang menandakan sisa pembentukan planet.",
+    fun: ["Vega memiliki disk debu yang terdeteksi dengan inframerah."],
+    link: "https://en.wikipedia.org/wiki/Vega"
   },
 
-  "polaris": {
-    title:"Polaris",
-    type:"Bintang (North Star)",
-    wikipedia:"Polaris",
-    previewClass:"obj-star",
-    facts:{"Jarak ke Bumi":"~433 tahun cahaya","Peran":"Bintang penunjuk utara"},
-    desc:"Polaris berada dekat titik kutub utara langit dan telah lama digunakan untuk navigasi.",
-    fun:["Posisi Polaris berubah perlahan akibat presesi sumbu Bumi."],
-    link:"https://en.wikipedia.org/wiki/Polaris"
+  "rigel": {
+    title: "Rigel",
+    type: "Bintang",
+    wikipedia: "Rigel",
+    previewClass: "obj-star",
+    facts: {"Jarak":"~860 tahun cahaya","Jenis":"Blue supergiant"},
+    desc: "Rigel adalah supergiant biru terang di rasi Orion.",
+    fun: ["Rigel akan berevolusi cepat dan berpotensi menjadi supernova suatu saat."],
+    link: "https://en.wikipedia.org/wiki/Rigel"
   },
 
-  /* Nebula */
-  "orion-nebula": {
-    title:"Nebula Orion (M42)",
-    type:"Nebula",
-    wikipedia:"Orion_Nebula",
-    previewClass:"obj-nebula",
-    facts:{"Jarak ke Bumi":"~1,344 tahun cahaya","Jenis":"Nebula emisi","Keterangan":"Region pembentukan bintang"},
-    desc:"Nebula Orion adalah awan gas & debu yang menjadi tempat kelahiran bintang; objek penting untuk studi pembentukan sistem planet.",
-    fun:["Tampak sebagai bintik kabur di rasi Orion; mudah diamati dengan teleskop kecil."],
-    link:"https://en.wikipedia.org/wiki/Orion_Nebula"
+  "deneb": {
+    title: "Deneb",
+    type: "Bintang",
+    wikipedia: "Deneb",
+    previewClass: "obj-star",
+    facts: {"Jarak":"~2,600 tahun cahaya (perk.)","Jenis":"Blue-white supergiant"},
+    desc: "Deneb adalah salah satu bintang paling terang di konstelasi Cygnus dan anggota Summer Triangle.",
+    fun: ["Ukuran dan luminositas Deneb besar, tapi jaraknya membuat ukuran sebenarnya sulit dipastikan."],
+    link: "https://en.wikipedia.org/wiki/Deneb"
   },
 
-  "crab-nebula": {
-    title:"Crab Nebula (M1)",
-    type:"Sisa Supernova",
-    wikipedia:"Crab_Nebula",
-    previewClass:"obj-nebula",
-    facts:{"Jarak ke Bumi":"~6,500 tahun cahaya","Asal":"Ledakan supernova 1054 M","Ciri":"Mengandung pulsar di pusat"},
-    desc:"Crab Nebula terbentuk dari ledakan supernova yang tercatat pada tahun 1054 M; pusatnya terdapat pulsar (bintang neutron).",
-    fun:["Memberikan wawasan tentang ledakan supernova dan evolusi bintang masif."],
-    link:"https://en.wikipedia.org/wiki/Crab_Nebula"
+  "antares": {
+    title: "Antares",
+    type: "Bintang",
+    wikipedia: "Antares",
+    previewClass: "obj-star",
+    facts: {"Jarak":"~550 tahun cahaya","Jenis":"Red supergiant"},
+    desc: "Antares adalah red supergiant di rasi Scorpius; sangat besar dan terang, menandai tahap akhir evolusi bintang masif.",
+    fun: ["Antares kemungkinan akan berakhir sebagai supernova dalam skala waktu astronomi."],
+    link: "https://en.wikipedia.org/wiki/Antares"
   },
 
-  /* Galaxy */
-  "andromeda": {
-    title:"Andromeda (M31)",
-    type:"Galaksi Spiral",
-    wikipedia:"Andromeda_Galaxy",
-    previewClass:"obj-galaxy",
-    facts:{"Jarak ke Bima Sakti":"~2.54 juta tahun cahaya","Jenis":"Spiral","Ukuran":"Miliaran bintang"},
-    desc:"Andromeda adalah galaksi spiral besar terdekat; akan berinteraksi (bertabrakan-gravitasi) dengan Bima Sakti dalam miliaran tahun.",
-    fun:["Andromeda dapat terlihat dengan mata telanjang dari lokasi gelap."],
-    link:"https://en.wikipedia.org/wiki/Andromeda_Galaxy"
+  /* Clusters / Nebulae */
+  "pleiades": {
+    title: "Pleiades (M45)",
+    type: "Gugus Bintang",
+    wikipedia: "Pleiades",
+    previewClass: "obj-galaxy",
+    facts: {"Jarak":"~444 tahun cahaya","Jenis":"Gugus terbuka (bintang muda)"},
+    desc: "Pleiades adalah gugus bintang muda terang, dikenal dalam banyak mitologi sebagai 'Tujuh Saudara'.",
+    fun: ["Terdapat banyak anggota yang tidak terlihat dengan mata telanjang."],
+    link: "https://en.wikipedia.org/wiki/Pleiades"
+  },
+
+  "eagle-nebula": {
+    title: "Eagle Nebula (M16)",
+    type: "Nebula",
+    wikipedia: "Eagle_Nebula",
+    previewClass: "obj-nebula",
+    facts: {"Jarak":"~7.000 tahun cahaya","Ciri":"Pillars of Creation (pilar pembentuk bintang)"},
+    desc: "Eagle Nebula terkenal karena 'Pillars of Creation' — pilar gas dan debu tempat bintang terbentuk.",
+    fun: ["Difoto ikonik oleh Hubble; menunjukkan pembentukan bintang yang aktif."],
+    link: "https://en.wikipedia.org/wiki/Eagle_Nebula"
+  },
+
+  "horsehead-nebula": {
+    title: "Horsehead Nebula",
+    type: "Nebula",
+    wikipedia: "Horsehead_Nebula",
+    previewClass: "obj-nebula",
+    facts: {"Lokasi":"Rasi Orion","Ciri":"Silhouette berbentuk kepala kuda"},
+    desc: "Horsehead Nebula adalah awan gelap yang memproyeksikan bentuk seperti kepala kuda terhadap latar emisi di belakangnya.",
+    fun: ["Bentuknya sangat ikonik dan sering dipotret dalam astrofotografi."],
+    link: "https://en.wikipedia.org/wiki/Horsehead_Nebula"
+  },
+
+  "lagoon-nebula": {
+    title: "Lagoon Nebula (M8)",
+    type: "Nebula",
+    wikipedia: "Lagoon_Nebula",
+    previewClass: "obj-nebula",
+    facts: {"Jarak":"~4,000 tahun cahaya","Ciri":"Region pembentukan bintang besar"},
+    desc: "Lagoon Nebula adalah nebula emisi terang yang berisi cluster bintang muda dan struktur gas yang rumit.",
+    fun: ["Salah satu nebula terang yang dapat dilihat dengan teleskop amatir."],
+    link: "https://en.wikipedia.org/wiki/Lagoon_Nebula"
+  },
+
+  "helix-nebula": {
+    title: "Helix Nebula",
+    type: "Nebula Planet",
+    wikipedia: "Helix_Nebula",
+    previewClass: "obj-nebula",
+    facts: {"Jarak":"~655 tahun cahaya","Tipe":"Nebula planet"},
+    desc: "Helix Nebula (NGC 7293) dikenal sebagai 'Eye of God' karena tampilannya seperti mata bercahaya; merupakan nebula planet terdekat.",
+    fun: ["Dibentuk dari lapisan gas yang dilepas bintang seukuran Matahari di tahap akhir hidupnya."],
+    link: "https://en.wikipedia.org/wiki/Helix_Nebula"
+  },
+
+  /* Galaxies */
+  "milky-way": {
+    title: "Galaksi Bima Sakti",
+    type: "Galaksi",
+    wikipedia: "Milky_Way",
+    previewClass: "obj-galaxy",
+    facts: {"Diameter":"~100.000 ly","Jumlah bintang":"~100–400 miliar","Ciri":"Spiral berbatang"},
+    desc: "Bima Sakti adalah galaksi spiral tempat Tata Surya berada; pusatnya mengandung lubang hitam supermasif Sagittarius A*.",
+    fun: ["Bima Sakti tampak sebagai pita bercahaya pada langit malam yang sangat gelap."],
+    link: "https://en.wikipedia.org/wiki/Milky_Way"
+  },
+
+  "triangulum": {
+    title: "Triangulum (M33)",
+    type: "Galaksi",
+    wikipedia: "Triangulum_Galaxy",
+    previewClass: "obj-galaxy",
+    facts: {"Jarak":"~2.73 juta ly","Jenis":"Spiral kecil"},
+    desc: "Triangulum adalah galaksi spiral kecil di Grup Lokal; menarik karena region pembentukan bintangnya.",
+    fun: ["M33 memiliki beberapa region H II terang (pabrik bintang)."],
+    link: "https://en.wikipedia.org/wiki/Triangulum_Galaxy"
+  },
+
+  "whirlpool": {
+    title: "Whirlpool Galaxy (M51)",
+    type: "Galaksi Interaksi",
+    wikipedia: "Whirlpool_Galaxy",
+    previewClass: "obj-galaxy",
+    facts: {"Jarak":"~23 juta ly","Jenis":"Spiral berinteraksi"},
+    desc: "Whirlpool Galaxy sering dipelajari sebagai contoh galaksi spiral yang berinteraksi dengan pengiringnya (NGC 5195), memicu pembentukan bintang.",
+    fun: ["Interaksi galaksi dapat memicu ledakan pembentukan bintang di lengan spiral."],
+    link: "https://en.wikipedia.org/wiki/Whirlpool_Galaxy"
+  },
+
+  "sombrero": {
+    title: "Sombrero Galaxy (M104)",
+    type: "Galaksi",
+    wikipedia: "Sombrero_Galaxy",
+    previewClass: "obj-galaxy",
+    facts: {"Jarak":"~31 juta ly","Ciri":"Bulge besar & cincin debu"},
+    desc: "Sombrero Galaxy memiliki penampakan seperti topi dengan bulge terang dan disk debu tipis yang membuatnya sangat fotogenik.",
+    fun: ["Kontras bulge dan disk debu membuat Sombrero mudah dikenali."],
+    link: "https://en.wikipedia.org/wiki/Sombrero_Galaxy"
+  },
+
+  /* Black holes */
+  "sagittarius-a-star": {
+    title: "Sagittarius A*",
+    type: "Lubang Hitam",
+    wikipedia: "Sagittarius_A*",
+    previewClass: "obj-galaxy",
+    facts: {"Massa":"~4.3×10^6 M☉","Lokasi":"Pusat Bima Sakti"},
+    desc: "Sagittarius A* adalah lubang hitam supermasif yang berada di pusat Bima Sakti dan telah dipelajari melalui orbit bintang di sekitarnya serta pengamatan EHT.",
+    fun: ["Bukti orbit bintang di sekitar Sgr A* memberikan ukuran massa yang presisi.","EHT menargetkan studi bayangan lubang hitam pada tahun-tahun terakhir."],
+    link: "https://en.wikipedia.org/wiki/Sagittarius_A*"
+  },
+
+  "cygnus-x1": {
+    title: "Cygnus X-1",
+    type: "Lubang Hitam (biner X-ray)",
+    wikipedia: "Cygnus_X-1",
+    previewClass: "obj-galaxy",
+    facts: {"Massa":"~21 M☉","Jarak":"~7.200 ly"},
+    desc: "Cygnus X-1 adalah salah satu kandidat lubang hitam biner pertama yang diterima luas; sistem ini adalah sumber sinar X kuat akibat materi yang mengalir ke kompaktif objek.",
+    fun: ["Menjadi objek penting dalam studi lubang hitam bintang dan sinar-X."],
+    link: "https://en.wikipedia.org/wiki/Cygnus_X-1"
+  },
+
+  /* Comet & asteroid */
+  "halley-comet": {
+    title: "Komet Halley",
+    type: "Komet",
+    wikipedia: "Halley's_Comet",
+    previewClass: "planet-asteroid",
+    facts: {"Periode orbit":"~76 tahun","Diameter nucleus":"~15×8 km"},
+    desc: "Komet Halley adalah komet periodik terkenal yang kembali mendekat ke Bumi setiap sekitar 76 tahun. Sejarah penampakannya tercatat ribuan tahun.",
+    fun: ["Berkaitan dengan hujan meteor Orionids & Eta Aquariids.", "Terakhir melewati Bumi pada 1986; diperkirakan kembali 2061."],
+    link: "https://en.wikipedia.org/wiki/Halley's_Comet"
+  },
+
+  "vesta": {
+    title: "Vesta",
+    type: "Asteroid",
+    wikipedia: "4_Vesta",
+    previewClass: "planet-asteroid",
+    facts: {"Diameter":"~525 km","Orbit":"Sabuk utama","Kelas":"Protoplanet/asteroid besar"},
+    desc: "Vesta adalah salah satu asteroid terbesar di sabuk utama dan menunjukkan bukti vulkanisme purba pada permukaannya.",
+    fun: ["Dikenal sebagai protoplanet karena hampir bulat secara gravitasi.", "Menyumbang meteorit tertentu yang ditemukan di Bumi."],
+    link: "https://en.wikipedia.org/wiki/4_Vesta"
+  },
+
+  /* Exoplanets */
+  "trappist-1e": {
+    title: "TRAPPIST-1e",
+    type: "Exoplanet",
+    wikipedia: "TRAPPIST-1e",
+    previewClass: "planet-earth",
+    facts: {"Sistem":"TRAPPIST-1","Jarak":"~39 tahun cahaya"},
+    desc: "TRAPPIST-1e adalah salah satu exoplanet di sistem TRAPPIST-1 yang ukurannya mirip Bumi dan berada di zona yang memungkinkan keberadaan air cair (tergantung atmosfer).",
+    fun: ["Sistem TRAPPIST-1 memiliki beberapa planet berukuran mirip Bumi yang saling dekat."],
+    link: "https://en.wikipedia.org/wiki/TRAPPIST-1"
+  },
+
+  "kepler-186f": {
+    title: "Kepler-186f",
+    type: "Exoplanet",
+    wikipedia: "Kepler-186f",
+    previewClass: "planet-earth",
+    facts: {"Jarak":"~492 tahun cahaya"},
+    desc: "Kepler-186f adalah salah satu exoplanet awal yang ditemukan berada di zona laik huni bintang tipe M — penting dalam studi planet mirip Bumi.",
+    fun: ["Menjadi contoh penting dalam statistik exoplanet mirip Bumi."],
+    link: "https://en.wikipedia.org/wiki/Kepler-186f"
   }
-};
+
+}; /* end DATA */
 
 /* =========================
    UTILITIES & UI BINDING
@@ -726,9 +1147,7 @@ async function fetchWikiThumbnail(wikiTitle){
     const res = await fetch(endpoint);
     if(!res.ok) return null;
     const json = await res.json();
-    // json.thumbnail.source sometimes present
     if(json && json.thumbnail && json.thumbnail.source) return {src: json.thumbnail.source,desc: json.description || json.extract};
-    // sometimes originalimage exists
     if(json && json.originalimage && json.originalimage.source) return {src: json.originalimage.source,desc: json.description || json.extract};
     return null;
   }catch(e){
