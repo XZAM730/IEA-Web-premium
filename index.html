@@ -147,6 +147,8 @@ a{color:inherit;text-decoration:none}
     <div class="hero-left">
       <h1>Selamat Datang, Penjelajah Kosmos</h1>
       <p>Ini adalah versi lite ensiklopedia astronomi — lengkap dengan informasi planet, bintang, nebula, dan galaksi. Klik objek apa saja untuk membuka informasi detailnya. Nanti kita bisa tambahkan tampilan 3D interaktif.</p>
+      
+      
     </div>
     <div class="hero-right">
       <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Mulai eksplorasi</div>
@@ -248,6 +250,15 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
+      <div class="card" data-id="55cancri-e" data-type="exoplanet">
+  <div class="icon planet-earth">55e</div>
+  <div class="meta">
+    <h3>55 Cancri e</h3>
+    <p>Planet lava super panas — permukaan cair.</p>
+  </div>
+</div>
+
+
       <div class="card" data-id="asteroid-belt" data-type="system" title="Sabuk Asteroid">
         <div class="icon planet-asteroid">AB</div>
         <div class="meta">
@@ -255,6 +266,15 @@ a{color:inherit;text-decoration:none}
           <p>Zona antara Mars & Jupiter yang berisi banyak benda kecil berbatu.</p>
         </div>
       </div>
+
+      <div class="card" data-id="sgr1900" data-type="magnetar">
+  <div class="icon obj-star">Mg</div>
+  <div class="meta">
+    <h3>Magnetar SGR 1900+14</h3>
+    <p>Objek bermagnet paling kuat di alam semesta.</p>
+  </div>
+</div>
+
 
       <div class="card" data-id="kuiper-belt" data-type="system" title="Kuiper Belt">
         <div class="icon planet-kuiper">KB</div>
@@ -297,6 +317,15 @@ a{color:inherit;text-decoration:none}
           <p>Region pembentukan bintang yang terang di rasi Orion.</p>
         </div>
       </div>
+
+      <div class="card" data-id="boomerang" data-type="nebula">
+  <div class="icon obj-nebula">Bm</div>
+  <div class="meta">
+    <h3>Boomerang Nebula</h3>
+    <p>Objek alam paling dingin (-272°C).</p>
+  </div>
+</div>
+
 
       <div class="card" data-id="crab-nebula" data-type="nebula" title="Crab Nebula (M1)">
         <div class="icon obj-nebula">Cr</div>
@@ -415,6 +444,15 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
+      <div class="card" data-id="sn-1987a" data-type="supernova" title="Supernova 1987A">
+  <div class="icon obj-star">87A</div>
+  <div class="meta">
+    <h3>Supernova 1987A</h3>
+    <p>Ledakan bintang paling terang di zaman modern.</p>
+  </div>
+</div>
+
+
       <div class="card" data-id="alpha-centauri-b" data-type="star" title="Alpha Centauri B">
         <div class="icon obj-star">Ab</div>
         <div class="meta">
@@ -505,6 +543,15 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
+      <div class="card" data-id="black-eye" data-type="galaxy">
+  <div class="icon obj-galaxy">BE</div>
+  <div class="meta">
+    <h3>Black Eye Galaxy (M64)</h3>
+    <p>Galaksi spiral dengan cincin gelap mencolok.</p>
+  </div>
+</div>
+
+
       <div class="card" data-id="triangulum" data-type="galaxy" title="Triangulum (M33)">
         <div class="icon obj-galaxy">Tr</div>
         <div class="meta">
@@ -537,6 +584,15 @@ a{color:inherit;text-decoration:none}
           <p>Lubang hitam supermasif di pusat Bima Sakti.</p>
         </div>
       </div>
+
+      <div class="card" data-id="the-unicorn" data-type="blackhole">
+  <div class="icon obj-galaxy">Uc</div>
+  <div class="meta">
+    <h3>The Unicorn (BH)</h3>
+    <p>Lubang hitam terkecil yang ditemukan.</p>
+  </div>
+</div>
+
 
       <div class="card" data-id="cygnus-x1" data-type="blackhole" title="Cygnus X-1">
         <div class="icon obj-galaxy">Cx</div>
@@ -853,6 +909,38 @@ const DATA = {
     link: "https://en.wikipedia.org/wiki/136108_Haumea"
   },
 
+  "55cancri-e": {
+  title: "55 Cancri e",
+  type: "Exoplanet Lava",
+  wikipedia: "55_Cancri_e",
+  previewClass: "planet-earth",
+  facts: {
+    "Jarak": "~41 ly",
+    "Suhu": "~2400 °C",
+    "Orbit": "18 jam"
+  },
+  desc: "55 Cancri e adalah planet lava ekstrem yang sangat dekat dengan bintangnya. Permukaan selalu dalam keadaan cair.",
+  fun: ["Memiliki fase malam & siang sangat ekstrem."],
+  link: "https://en.wikipedia.org/wiki/55_Cancri_e"
+},
+
+"sgr1900": {
+  title: "Magnetar SGR 1900+14",
+  type: "Magnetar",
+  wikipedia: "SGR_1900%2B14",
+  previewClass: "obj-star",
+  facts: {
+    "Medan Magnet": "~10^15 Gauss",
+    "Jenis": "Bintang neutron",
+    "Fenomena": "Giant flare"
+  },
+  desc: "Salah satu magnetar paling kuat yang pernah diamati, terkenal karena ledakan gamma besar pada tahun 1998.",
+  fun: ["Magnetarnya bisa menghapus data harddisk dari jarak ribuan km bila dekat."],
+  link: "https://en.wikipedia.org/wiki/SGR_1900%2B14"
+},
+
+
+
   "makemake": {
     title: "Makemake",
     type: "Planet Kerdil",
@@ -961,6 +1049,21 @@ const DATA = {
     link: "https://en.wikipedia.org/wiki/Pleiades"
   },
 
+  "boomerang": {
+  title: "Boomerang Nebula",
+  type: "Pranebula Planet",
+  wikipedia: "Boomerang_Nebula",
+  previewClass: "obj-nebula",
+  facts: {
+    "Suhu": "-272°C",
+    "Jarak": "~5.000 ly"
+  },
+  desc: "Boomerang Nebula adalah objek paling dingin yang pernah diukur di alam semesta, bahkan lebih dingin dari ruang hampa itu sendiri.",
+  fun: ["Temperaturnya hanya 1°C di atas nol mutlak."],
+  link: "https://en.wikipedia.org/wiki/Boomerang_Nebula"
+},
+
+
   "eagle-nebula": {
     title: "Eagle Nebula (M16)",
     type: "Nebula",
@@ -1017,6 +1120,21 @@ const DATA = {
     link: "https://en.wikipedia.org/wiki/Milky_Way"
   },
 
+  "black-eye": {
+  title: "Black Eye Galaxy (M64)",
+  type: "Galaksi Spiral",
+  wikipedia: "Black_Eye_Galaxy",
+  previewClass: "obj-galaxy",
+  facts: {
+    "Jarak": "~17 juta ly",
+    "Ciri": "Cincin gelap debu"
+  },
+  desc: "Galaksi ini memiliki pita debu gelap yang sangat mencolok, tampak seperti 'mata hitam'.",
+  fun: ["Disebut juga 'Sleeping Beauty Galaxy'."],
+  link: "https://en.wikipedia.org/wiki/Black_Eye_Galaxy"
+},
+
+
   "triangulum": {
     title: "Triangulum (M33)",
     type: "Galaksi",
@@ -1061,6 +1179,37 @@ const DATA = {
     fun: ["Bukti orbit bintang di sekitar Sgr A* memberikan ukuran massa yang presisi.","EHT menargetkan studi bayangan lubang hitam pada tahun-tahun terakhir."],
     link: "https://en.wikipedia.org/wiki/Sagittarius_A*"
   },
+
+  "the-unicorn": {
+  title: "The Unicorn",
+  type: "Lubang Hitam Kecil",
+  wikipedia: "The_Unicorn_(black_hole)",
+  previewClass: "obj-galaxy",
+  facts: {
+    "Massa": "~3 M☉",
+    "Jarak": "~1.500 ly"
+  },
+  desc: "Salah satu lubang hitam paling kecil yang pernah ditemukan, disebut 'The Unicorn' karena langka.",
+  fun: ["Dekat dengan rasi Monoceros (Unicorn)."],
+  link: "https://en.wikipedia.org/wiki/The_Unicorn_(black_hole)"
+},
+
+
+  "sn-1987a": {
+  title: "Supernova 1987A",
+  type: "Supernova",
+  wikipedia: "SN_1987A",
+  previewClass: "obj-star",
+  facts: {
+    "Tahun Ledakan": "1987",
+    "Jarak": "~168.000 tahun cahaya",
+    "Lokasi": "Awan Magellan Besar"
+  },
+  desc: "Supernova 1987A adalah salah satu supernova paling terang dan paling dekat yang pernah diamati dalam era modern.",
+  fun: ["Dipelajari intensif oleh teleskop Hubble.", "Memberikan wawasan besar tentang evolusi bintang masif."],
+  link: "https://en.wikipedia.org/wiki/SN_1987A"
+},
+
 
   "cygnus-x1": {
     title: "Cygnus X-1",
@@ -1263,4 +1412,3 @@ filterGrid();
 </script>
 </body>
 </html>
-
