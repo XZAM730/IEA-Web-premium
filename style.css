@@ -273,3 +273,53 @@ a:focus, button:focus, .card:focus{box-shadow:0 0 0 4px rgba(107,33,255,0.12);bo
   *{transition:none!important;animation:none!important}
 }
 
+/* =========================
+   QUICK INFO BAR
+========================= */
+#quick-info-bar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  background: linear-gradient(90deg, #0b0f2a, #1b1f4a);
+  color: #ffffff;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+#quick-info-bar span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
+}
+
+/* =========================
+   TODAY SKY
+========================= */
+#today-sky {
+  margin: 40px auto;
+  padding: 24px;
+  max-width: 900px;
+  background: linear-gradient(135deg, #0c102e, #1a1f4a);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.6);
+  color: #fff;
+}
+
+#today-sky h2 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  text-align: center;
+}
+
+.sky-box p {
+  font-size: 15px;
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
