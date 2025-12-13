@@ -6,6 +6,8 @@
 <title>IEA Astronomi — Ensiklopedia Interaktif (Lite NASA)</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
 
 <style>
 :root{
@@ -112,6 +114,28 @@ a{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
+
+    <!-- =========================
+     QUICK INFO BAR - IEA
+========================= -->
+<div id="quick-info-bar">
+  <span id="iea-stats">Loading data...</span>
+  <span id="iea-fact"> Memuat fakta kosmik...</span>
+</div>
+
+<!-- =========================
+     TODAY SKY - IEA
+========================= -->
+<section id="today-sky">
+  <h2> Today Sky</h2>
+  <div class="sky-box">
+    <p id="sky-date"> --</p>
+    <p id="moon-phase"> Fase Bulan: --</p>
+    <p id="sky-observation"> Observasi: --</p>
+    <p id="sky-tip"> Tips: --</p>
+  </div>
+</section>
+
 
 <!-- background canvases -->
 <canvas id="bgCanvas"></canvas>
@@ -1410,5 +1434,7 @@ function filterGrid(){
 filterGrid();
 
 </script>
+<script src="script.js" defer></script>
+
 </body>
 </html>
