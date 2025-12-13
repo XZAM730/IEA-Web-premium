@@ -185,7 +185,115 @@ document.addEventListener("DOMContentLoaded", () => {
       renderer.setSize(container.clientWidth,400);
     });
   }
-
 });
 
+document.addEventListener("DOMContentLoaded", () => {
 
+
+    // =========================
+// TODAY SKY - IEA
+// =========================
+
+// tanggal hari ini
+const now = new Date();
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const dateEl = document.getElementById("sky-date");
+if (dateEl) {
+  dateEl.textContent = "📅 " + now.toLocaleDateString("id-ID", options);
+}
+
+// hitung fase bulan sederhana
+function getMoonPhase(date) {
+  const lunarCycle = 29.53;
+  const refDate = new Date("2000-01-06"); // new moon reference
+  const days = (date - refDate) / (1000 * 60 * 60 * 24);
+  const phase = (days % lunarCycle) / lunarCycle;
+
+  if (phase < 0.03 || phase > 0.97) return "Bulan Baru 🌑";
+  if (phase < 0.22) return "Sabit Awal 🌒";
+  if (phase < 0.28) return "Kuartal Pertama 🌓";
+  if (phase < 0.47) return "Cembung Awal 🌔";
+  if (phase < 0.53) return "Purnama 🌕";
+  if (phase < 0.72) return "Cembung Akhir 🌖";
+  if (phase < 0.78) return "Kuartal Terakhir 🌗";
+  return "Sabit Akhir 🌘";
+}
+
+const moonEl = document.getElementById("moon-phase");
+if (moonEl) {
+  moonEl.textContent = " Fase Bulan: " + getMoonPhase(now);
+}
+
+// observasi rekomendasi
+const observationEl = document.getElementById("sky-observation");
+if (observationEl) {
+  const hour = now.getHours();
+  let obs;
+
+  if (hour >= 18 || hour <= 4) {
+    obs = "Cocok untuk observasi Bulan, planet terang, dan rasi bintang.";
+  } else {
+    obs = "Siang hari: aman untuk observasi Matahari (WAJIB filter).";
+  }
+
+  observationEl.textContent = " Observasi: " + obs;
+}
+
+// tips astronomi harian
+const tips = [
+  "Gunakan tripod untuk pengamatan lebih stabil.",
+  "Matikan lampu sekitar saat observasi malam.",
+  "Arahkan pandangan ke selatan untuk galaksi.",
+  "Biarkan mata beradaptasi dengan gelap ±20 menit.",
+  "Gunakan aplikasi peta langit untuk membantu navigasi."
+];
+
+const tipEl = document.getElementById("sky-tip");
+if (tipEl) {
+  const randomTip = tips[Math.floor(Math.random() * tips.length)];
+  tipEl.textContent = " Tips: " + randomTip;
+}
+
+
+  // =========================
+  // QUICK INFO BAR - IEA
+  // =========================
+
+  const ieaFacts = [
+    "Matahari menyumbang 99,86% massa tata surya",
+    "Cahaya Matahari butuh 8 menit ke Bumi",
+    "Neutron star lebih padat dari atom",
+    "Satu hari di Venus lebih lama dari satu tahunnya",
+    "Black hole tidak 'menyedot', tapi membengkokkan ruang-waktu",
+    "Galaksi Bima Sakti punya lebih dari 100 miliar bintang"
+  ];
+
+  const cards = document.querySelectorAll(".card");
+  let planet = 0, star = 0, moon = 0;
+
+  cards.forEach(card => {
+    const type = card.dataset.type;
+    if (type === "planet") planet++;
+    else if (type === "star") star++;
+    else if (type === "moon") moon++;
+  });
+
+  const total = cards.length;
+
+  const statsEl = document.getElementById("iea-stats");
+  if (statsEl) {
+    statsEl.textContent =
+      ` ${planet} Planet |  ${star} Bintang |  ${moon} Bulan |  ${total} Objek`;
+  }
+
+  const factEl = document.getElementById("iea-fact");
+  if (factEl) {
+    function updateFact() {
+      const random = ieaFacts[Math.floor(Math.random() * ieaFacts.length)];
+      factEl.textContent = "💡 Fakta: " + random;
+    }
+    updateFact();
+    setInterval(updateFact, 8000);
+  }
+
+});
