@@ -190,6 +190,259 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 
 
+  // =========================
+// SETTINGS PANEL LOGIC
+// =========================
+const settingsPanel = document.getElementById("settings-panel");
+const settingsBtn = document.querySelector(".nav-btn:nth-child(2)"); // tombol settings
+const settingsClose = document.getElementById("settings-close");
+
+// buka settings
+if (settingsBtn && settingsPanel) {
+  settingsBtn.addEventListener("click", () => {
+    settingsPanel.classList.toggle("collapsed");
+  });
+}
+
+// tutup settings
+if (settingsClose) {
+  settingsClose.addEventListener("click", () => {
+    settingsPanel.classList.add("collapsed");
+  });
+}
+
+// toggle Today Sky
+const toggleSky = document.getElementById("toggle-today-sky");
+const todaySky = document.getElementById("today-sky");
+
+if (toggleSky && todaySky) {
+  toggleSky.addEventListener("change", () => {
+    todaySky.style.display = toggleSky.checked ? "block" : "none";
+    localStorage.setItem("showTodaySky", toggleSky.checked);
+  });
+
+  // load setting
+  const saved = localStorage.getItem("showTodaySky");
+  if (saved === "false") {
+    toggleSky.checked = false;
+    todaySky.style.display = "none";
+  }
+}
+
+// =========================
+// COSMIC MODE TOGGLE
+// =========================
+const toggleCosmic = document.getElementById("toggle-cosmic");
+
+if (toggleCosmic) {
+  toggleCosmic.addEventListener("change", () => {
+    document.body.classList.toggle("cosmic-mode", toggleCosmic.checked);
+    localStorage.setItem("cosmicMode", toggleCosmic.checked);
+  });
+
+  // load status
+  if (localStorage.getItem("cosmicMode") === "true") {
+    toggleCosmic.checked = true;
+    document.body.classList.add("cosmic-mode");
+  }
+}
+
+
+
+
+  // =========================
+// TODAY SKY COLLAPSIBLE
+// =========================
+const skyBox = document.getElementById("today-sky");
+const skyHeader = document.getElementById("today-sky-header");
+
+if (skyBox && skyHeader) {
+  skyHeader.addEventListener("click", () => {
+    skyBox.classList.toggle("collapsed");
+  });
+}
+
+
+
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+  });
+});
+
+
+
+  // =========================
+// STAR TIMELINE (BRANCHING)
+// =========================
+const starPaths = {
+  small: [
+    {
+      title: "Nebula",
+      desc: "Awan gas dan debu kosmik, tempat awal pembentukan bintang."
+    },
+    {
+      title: "Protostar",
+      desc: "Inti gas memadat dan mulai memanas, fusi belum stabil."
+    },
+    {
+      title: "Main Sequence",
+      desc: "Bintang stabil membakar hidrogen menjadi helium."
+    },
+    {
+      title: "Red Giant",
+      desc: "Bintang mengembang setelah bahan bakar inti habis."
+    },
+    {
+      title: "White Dwarf",
+      desc: "Sisa inti bintang kecil yang perlahan mendingin."
+    }
+  ],
+
+  massive: [
+    {
+      title: "Nebula",
+      desc: "Awan gas kosmik tempat lahirnya bintang masif."
+    },
+    {
+      title: "Protostar",
+      desc: "Pembentukan inti cepat karena massa besar."
+    },
+    {
+      title: "Main Sequence",
+      desc: "Pembakaran hidrogen sangat cepat dan intens."
+    },
+    {
+      title: "Red Supergiant",
+      desc: "Bintang raksasa merah dengan ukuran luar biasa."
+    },
+    {
+      title: "Supernova → Neutron Star / Black Hole",
+      desc: "Ledakan besar, menyisakan objek ekstrem."
+    }
+  ]
+};
+
+let currentBranch = "small";
+
+const slider = document.getElementById("star-slider");
+const titleEl = document.getElementById("stage-title");
+const descEl = document.getElementById("stage-desc");
+const branchBtns = document.querySelectorAll(".branch-selector button");
+
+function updateStage() {
+  const stage = starPaths[currentBranch][slider.value];
+  titleEl.textContent = stage.title;
+  descEl.textContent = stage.desc;
+}
+
+branchBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    branchBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    currentBranch = btn.dataset.branch;
+    slider.max = starPaths[currentBranch].length - 1;
+    slider.value = 0;
+    updateStage();
+  });
+});
+
+slider.addEventListener("input", updateStage);
+
+// init pertama
+updateStage();
+
+
+
+  
+  // =========================
+// MINI QUIZ ASTRONOMI
+// =========================
+const quizData = [
+  {
+    q: "Planet terbesar di tata surya adalah?",
+    o: ["Bumi", "Mars", "Jupiter", "Saturnus"],
+    a: 2
+  },
+  {
+    q: "Bintang terdekat dari Bumi adalah?",
+    o: ["Sirius", "Alpha Centauri", "Matahari", "Vega"],
+    a: 2
+  },
+  {
+    q: "Apa nama galaksi tempat Bumi berada?",
+    o: ["Andromeda", "Bima Sakti", "Sombrero", "Cartwheel"],
+    a: 1
+  },
+  {
+    q: "Fase bulan saat Bulan sepenuhnya terang disebut?",
+    o: ["Bulan Baru", "Bulan Sabit", "Bulan Purnama", "Kuartal"],
+    a: 2
+  },
+  {
+    q: "Apa yang terjadi pada bintang masif di akhir hidupnya?",
+    o: ["Membeku", "Menghilang", "Supernova", "Menguap"],
+    a: 2
+  }
+];
+
+let quizIndex = 0;
+let score = 0;
+
+const questionEl = document.getElementById("quiz-question");
+const optionsEl = document.getElementById("quiz-options");
+const nextBtn = document.getElementById("quiz-next");
+const resultEl = document.getElementById("quiz-result");
+
+function loadQuiz() {
+  const current = quizData[quizIndex];
+  questionEl.textContent = current.q;
+  optionsEl.innerHTML = "";
+  nextBtn.disabled = true;
+  resultEl.textContent = "";
+
+  current.o.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(btn, idx);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(button, index) {
+  const correct = quizData[quizIndex].a;
+  const buttons = optionsEl.querySelectorAll("button");
+
+  buttons.forEach(btn => btn.disabled = true);
+
+  if (index === correct) {
+    button.classList.add("correct");
+    score++;
+    resultEl.textContent = "✅ Benar!";
+  } else {
+    button.classList.add("wrong");
+    buttons[correct].classList.add("correct");
+    resultEl.textContent = "❌ Salah!";
+  }
+
+  nextBtn.disabled = false;
+}
+
+nextBtn.onclick = () => {
+  quizIndex++;
+  if (quizIndex < quizData.length) {
+    loadQuiz();
+  } else {
+    questionEl.textContent = `🎉 Quiz selesai! Skor kamu: ${score}/${quizData.length}`;
+    optionsEl.innerHTML = "";
+    nextBtn.style.display = "none";
+  }
+};
+
+loadQuiz();
+
+
+
     // =========================
 // TODAY SKY - IEA
 // =========================
