@@ -115,6 +115,23 @@ a{color:inherit;text-decoration:none}
 </head>
 <body>
 
+  <!-- =========================
+     TOP NAVIGATION - IEA
+========================= -->
+<nav id="iea-nav">
+  <div class="nav-left">
+    <span class="logo"> IEA</span>
+  </div>
+
+  <div class="nav-center">
+    <button class="nav-btn"> Home</button>
+    <button class="nav-btn"> Settings</button>
+    <button class="nav-btn"> Schedule</button>
+    <button class="nav-btn"> Lainnya</button>
+  </div>
+</nav>
+
+
     <!-- =========================
      QUICK INFO BAR - IEA
 ========================= -->
@@ -124,17 +141,87 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <!-- =========================
-     TODAY SKY - IEA
+     SETTINGS PANEL
 ========================= -->
-<section id="today-sky">
-  <h2> Today Sky</h2>
-  <div class="sky-box">
-    <p id="sky-date"> --</p>
-    <p id="moon-phase"> Fase Bulan: --</p>
-    <p id="sky-observation"> Observasi: --</p>
-    <p id="sky-tip"> Tips: --</p>
+<div id="settings-panel" class="collapsed">
+
+  <div id="settings-header">
+    <h3> Settings</h3>
+    <span id="settings-close">✖</span>
+  </div>
+
+  <div id="settings-content">
+    <label class="setting-item">
+      <input type="checkbox" id="toggle-today-sky" checked>
+      <span>Tampilkan Today Sky</span>
+    </label>
+
+    <label class="setting-item">
+      <input type="checkbox" id="toggle-cosmic">
+      <span>Cosmic Mode</span>
+    </label>
+  </div>
+
+</div>
+
+
+<!-- =========================
+     DASHBOARD ROW
+========================= -->
+<section id="iea-dashboard">
+
+  <!-- =========================
+     TODAY SKY (COLLAPSIBLE)
+========================= -->
+<div id="today-sky" class="collapsed">
+
+  <div id="today-sky-header">
+    <h3> Today Sky</h3>
+    <span id="sky-toggle">▼</span>
+  </div>
+
+  <div id="today-sky-content">
+    <p id="sky-date"></p>
+    <p id="moon-phase"></p>
+    <p id="sky-observation"></p>
+    <p id="sky-tip"></p>
+  </div>
+
+</div>
+
+  <!-- MINI QUIZ (MAIN CONTENT) -->
+  <div id="mini-quiz">
+    <h2> Mini Quiz Astronomi</h2>
+    <div id="quiz-box">
+      <p id="quiz-question"></p>
+      <div id="quiz-options"></div>
+      <button id="quiz-next" disabled>Next</button>
+      <p id="quiz-result"></p>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     TIMELINE EVOLUSI BINTANG (BERCABANG)
+========================= -->
+<section id="star-timeline">
+  <h2> Evolusi Bintang</h2>
+
+  <div class="branch-selector">
+    <button data-branch="small" class="active"> Bintang Kecil</button>
+    <button data-branch="massive"> Bintang Masif</button>
+  </div>
+
+  <input type="range" id="star-slider" min="0" max="4" value="0">
+
+  <div id="star-stage">
+    <h3 id="stage-title"></h3>
+    <p id="stage-desc"></p>
   </div>
 </section>
+
 
 
 <!-- background canvases -->
