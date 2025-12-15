@@ -191,6 +191,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =========================
+// COSMIC STAR BACKGROUND
+// =========================
+const canvas = document.getElementById("cosmicStars");
+const ctx = canvas.getContext("2d");
+
+let stars = [];
+const STAR_COUNT = 140;
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function createStars(){
+  stars = [];
+  for(let i = 0; i < STAR_COUNT; i++){
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.2,
+      speed: Math.random() * 0.15 + 0.03,
+      alpha: Math.random() * 0.6 + 0.2
+    });
+  }
+}
+createStars();
+
+function drawStars(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  stars.forEach(star => {
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+    ctx.fill();
+
+    // gerak pelan ke bawah
+    star.y += star.speed;
+
+    if(star.y > canvas.height){
+      star.y = 0;
+      star.x = Math.random() * canvas.width;
+    }
+  });
+
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+
+
+  // =========================
 // SETTINGS PANEL LOGIC
 // =========================
 const settingsPanel = document.getElementById("settings-panel");
@@ -246,7 +300,6 @@ if (toggleCosmic) {
     document.body.classList.add("cosmic-mode");
   }
 }
-
 
 
 
@@ -549,4 +602,49 @@ if (tipEl) {
     setInterval(updateFact, 8000);
   }
 
+});
+
+// =========================
+// AI EXPLAIN MODE LOGIC
+// =========================
+let currentExplainLevel = "smp";
+
+// contoh data awal (nanti bisa diperluas)
+const explainText = {
+  earth: {
+    smp: "Bumi adalah planet tempat kita tinggal. Di Bumi ada air, udara, dan makhluk hidup.",
+    sma: "Bumi adalah planet berbatu dengan atmosfer yang mendukung kehidupan.",
+    mahasiswa: "Bumi merupakan planet terestrial dengan sistem geodinamo aktif yang menghasilkan medan magnet."
+  },
+  sun: {
+    smp: "Matahari adalah bintang yang memberi cahaya dan panas ke Bumi.",
+    sma: "Matahari adalah bintang tipe G yang menjadi pusat tata surya.",
+    mahasiswa: "Matahari adalah bintang deret utama tipe G2V yang menghasilkan energi melalui fusi nuklir."
+  }
+};
+
+// tombol mode
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("explain-btn")) return;
+
+  document.querySelectorAll(".explain-btn").forEach(btn =>
+    btn.classList.remove("active")
+  );
+
+  e.target.classList.add("active");
+  currentExplainLevel = e.target.dataset.level;
+
+  if (currentObject && explainText[currentObject]) {
+    modalDesc.innerText = explainText[currentObject][currentExplainLevel];
+  }
+});
+
+// =========================
+// INTRO SCREEN REMOVE
+// =========================
+window.addEventListener("load", () => {
+  const intro = document.getElementById("intro-screen");
+  setTimeout(() => {
+    intro.style.display = "none";
+  }, 3000);
 });
