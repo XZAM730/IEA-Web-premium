@@ -115,40 +115,6 @@ a{color:inherit;text-decoration:none}
 }
 
 /* =========================
-   MINI QUIZ
-========================= */
-#mini-quiz{
-  max-width:700px;
-  padding:24px;
-  background:linear-gradient(135deg,#0d1235,#1e245a);
-  border-radius:16px;
-  box-shadow:0 0 30px rgba(0,0,0,.6);
-}
-#mini-quiz h2{text-align:center;margin-bottom:16px}
-#quiz-question{font-size:16px;margin-bottom:14px}
-#quiz-options button{
-  width:100%;
-  margin:8px 0;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  background:#222a66;
-  color:#fff;
-  cursor:pointer;
-}
-#quiz-options button:hover{background:#2f38a5}
-#quiz-options .correct{background:#2ecc71}
-#quiz-options .wrong{background:#e74c3c}
-#quiz-next{
-  margin-top:14px;
-  padding:10px 16px;
-  background:#ff9800;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-/* =========================
    STAR TIMELINE (BRANCHING)
 ========================= */
 #star-timeline{
@@ -216,18 +182,80 @@ a{color:inherit;text-decoration:none}
 }
 
 /* =========================
-   QUICK INFO BAR
+   QUICK INFO BAR - IEA
 ========================= */
-#quick-info-bar{
-  position:sticky;
-  top:0;
-  z-index:9999;
-  display:flex;
-  justify-content:space-between;
-  padding:10px 18px;
-  background:linear-gradient(90deg,#0b0f2a,#1b1f4a);
-  font-size:14px;
+#quick-info-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 12px 20px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(15, 20, 35, 0.95),
+    rgba(20, 25, 50, 0.95)
+  );
+
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  font-family: var(--font-main, system-ui);
+  font-size: 13px;
+  color: #e8ebff;
 }
+
+.quick-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.quick-item .label {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--muted, #9aa3ff);
+}
+
+.quick-item span:last-child {
+  font-weight: 500;
+}
+
+.quick-separator {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+}
+
+/* Animasi halus pas fakta ganti */
+#iea-fact {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  #quick-info-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .quick-separator {
+    display: none;
+  }
+}
+
 
 /* =========================
    RESPONSIVE
@@ -452,12 +480,204 @@ body.cosmic-mode::before {
     font-size: 14px;
   }
 
-  /* Intro screen */
-  .intro-logo{
-    width: 90px;
-  }
+  /* =========================
+   IEA COSMIC INTRO
+========================= */
+#intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at center, #06091a, #02030a 70%);
+  overflow: hidden;
+}
 
-  .intro-text{
-    font-size: 18px;
+/* STAR FIELD */
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 20%, #fff, transparent);
+  background-size: 200px 200px;
+  animation: starsMove 40s linear infinite;
+  opacity: 0.4;
+}
+
+@keyframes starsMove {
+  from { background-position: 0 0; }
+  to { background-position: -200px 200px; }
+}
+
+/* COSMIC GLOW */
+.cosmic-glow {
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(120,160,255,0.18), transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(180,120,255,0.15), transparent 50%);
+  filter: blur(60px);
+  animation: glowDrift 14s ease-in-out infinite;
+}
+
+@keyframes glowDrift {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-4%, 3%); }
+  100% { transform: translate(0,0); }
+}
+
+/* CORE CONTENT */
+.intro-core {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.intro-logo {
+  font-size: 72px;
+  font-weight: 900;
+  letter-spacing: 8px;
+
+  color: #c6d4ff; /* fallback aman */
+
+  background: linear-gradient(90deg, #7aa2ff, #c6d4ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+.intro-sub {
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #aab4ff;
+  opacity: 0;
+  animation: subFade 1.2s ease forwards;
+  animation-delay: 0.8s;
+}
+
+@keyframes subFade {
+  to { opacity: 1; }
+}
+
+/* PULSE */
+.intro-pulse {
+  margin-top: 30px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #7aa2ff;
+  box-shadow: 0 0 20px #7aa2ff;
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  70% { transform: scale(2.2); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+}
+
+/* =========================
+   RESPONSIVE FOUNDATION FIX
+========================= */
+
+/* Aman buat semua device */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Font & spacing fleksibel */
+body {
+  font-size: clamp(13px, 2.4vw, 16px);
+  line-height: 1.6;
+}
+
+.container {
+  padding: clamp(14px, 4vw, 28px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(14px, 2.5vw, 18px);
+}
+
+.card {
+  align-items: center;
+  padding: clamp(14px, 3vw, 18px);
+}
+
+.card .icon {
+  width: clamp(64px, 20vw, 86px);
+  height: clamp(64px, 20vw, 86px);
+  flex-shrink: 0;
+}
+
+.card h3 {
+  font-size: clamp(15px, 2.6vw, 18px);
+}
+
+.card p {
+  font-size: clamp(12px, 2.4vw, 13px);
+}
+
+.header {
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.search-box {
+  width: 100%;
+}
+
+.search-box input {
+  width: 100%;
+}
+
+.hero {
+  flex-wrap: wrap;
+  gap: clamp(16px, 4vw, 24px);
+}
+
+.hero-right {
+  width: 100%;
+  text-align: left;
+}
+
+.modal-inner {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.modal-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .modal-grid {
+    grid-template-columns: 360px 1fr;
   }
 }
+
+#quick-info-bar {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#settings-panel {
+  max-width: 90vw;
+}
+
