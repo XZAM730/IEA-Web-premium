@@ -189,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
   // =========================
 // COSMIC STAR BACKGROUND
 // =========================
@@ -316,250 +315,10 @@ if (skyBox && skyHeader) {
 }
 
 
-
   document.querySelectorAll(".nav-btn").forEach(btn => {
   btn.addEventListener("click", () => {
   });
 });
-
-
-
-  // =========================
-// STAR TIMELINE (BRANCHING)
-// =========================
-const starPaths = {
-  small: [
-    {
-      title: "Nebula",
-      desc: "Awan gas dan debu kosmik, tempat awal pembentukan bintang."
-    },
-    {
-      title: "Protostar",
-      desc: "Inti gas memadat dan mulai memanas, fusi belum stabil."
-    },
-    {
-      title: "Main Sequence",
-      desc: "Bintang stabil membakar hidrogen menjadi helium."
-    },
-    {
-      title: "Red Giant",
-      desc: "Bintang mengembang setelah bahan bakar inti habis."
-    },
-    {
-      title: "White Dwarf",
-      desc: "Sisa inti bintang kecil yang perlahan mendingin."
-    }
-  ],
-
-  massive: [
-    {
-      title: "Nebula",
-      desc: "Awan gas kosmik tempat lahirnya bintang masif."
-    },
-    {
-      title: "Protostar",
-      desc: "Pembentukan inti cepat karena massa besar."
-    },
-    {
-      title: "Main Sequence",
-      desc: "Pembakaran hidrogen sangat cepat dan intens."
-    },
-    {
-      title: "Red Supergiant",
-      desc: "Bintang raksasa merah dengan ukuran luar biasa."
-    },
-    {
-      title: "Supernova → Neutron Star / Black Hole",
-      desc: "Ledakan besar, menyisakan objek ekstrem."
-    }
-  ]
-};
-
-let currentBranch = "small";
-
-const slider = document.getElementById("star-slider");
-const titleEl = document.getElementById("stage-title");
-const descEl = document.getElementById("stage-desc");
-const branchBtns = document.querySelectorAll(".branch-selector button");
-
-function updateStage() {
-  const stage = starPaths[currentBranch][slider.value];
-  titleEl.textContent = stage.title;
-  descEl.textContent = stage.desc;
-}
-
-branchBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    branchBtns.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    currentBranch = btn.dataset.branch;
-    slider.max = starPaths[currentBranch].length - 1;
-    slider.value = 0;
-    updateStage();
-  });
-});
-
-slider.addEventListener("input", updateStage);
-
-// init pertama
-updateStage();
-
-
-
-  
-  // =========================
-// MINI QUIZ ASTRONOMI
-// =========================
-const quizData = [
-  {
-    q: "Planet terbesar di tata surya adalah?",
-    o: ["Bumi", "Mars", "Jupiter", "Saturnus"],
-    a: 2
-  },
-  {
-    q: "Bintang terdekat dari Bumi adalah?",
-    o: ["Sirius", "Alpha Centauri", "Matahari", "Vega"],
-    a: 2
-  },
-  {
-    q: "Apa nama galaksi tempat Bumi berada?",
-    o: ["Andromeda", "Bima Sakti", "Sombrero", "Cartwheel"],
-    a: 1
-  },
-  {
-    q: "Fase bulan saat Bulan sepenuhnya terang disebut?",
-    o: ["Bulan Baru", "Bulan Sabit", "Bulan Purnama", "Kuartal"],
-    a: 2
-  },
-  {
-    q: "Apa yang terjadi pada bintang masif di akhir hidupnya?",
-    o: ["Membeku", "Menghilang", "Supernova", "Menguap"],
-    a: 2
-  }
-];
-
-let quizIndex = 0;
-let score = 0;
-
-const questionEl = document.getElementById("quiz-question");
-const optionsEl = document.getElementById("quiz-options");
-const nextBtn = document.getElementById("quiz-next");
-const resultEl = document.getElementById("quiz-result");
-
-function loadQuiz() {
-  const current = quizData[quizIndex];
-  questionEl.textContent = current.q;
-  optionsEl.innerHTML = "";
-  nextBtn.disabled = true;
-  resultEl.textContent = "";
-
-  current.o.forEach((opt, idx) => {
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.onclick = () => selectAnswer(btn, idx);
-    optionsEl.appendChild(btn);
-  });
-}
-
-function selectAnswer(button, index) {
-  const correct = quizData[quizIndex].a;
-  const buttons = optionsEl.querySelectorAll("button");
-
-  buttons.forEach(btn => btn.disabled = true);
-
-  if (index === correct) {
-    button.classList.add("correct");
-    score++;
-    resultEl.textContent = "✅ Benar!";
-  } else {
-    button.classList.add("wrong");
-    buttons[correct].classList.add("correct");
-    resultEl.textContent = "❌ Salah!";
-  }
-
-  nextBtn.disabled = false;
-}
-
-nextBtn.onclick = () => {
-  quizIndex++;
-  if (quizIndex < quizData.length) {
-    loadQuiz();
-  } else {
-    questionEl.textContent = `🎉 Quiz selesai! Skor kamu: ${score}/${quizData.length}`;
-    optionsEl.innerHTML = "";
-    nextBtn.style.display = "none";
-  }
-};
-
-loadQuiz();
-
-
-
-    // =========================
-// TODAY SKY - IEA
-// =========================
-
-// tanggal hari ini
-const now = new Date();
-const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-const dateEl = document.getElementById("sky-date");
-if (dateEl) {
-  dateEl.textContent = "📅 " + now.toLocaleDateString("id-ID", options);
-}
-
-// hitung fase bulan sederhana
-function getMoonPhase(date) {
-  const lunarCycle = 29.53;
-  const refDate = new Date("2000-01-06"); // new moon reference
-  const days = (date - refDate) / (1000 * 60 * 60 * 24);
-  const phase = (days % lunarCycle) / lunarCycle;
-
-  if (phase < 0.03 || phase > 0.97) return "Bulan Baru 🌑";
-  if (phase < 0.22) return "Sabit Awal 🌒";
-  if (phase < 0.28) return "Kuartal Pertama 🌓";
-  if (phase < 0.47) return "Cembung Awal 🌔";
-  if (phase < 0.53) return "Purnama 🌕";
-  if (phase < 0.72) return "Cembung Akhir 🌖";
-  if (phase < 0.78) return "Kuartal Terakhir 🌗";
-  return "Sabit Akhir 🌘";
-}
-
-const moonEl = document.getElementById("moon-phase");
-if (moonEl) {
-  moonEl.textContent = " Fase Bulan: " + getMoonPhase(now);
-}
-
-// observasi rekomendasi
-const observationEl = document.getElementById("sky-observation");
-if (observationEl) {
-  const hour = now.getHours();
-  let obs;
-
-  if (hour >= 18 || hour <= 4) {
-    obs = "Cocok untuk observasi Bulan, planet terang, dan rasi bintang.";
-  } else {
-    obs = "Siang hari: aman untuk observasi Matahari (WAJIB filter).";
-  }
-
-  observationEl.textContent = " Observasi: " + obs;
-}
-
-// tips astronomi harian
-const tips = [
-  "Gunakan tripod untuk pengamatan lebih stabil.",
-  "Matikan lampu sekitar saat observasi malam.",
-  "Arahkan pandangan ke selatan untuk galaksi.",
-  "Biarkan mata beradaptasi dengan gelap ±20 menit.",
-  "Gunakan aplikasi peta langit untuk membantu navigasi."
-];
-
-const tipEl = document.getElementById("sky-tip");
-if (tipEl) {
-  const randomTip = tips[Math.floor(Math.random() * tips.length)];
-  tipEl.textContent = " Tips: " + randomTip;
-}
-
 
   // =========================
   // QUICK INFO BAR - IEA
@@ -594,10 +353,18 @@ if (tipEl) {
 
   const factEl = document.getElementById("iea-fact");
   if (factEl) {
-    function updateFact() {
-      const random = ieaFacts[Math.floor(Math.random() * ieaFacts.length)];
-      factEl.textContent = "💡 Fakta: " + random;
-    }
+   function updateFact() {
+  factEl.style.opacity = 0;
+  factEl.style.transform = "translateY(4px)";
+
+  setTimeout(() => {
+    const random = ieaFacts[Math.floor(Math.random() * ieaFacts.length)];
+    factEl.textContent = "💡 " + random;
+    factEl.style.opacity = 1;
+    factEl.style.transform = "translateY(0)";
+  }, 300);
+}
+
     updateFact();
     setInterval(updateFact, 8000);
   }
@@ -637,14 +404,4 @@ document.addEventListener("click", (e) => {
   if (currentObject && explainText[currentObject]) {
     modalDesc.innerText = explainText[currentObject][currentExplainLevel];
   }
-});
-
-// =========================
-// INTRO SCREEN REMOVE
-// =========================
-window.addEventListener("load", () => {
-  const intro = document.getElementById("intro-screen");
-  setTimeout(() => {
-    intro.style.display = "none";
-  }, 3000);
 });
