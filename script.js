@@ -405,3 +405,4 @@ document.addEventListener("click", (e) => {
     modalDesc.innerText = explainText[currentObject][currentExplainLevel];
   }
 });
+
