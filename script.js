@@ -1,614 +1,877 @@
-/* =================================================================
-   IEA OMEGA V2 - CENTRAL PROCESSING UNIT
-   Code Name: "Neural Link"
-   Author: IEA Command
-   ================================================================= */
+/**
+ * ============================================================================
+ * IEA OMEGA SYSTEM CORE (V.5.0 INFINITY)
+ * ============================================================================
+ * @fileoverview Main Controller for IEA Omega Dashboard
+ * @author IEA Architect Command
+ * @version 5.0.1 (Stable)
+ * @license Proprietary / Classified
+ * * MODULES:
+ * 1. CONFIG ...... System Global Variables
+ * 2. DATABASE .... Static Offline Data (Planets, Stars, etc.)
+ * 3. VISUALS ..... Canvas Starfield & Particle Engine
+ * 4. AUDIO ....... Web Audio API & Visualizer
+ * 5. CORE ........ Boot Sequence & App State
+ * 6. NETWORK ..... Firebase & NASA API Handlers
+ * 7. TOOLS ....... Gravity Sim & Quiz Logic
+ * 8. UI .......... DOM Manipulation & Event Bridges
+ * ============================================================================
+ */
 
-// [SYSTEM CONFIGURATION]
+// IMPORT FIREBASE (ES6 MODULES)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+/* ==========================================================================
+   1. SYSTEM CONFIGURATION & STATE
+   ========================================================================== */
 const CONFIG = {
-    nasaApiKey: 'DEMO_KEY', // Gunakan DEMO_KEY atau API Key pribadimu
-    animationSpeed: 30,     // Kecepatan ketikan intro
-    fallbackImage: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3'
+    // Backend Endpoints
+    FIREBASE_URL: "https://iea-pendaftaran-default-rtdb.asia-southeast1.firebasedatabase.app",
+    NASA_API_URL: "https://api.nasa.gov/planetary/apod",
+    NASA_API_KEY: "DEMO_KEY", // Ganti dengan API Key NASA asli jika ada
+
+    // Animation Settings
+    STAR_COUNT: 150,
+    STAR_SPEED: 0.05,
+    DUST_COUNT: 40,
+    TYPEWRITER_SPEED: 25, // ms per character
+
+    // Asset Fallbacks
+    DEFAULT_IMG: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+    DEFAULT_AUDIO: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 };
 
-/* =================================================================
-   MODULE 1: THE MEGA DATABASE (THE OMEGA ARCHIVE)
-   Status: CLASSIFIED
-   ================================================================= */
-const DATABASE = [
-    // --- 1. TATA SURYA (PLANETS & MOONS) ---
+const STATE = {
+    isBooted: false,
+    currentTab: 'archive',
+    audioContext: null,
+    audioSource: null,
+    analyser: null,
+    isPlaying: false,
+    quizScore: 0,
+    quizIndex: 0
+};
+
+// Initialize Firebase
+const fbApp = initializeApp({ databaseURL: CONFIG.FIREBASE_URL });
+const fbDb = getDatabase(fbApp);
+
+/* ==========================================================================
+   2. STATIC DATABASE (OFFLINE BACKUP)
+   ========================================================================== */
+/**
+ * Data ini digunakan untuk mengisi tab "Cosmic Database"
+ * agar tampilan terlihat penuh dan profesional.
+ */
+const COSMIC_DB = [
+    // --- STARS ---
     {
-        name: "Matahari (The Sun)", type: "star", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
-        wikiQuery: "Sun",
-        desc: "Bintang deret utama tipe-G di pusat Tata Surya. Mengandung 99,86% massa total tata surya. Sumber energi utama bagi kehidupan di Bumi."
+        id: "star_001",
+        name: "Matahari (The Sun)",
+        type: "star",
+        specs: "Type: G2V | Age: 4.6B Yrs",
+        desc: "Bintang pusat tata surya. Bola plasma raksasa yang menyediakan energi bagi kehidupan di Bumi. Massanya menyumbang 99.86% dari total massa tata surya.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg"
     },
     {
-        name: "Merkurius", type: "planet", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg",
-        wikiQuery: "Mercury (planet)",
-        desc: "Planet terkecil dan terdekat dengan Matahari. Tidak memiliki atmosfer yang signifikan untuk menahan panas, menyebabkan fluktuasi suhu ekstrem."
+        id: "star_002",
+        name: "UY Scuti",
+        type: "star",
+        specs: "Type: Red Hypergiant",
+        desc: "Salah satu bintang terbesar yang pernah ditemukan. Jika diletakkan di pusat tata surya, photospherenya akan menelan orbit Jupiter.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fe/UY_Scuti_size_comparison_to_the_Sun.png"
     },
     {
-        name: "Venus", type: "planet", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg",
-        wikiQuery: "Venus",
-        desc: "Planet terpanas di Tata Surya karena efek rumah kaca yang tak terkendali. Atmosfernya tebal, beracun, dan dipenuhi awan asam sulfat."
+        id: "star_003",
+        name: "Betelgeuse",
+        type: "star",
+        specs: "Type: Red Supergiant",
+        desc: "Bintang terang di rasi Orion yang berada di ambang supernova. Variabilitas cahayanya menunjukkan ketidakstabilan struktur intinya.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/5/57/Betelgeuse_ALMA.jpg"
     },
     {
-        name: "Bumi (Earth)", type: "planet", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg",
-        wikiQuery: "Earth",
-        desc: "Satu-satunya planet yang diketahui menopang kehidupan. Memiliki medan magnet pelindung dan air dalam bentuk cair di permukaannya."
+        id: "star_004",
+        name: "Sirius A",
+        type: "star",
+        specs: "Dist: 8.6 LY | Mag: -1.46",
+        desc: "Bintang paling terang di langit malam Bumi. Sebenarnya adalah sistem biner dengan pendamping kerdil putih bernama Sirius B.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Sirius_A_and_B_Hubble_photo.jpg"
+    },
+    
+    // --- PLANETS ---
+    {
+        id: "pl_001",
+        name: "Bumi (Earth)",
+        type: "planet",
+        specs: "Habitable: Yes | Moons: 1",
+        desc: "Satu-satunya planet yang diketahui menopang kehidupan. Memiliki atmosfer nitrogen-oksigen dan medan magnet pelindung yang kuat.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg"
     },
     {
-        name: "Mars", type: "planet", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg",
-        wikiQuery: "Mars",
-        desc: "Planet Merah. Rumah bagi Olympus Mons (gunung tertinggi di Tata Surya) dan Valles Marineris (ngarai terdalam). Target utama kolonisasi masa depan."
+        id: "pl_002",
+        name: "Mars",
+        type: "planet",
+        specs: "Atmosphere: CO2 | Gravity: 0.38g",
+        desc: "Planet Merah. Target utama kolonisasi manusia. Memiliki gunung tertinggi di tata surya (Olympus Mons) dan ngarai terdalam.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg"
     },
     {
-        name: "Jupiter", type: "planet", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg",
-        wikiQuery: "Jupiter",
-        desc: "Raksasa gas terbesar. Memiliki Bintik Merah Besar, badai antilsiklon yang lebih besar dari Bumi dan telah berkecamuk selama ratusan tahun."
+        id: "pl_003",
+        name: "Jupiter",
+        type: "planet",
+        specs: "Type: Gas Giant | Moons: 95+",
+        desc: "Planet terbesar di tata surya. Pelindung Bumi dari asteroid berkat gravitasi masifnya. Memiliki badai abadi 'Great Red Spot'.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg"
     },
     {
-        name: "Saturnus", type: "planet", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg",
-        wikiQuery: "Saturn",
-        desc: "Permata Tata Surya, terkenal dengan sistem cincinnya yang kompleks yang terdiri dari es dan debu. Memiliki kerapatan massa lebih rendah dari air."
-    },
-    {
-        name: "Uranus", type: "planet", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg",
-        wikiQuery: "Uranus",
-        desc: "Raksasa es yang berotasi miring (menggelinding pada sisinya). Memiliki atmosfer terdingin di antara planet-planet Tata Surya (-224°C)."
-    },
-    {
-        name: "Neptunus", type: "planet", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/6/63/Neptune_-_Voyager_2_%2829347980845%29_flatten_crop.jpg",
-        wikiQuery: "Neptune",
-        desc: "Planet terjauh dari Matahari. Raksasa es yang dikenal dengan angin supersonik tercepat di Tata Surya, mencapai 2.100 km/jam."
-    },
-    {
-        name: "Pluto", type: "planet", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Pluto_in_True_Color_-_High-Res.jpg",
-        wikiQuery: "Pluto",
-        desc: "Planet kerdil di Sabuk Kuiper. Memiliki fitur permukaan berbentuk hati yang disebut Tombaugh Regio yang terbuat dari es nitrogen."
-    },
-    {
-        name: "Europa", type: "planet", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/5/54/Europa-moon.jpg",
-        wikiQuery: "Europa (moon)",
-        desc: "Bulan Jupiter yang permukaannya tertutup es. Diperkirakan memiliki samudra air cair di bawah kerak esnya, kandidat kuat kehidupan ekstraterestrial."
-    },
-    {
-        name: "Titan", type: "planet", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/9/90/Titan_in_natural_color_Cassini.jpg",
-        wikiQuery: "Titan (moon)",
-        desc: "Bulan terbesar Saturnus. Satu-satunya bulan dengan atmosfer tebal dan danau metana cair di permukaannya."
+        id: "pl_004",
+        name: "Saturnus",
+        type: "planet",
+        specs: "Ring System: Complex Ice",
+        desc: "Dikenal dengan sistem cincinnya yang spektakuler. Kerapatan planet ini sangat rendah, secara teori bisa mengapung di atas air.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg"
     },
 
-    // --- 2. BINTANG (STARS) ---
+    // --- BLACK HOLES / VOID ---
     {
-        name: "UY Scuti", type: "star", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/f/fe/UY_Scuti_size_comparison_to_the_Sun.png",
-        wikiQuery: "UY Scuti",
-        desc: "Salah satu bintang terbesar yang diketahui. Hypergiant merah ini begitu besar sehingga jika diletakkan di pusat tata surya, tepinya akan menelan Jupiter."
+        id: "bh_001",
+        name: "TON 618",
+        type: "void",
+        specs: "Mass: 66 Billion Suns",
+        desc: "Lubang hitam ultramasif terbesar yang pernah ditemukan. Terletak di pusat kuasar yang sangat terang, berjarak 10.4 miliar tahun cahaya.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Black_Hole_in_the_universe.jpg"
     },
     {
-        name: "Stephenson 2-18", type: "star", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/9/92/Stephenson_2-18_size_comparison.jpg",
-        wikiQuery: "Stephenson 2-18",
-        desc: "Pemegang rekor bintang terbesar saat ini. Radiusnya diperkirakan 2.150 kali lipat Matahari. Volume-nya bisa memuat 10 miliar Matahari."
-    },
-    {
-        name: "Betelgeuse", type: "star", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/5/57/Betelgeuse_ALMA.jpg",
-        wikiQuery: "Betelgeuse",
-        desc: "Supergiant merah di rasi Orion yang sekarat. Diprediksi akan meledak sebagai Supernova dalam waktu dekat (skala astronomi), yang akan terlihat di siang hari."
-    },
-    {
-        name: "Sirius A", type: "star", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Sirius_A_and_B_Hubble_photo.jpg",
-        wikiQuery: "Sirius",
-        desc: "Bintang paling terang di langit malam Bumi. Merupakan sistem bintang biner dengan pendamping kerdil putih (Sirius B)."
-    },
-    {
-        name: "Rigel", type: "star", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Rigel_by_Harel_Boren.jpg/600px-Rigel_by_Harel_Boren.jpg",
-        wikiQuery: "Rigel",
-        desc: "Supergiant biru yang sangat panas dan terang di rasi Orion. Memancarkan energi 120.000 kali lebih banyak daripada Matahari."
-    },
-    {
-        name: "Proxima Centauri", type: "star", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/9/95/New_Shot_of_Proxima_Centauri.jpg",
-        wikiQuery: "Proxima Centauri",
-        desc: "Bintang terdekat dengan Matahari (4,2 tahun cahaya). Sebuah katai merah kecil yang sering memancarkan suar bintang (solar flare) yang dahsyat."
+        id: "bh_002",
+        name: "Sagittarius A*",
+        type: "void",
+        specs: "Loc: Milky Way Center",
+        desc: "Lubang hitam supermasif di jantung galaksi kita. Objek yang mengikat orbit miliaran bintang di Bima Sakti.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/a/a7/EHT_Saggitarius_A_black_hole.tif"
     },
 
-    // --- 3. BLACK HOLE & VOID ---
+    // --- GALAXIES ---
     {
-        name: "TON 618", type: "blackhole", glow: "purple",
-        img: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Black_Hole_in_the_universe.jpg",
-        wikiQuery: "TON 618",
-        desc: "Raja segala monster. Lubang hitam ultramasif terbesar yang diketahui, dengan massa 66 miliar kali Matahari. Terangnya mengalahkan seluruh galaksi."
+        id: "gal_001",
+        name: "Andromeda",
+        type: "galaxy",
+        specs: "Dist: 2.5M LY | Stars: 1 Trillion",
+        desc: "Tetangga galaksi spiral terbesar kita. Berada di jalur tabrakan dengan Bima Sakti dan akan menyatu dalam 4.5 miliar tahun.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/c/c2/M31_Galaxy.jpg"
     },
     {
-        name: "Sagittarius A*", type: "blackhole", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/a/a7/EHT_Saggitarius_A_black_hole.tif",
-        wikiQuery: "Sagittarius A*",
-        desc: "Lubang hitam supermasif di jantung galaksi Bima Sakti. Objek inilah yang menjadi poros gravitasi bagi miliaran bintang di galaksi kita."
-    },
-    {
-        name: "M87*", type: "blackhole", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Black_hole_-_Messier_87_crop_max_res.jpg",
-        wikiQuery: "Messier 87",
-        desc: "Lubang hitam pertama yang berhasil difoto oleh umat manusia (Event Horizon Telescope). Memiliki semburan jet plasma sepanjang 5.000 tahun cahaya."
-    },
-    {
-        name: "Phoenix A", type: "blackhole", glow: "red",
-        img: "https://i.imgur.com/3Z8X9Xy.jpg", // Placeholder art for Phoenix A
-        wikiQuery: "Phoenix Cluster",
-        desc: "Entitas teoritis terbesar. Diperkirakan memiliki massa 100 miliar kali Matahari. Awalnya sebuah lubang hitam yang terus tumbuh tanpa henti."
-    },
-    {
-        name: "Great Attractor", type: "blackhole", glow: "purple",
-        img: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Earth%27s_Location_in_the_Universe_SMALL.jpg",
-        wikiQuery: "Great Attractor",
-        desc: "Anomali gravitasi misterius di ruang antargalaksi yang menarik Bima Sakti dan ribuan galaksi lain menuju titik kematiannya."
+        id: "gal_002",
+        name: "Whirlpool Galaxy (M51)",
+        type: "galaxy",
+        specs: "Type: Spiral Interaction",
+        desc: "Contoh klasik galaksi spiral yang sedang berinteraksi dengan galaksi kerdil di ujung lengannya. Struktur spiralnya sangat jelas.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/d/db/Messier51_sRGB.jpg"
     },
 
-    // --- 4. GALAKSI (GALAXIES) ---
+    // --- NEBULAE ---
     {
-        name: "Bima Sakti (Milky Way)", type: "galaxy", glow: "purple",
-        img: "https://upload.wikimedia.org/wikipedia/commons/0/09/Milky_Way_2005.jpg",
-        wikiQuery: "Milky Way",
-        desc: "Galaksi rumah kita. Sebuah galaksi spiral berbatang yang berisi 100-400 miliar bintang. Diameter sekitar 100.000 tahun cahaya."
+        id: "neb_001",
+        name: "Pillars of Creation",
+        type: "nebula",
+        specs: "Loc: Eagle Nebula",
+        desc: "Tiang gas dan debu antarbintang tempat bintang-bintang baru dilahirkan. Salah satu objek paling ikonik yang dipotret Hubble.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg"
     },
     {
-        name: "Andromeda", type: "galaxy", glow: "purple",
-        img: "https://upload.wikimedia.org/wikipedia/commons/c/c2/M31_Galaxy.jpg",
-        wikiQuery: "Andromeda Galaxy",
-        desc: "Tetangga galaksi besar terdekat. Berada di jalur tabrakan dengan Bima Sakti dan akan menyatu dalam 4,5 miliar tahun menjadi 'Milkomeda'."
-    },
-    {
-        name: "Whirlpool Galaxy (M51)", type: "galaxy", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/d/db/Messier51_sRGB.jpg",
-        wikiQuery: "Whirlpool Galaxy",
-        desc: "Galaksi spiral klasik yang sedang berinteraksi dengan galaksi kerdil di dekatnya. Strukturnya sangat jelas terlihat."
-    },
-    {
-        name: "Sombrero Galaxy", type: "galaxy", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/5/5e/M104_ngc4594_sombrero_galaxy_hi-res.jpg",
-        wikiQuery: "Sombrero Galaxy",
-        desc: "Galaksi spiral yang terlihat dari samping, menyerupai topi Sombrero. Memiliki tonjolan pusat yang sangat terang dan cincin debu tebal."
-    },
-    {
-        name: "Cosmos Redshift 7", type: "galaxy", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/1/13/Cosmos_Redshift_7.jpg",
-        wikiQuery: "Cosmos Redshift 7",
-        desc: "Salah satu galaksi tertua yang pernah diamati, terbentuk tak lama setelah Big Bang. Namanya terinspirasi dari pemain bola Cristiano Ronaldo (CR7)."
-    },
-
-    // --- 5. NEBULA & LAINNYA ---
-    {
-        name: "Pillars of Creation", type: "nebula", glow: "gold",
-        img: "https://upload.wikimedia.org/wikipedia/commons/6/68/Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg",
-        wikiQuery: "Pillars of Creation",
-        desc: "Bagian ikonik dari Nebula Elang. Tiang-tiang gas dan debu raksasa tempat bintang-bintang baru sedang dilahirkan."
-    },
-    {
-        name: "Orion Nebula", type: "nebula", glow: "purple",
-        img: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Orion_Nebula_-_Hubble_2006_mosaic_18000.jpg",
-        wikiQuery: "Orion Nebula",
-        desc: "Salah satu nebula paling terang, terlihat dengan mata telanjang di pedang rasi Orion. Pabrik bintang masif terdekat dengan Bumi."
-    },
-    {
-        name: "Crab Nebula", type: "nebula", glow: "blue",
-        img: "https://upload.wikimedia.org/wikipedia/commons/0/00/Crab_Nebula.jpg",
-        wikiQuery: "Crab Nebula",
-        desc: "Sisa-sisa ledakan supernova yang diamati oleh astronom Tiongkok pada tahun 1054 M. Di pusatnya terdapat Pulsar yang berputar cepat."
-    },
-    {
-        name: "Helix Nebula", type: "nebula", glow: "red",
-        img: "https://upload.wikimedia.org/wikipedia/commons/b/b1/NGC7293_%282004%29.jpg",
-        wikiQuery: "Helix Nebula",
-        desc: "Sering disebut 'Mata Tuhan' atau 'Mata Sauron'. Nebula planeter yang terbentuk dari kematian bintang mirip Matahari."
-    },
-    {
-        name: "Oumuamua", type: "blackhole", glow: "red", // Kategori unik
-        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Oumuamua_artist_impression.jpg",
-        wikiQuery: "Oumuamua",
-        desc: "Objek antarbintang pertama yang terdeteksi melewati Tata Surya kita. Bentuknya lonjong seperti cerutu dan asalnya masih misterius."
+        id: "neb_002",
+        name: "Crab Nebula",
+        type: "nebula",
+        specs: "Type: Supernova Remnant",
+        desc: "Sisa ledakan supernova yang diamati pada tahun 1054. Di pusatnya terdapat Pulsar yang berputar 30 kali per detik.",
+        img: "https://upload.wikimedia.org/wikipedia/commons/0/00/Crab_Nebula.jpg"
     }
 ];
 
-/* =================================================================
-   MODULE 2: SYSTEM INITIALIZATION (BOOT SEQUENCE)
-   ================================================================= */
-const INTRO_LINES = [
-    "INITIALIZING IEA OMEGA PROTOCOL...",
-    "ESTABLISHING SECURE CONNECTION...",
-    "ACCESSING DEEP SPACE ARCHIVES...",
-    "SYNCING WITH NASA SATELLITE FEED...",
-    "CALIBRATING NEURAL LINK...",
-    "SYSTEM READY. WELCOME, COMMANDER."
-];
+/* ==========================================================================
+   3. VISUAL ENGINE (CANVAS & PARTICLES)
+   ========================================================================== */
+const VisualEngine = {
+    canvas: null,
+    ctx: null,
+    width: 0,
+    height: 0,
+    stars: [],
 
-let lineIndex = 0;
-let charIndex = 0;
-const typeContainer = document.getElementById('introText');
+    init: function() {
+        this.canvas = document.getElementById('star-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        
+        window.addEventListener('resize', () => this.resize());
+        this.resize();
+        this.createStars();
+        this.animate();
+        this.createDust();
+    },
 
-function typeWriter() {
-    if (lineIndex < INTRO_LINES.length) {
-        if (charIndex < INTRO_LINES[lineIndex].length) {
-            typeContainer.innerHTML += INTRO_LINES[lineIndex].charAt(charIndex);
-            charIndex++;
-            setTimeout(typeWriter, CONFIG.animationSpeed);
-        } else {
-            typeContainer.innerHTML += "<br>";
-            lineIndex++;
-            charIndex = 0;
-            setTimeout(typeWriter, 300); // Pause antar baris
+    resize: function() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+    },
+
+    createStars: function() {
+        this.stars = [];
+        for (let i = 0; i < CONFIG.STAR_COUNT; i++) {
+            this.stars.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                z: Math.random() * 2, // Depth factor
+                size: Math.random() * 1.5,
+                alpha: Math.random(),
+                vel: (Math.random() - 0.5) * 0.2
+            });
         }
-    } else {
-        // Efek Selesai, Tampilkan Tombol
-        document.getElementById('agreementArea').classList.add('visible');
+    },
+
+    createDust: function() {
+        const container = document.getElementById('dust-container');
+        container.innerHTML = ''; // Reset
+        for(let i=0; i < CONFIG.DUST_COUNT; i++) {
+            const p = document.createElement('div');
+            p.className = 'dust-particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            // Randomize size and animation duration
+            const size = Math.random() * 3;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.animationDuration = (10 + Math.random() * 20) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            container.appendChild(p);
+        }
+    },
+
+    animate: function() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        
+        // Draw Stars
+        this.ctx.fillStyle = "#ffffff";
+        for (let star of this.stars) {
+            // Update Position
+            star.y -= CONFIG.STAR_SPEED * (star.z + 0.5); // Parallax speed
+            
+            // Reset if out of bounds
+            if (star.y < 0) {
+                star.y = this.height;
+                star.x = Math.random() * this.width;
+            }
+
+            // Draw
+            this.ctx.globalAlpha = star.alpha;
+            this.ctx.beginPath();
+            this.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            this.ctx.fill();
+            
+            // Twinkle effect
+            if(Math.random() > 0.98) star.alpha = Math.random();
+        }
+
+        // Draw Constellation Lines (Optional connectivity)
+        this.drawConstellations();
+
+        requestAnimationFrame(() => this.animate());
+    },
+
+    drawConstellations: function() {
+        this.ctx.strokeStyle = "rgba(0, 242, 255, 0.05)";
+        this.ctx.lineWidth = 0.5;
+        this.ctx.beginPath();
+        
+        // Simple proximity connect
+        for (let i = 0; i < this.stars.length; i++) {
+            for (let j = i + 1; j < this.stars.length; j++) {
+                const dx = this.stars[i].x - this.stars[j].x;
+                const dy = this.stars[i].y - this.stars[j].y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < 100) {
+                    this.ctx.moveTo(this.stars[i].x, this.stars[i].y);
+                    this.ctx.lineTo(this.stars[j].x, this.stars[j].y);
+                }
+            }
+        }
+        this.ctx.stroke();
     }
+};
+
+/* ==========================================================================
+   4. AUDIO ENGINE (VISUALIZER & PLAYER)
+   ========================================================================== */
+const AudioEngine = {
+    audioEl: null,
+    bars: [],
+    
+    init: function() {
+        this.audioEl = document.getElementById('audioCore');
+        this.bars = document.querySelectorAll('.visualizer .bar');
+        
+        // Event Listeners
+        this.audioEl.addEventListener('ended', () => this.stop());
+        
+        // Visualizer Loop (Simulated for Performance/Cross-Browser)
+        // Note: Real WebAudio API analysis often blocked by Autoplay policies
+        // so we use a CSS-driven visualizer synced to play state for reliability.
+    },
+
+    play: function(url, title, img) {
+        const deck = document.getElementById('music-deck');
+        const art = document.getElementById('playerImg');
+        const titleEl = document.getElementById('playerTitle');
+        const statusEl = document.getElementById('playerStatus');
+        
+        // Update UI
+        deck.classList.remove('audio-deck-closed');
+        titleEl.innerText = title.toUpperCase();
+        art.src = img || CONFIG.DEFAULT_IMG;
+        statusEl.innerHTML = `<span style="color:var(--cyan)">●</span> BUFFERING...`;
+        
+        // Load Audio
+        this.audioEl.src = url;
+        this.audioEl.play().then(() => {
+            STATE.isPlaying = true;
+            this.updateState();
+        }).catch(e => {
+            console.error("Audio Playback Error:", e);
+            statusEl.innerHTML = `<span style="color:var(--red)">●</span> ERROR`;
+        });
+    },
+
+    toggle: function() {
+        if(this.audioEl.paused) {
+            this.audioEl.play();
+            STATE.isPlaying = true;
+        } else {
+            this.audioEl.pause();
+            STATE.isPlaying = false;
+        }
+        this.updateState();
+    },
+
+    updateState: function() {
+        const icon = document.getElementById('playIcon');
+        const status = document.getElementById('playerStatus');
+        const disc = document.getElementById('playerArt'); // Animation container
+        const viz = document.getElementById('visualizer');
+
+        if(STATE.isPlaying) {
+            icon.className = "fas fa-pause";
+            status.innerHTML = `<span style="color:var(--cyan)">●</span> PLAYING`;
+            disc.classList.add('playing'); // CSS spin
+            viz.classList.add('active');   // Enable CSS bars
+        } else {
+            icon.className = "fas fa-play";
+            status.innerHTML = `<span style="color:#666">●</span> PAUSED`;
+            disc.classList.remove('playing');
+            viz.classList.remove('active');
+        }
+    },
+
+    stop: function() {
+        STATE.isPlaying = false;
+        this.updateState();
+    }
+};
+
+/* ==========================================================================
+   5. CORE LOGIC (BOOT & TABS)
+   ========================================================================== */
+const Core = {
+    
+    // --- Boot Sequence ---
+    bootSystem: async function() {
+        // Init Subsystems
+        VisualEngine.init();
+        AudioEngine.init();
+        
+        // 1. Terminal Typing Effect
+        const logLines = document.querySelectorAll('.boot-log-container .log-line');
+        for(let line of logLines) {
+            line.style.display = 'block';
+            await this.sleep(400);
+        }
+        
+        await this.sleep(500);
+        
+        // 2. Hide Terminal, Show Logo
+        document.getElementById('bootLog').style.display = 'none';
+        document.getElementById('logoReveal').style.display = 'flex';
+        
+        // 3. Enable Entry Button
+        const btn = document.getElementById('enterSystemBtn');
+        
+        btn.addEventListener('click', () => {
+            this.enterDashboard();
+        });
+    },
+
+    // --- Enter Dashboard Animation ---
+    enterDashboard: function() {
+        // Fade Out Intro
+        const intro = document.getElementById('intro-layer');
+        intro.style.opacity = '0';
+        intro.style.pointerEvents = 'none'; // Allow clicks through
+        
+        setTimeout(() => {
+            intro.style.display = 'none';
+            // Fade In Main App
+            const app = document.getElementById('appMain');
+            app.style.display = 'block'; // Make visible first
+            
+            // Trigger reflow
+            void app.offsetWidth;
+            
+            app.style.opacity = '1';
+            
+            // Populate Data
+            AppController.loadCosmicArchive();
+            AppController.loadRoyalVault();
+            AppController.startClock();
+            
+        }, 1000);
+    },
+
+    // --- Utility: Sleep ---
+    sleep: function(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+};
+
+/* ==========================================================================
+   6. APP CONTROLLER (MAIN LOGIC)
+   ========================================================================== */
+const AppController = {
+
+    // --- Tab Switching ---
+    switchPage: function(pageId, btnElement) {
+        // 1. Hide all pages
+        document.querySelectorAll('.page-section').forEach(el => {
+            el.classList.remove('active');
+        });
+        
+        // 2. Show target page
+        const target = document.getElementById('tab-' + pageId);
+        if(target) target.classList.add('active');
+        
+        // 3. Update Dock Buttons
+        document.querySelectorAll('.dock-item').forEach(el => {
+            el.classList.remove('active');
+        });
+        btnElement.classList.add('active');
+        
+        // 4. Special Actions
+        if(pageId === 'feed') this.fetchNasaFeed();
+    },
+
+    // --- Clock Logic ---
+    startClock: function() {
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clockDisplay').innerText = now.toLocaleTimeString('en-GB'); // 24h format
+        }, 1000);
+    },
+
+    // --- Feature: Cosmic Archive Loader ---
+    loadCosmicArchive: function() {
+        const grid = document.getElementById('mainArchiveGrid');
+        
+        // Keep existing static skeletons or clear? Let's append to existing HTML.
+        // But for this logic, let's clear and re-render from JS DB for full control.
+        grid.innerHTML = ''; 
+
+        COSMIC_DB.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'data-card';
+            card.dataset.type = item.type;
+            
+            // Color coding based on type
+            let colorClass = 'blue';
+            let icon = 'fa-star';
+            if(item.type === 'planet') { colorClass = 'blue'; icon = 'fa-globe'; }
+            if(item.type === 'star') { colorClass = 'gold'; icon = 'fa-sun'; }
+            if(item.type === 'void') { colorClass = 'red'; icon = 'fa-circle'; }
+            if(item.type === 'galaxy') { colorClass = 'purple'; icon = 'fa-atom'; }
+            if(item.type === 'nebula') { colorClass = 'purple'; icon = 'fa-cloud'; }
+
+            card.innerHTML = `
+                <div class="card-visual">
+                    <div class="type-tag ${colorClass}"><i class="fas ${icon}"></i> ${item.type.toUpperCase()}</div>
+                    <img src="${item.img}" alt="${item.name}" loading="lazy">
+                    <div class="visual-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3>${item.name}</h3>
+                    <div class="specs">
+                        <span>${item.specs.split('|')[0]}</span>
+                    </div>
+                    <p>${item.desc}</p>
+                </div>
+            `;
+            
+            // Add click event for modal
+            card.onclick = () => UI.openModal(item);
+            
+            grid.appendChild(card);
+        });
+    },
+
+    // --- Feature: Royal Vault Loader (Firebase + Fallback) ---
+    loadRoyalVault: function() {
+        const grid = document.getElementById('vaultGrid');
+        const dbRef = ref(fbDb, 'library');
+
+        // Listener for Realtime Data
+        onValue(dbRef, (snapshot) => {
+            grid.innerHTML = ''; // Clear loading state
+            
+            if(snapshot.exists()) {
+                const data = Object.values(snapshot.val()).reverse(); // Newest first
+                
+                data.forEach(item => {
+                    grid.appendChild(this.createVaultCard(item));
+                });
+            } else {
+                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:#666;">VAULT OFFLINE / EMPTY</div>`;
+            }
+        }, (error) => {
+            console.error("Firebase Error:", error);
+            // If error, load fallback static items (from HTML structure or specific Array)
+            // For now we assume HTML structure handled skeletons.
+        });
+    },
+
+    // Helper: Create Vault Card HTML
+    createVaultCard: function(item) {
+        const div = document.createElement('div');
+        div.className = 'artifact-card';
+        
+        let type = 'doc';
+        let icon = 'fa-file-alt';
+        let badge = 'DOC';
+        let cat = (item.category || '').toLowerCase();
+        let isAudio = false;
+
+        if (cat.includes('music') || cat.includes('audio')) { 
+            type = 'audio'; icon = 'fa-music'; badge = 'MP3'; isAudio = true;
+        } else if (cat.includes('book') || cat.includes('pdf')) { 
+            type = 'book'; icon = 'fa-book'; badge = 'PDF';
+        } else if (cat.includes('research')) {
+            type = 'research'; icon = 'fa-microscope'; badge = 'RES';
+        }
+
+        div.dataset.type = type;
+
+        // Auto Convert Google Drive View Link to Download Link
+        let dlLink = item.link;
+        if(dlLink.includes('drive.google.com') && dlLink.includes('/view')) {
+            // Extract ID
+            const match = dlLink.match(/\/d\/(.+?)\//);
+            if(match && match[1]) {
+                dlLink = `https://drive.google.com/uc?export=download&id=${match[1]}`;
+            }
+        } else if (dlLink.includes('drive.google.com') && dlLink.includes('open?id=')) {
+             const id = dlLink.split('id=')[1];
+             dlLink = `https://drive.google.com/uc?export=download&id=${id}`;
+        }
+
+        const thumb = item.thumbnail || CONFIG.DEFAULT_IMG;
+
+        // Construct Buttons
+        let actionButtons = '';
+        if(isAudio) {
+            actionButtons = `
+                <button class="act-btn play" onclick="window.playAudio('${item.link}', '${item.title.replace(/'/g, "\\'")}', '${thumb}')">
+                    <i class="fas fa-play"></i> PLAY
+                </button>
+            `;
+        } else {
+            actionButtons = `
+                <a href="${item.link}" target="_blank" class="act-btn read">
+                    <i class="fas fa-eye"></i> READ
+                </a>
+            `;
+        }
+
+        // Add Download Button
+        actionButtons += `
+            <a href="${dlLink}" class="act-btn download" title="Download File" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-download"></i>
+            </a>
+        `;
+
+        div.innerHTML = `
+            <div class="art-visual">
+                <div class="art-badge"><i class="fas ${icon}"></i> ${badge}</div>
+                <img src="${thumb}" onerror="this.src='${CONFIG.DEFAULT_IMG}'">
+            </div>
+            <div class="art-info">
+                <h4>${item.title}</h4>
+                <div class="art-meta">
+                    <span><i class="fas fa-fingerprint"></i> ${item.category}</span>
+                    <span><i class="fas fa-clock"></i> ${item.date || 'Unknown'}</span>
+                </div>
+                <p>${item.description || 'No description available.'}</p>
+                <div class="art-actions">
+                    ${actionButtons}
+                </div>
+            </div>
+        `;
+
+        return div;
+    },
+
+    // --- Feature: NASA Feed ---
+    fetchNasaFeed: async function() {
+        const titleEl = document.getElementById('nasaTitle');
+        const dateEl = document.getElementById('nasaDate');
+        const descEl = document.getElementById('nasaDesc');
+        const imgEl = document.getElementById('nasaImg');
+        const vidEl = document.getElementById('nasaVid');
+        const loader = document.getElementById('feedLoader');
+
+        try {
+            const response = await fetch(`${CONFIG.NASA_API_URL}?api_key=${CONFIG.NASA_API_KEY}`);
+            if(!response.ok) throw new Error("NASA API Offline");
+            
+            const data = await response.json();
+            
+            // Hide Loader
+            loader.style.display = 'none';
+            
+            // Update Data
+            titleEl.innerText = data.title.toUpperCase();
+            dateEl.innerText = data.date;
+            descEl.innerText = data.explanation;
+            
+            if(data.media_type === 'video') {
+                imgEl.style.display = 'none';
+                vidEl.style.display = 'block';
+                vidEl.src = data.url;
+            } else {
+                vidEl.style.display = 'none';
+                imgEl.style.display = 'block';
+                imgEl.src = data.url;
+            }
+
+        } catch (e) {
+            console.warn("NASA Fetch Error:", e);
+            loader.innerHTML = '<span style="color:red">CONNECTION FAILED</span>';
+            descEl.innerText = "Error establishing secure uplink to NASA servers. Showing fallback visualisation.";
+            imgEl.src = CONFIG.DEFAULT_IMG;
+            imgEl.style.display = 'block';
+            loader.style.display = 'none';
+        }
+    }
+};
+
+/* ==========================================================================
+   7. UI & INTERACTION HANDLERS (BRIDGE)
+   ========================================================================== */
+const UI = {
+    openModal: function(item) {
+        const modal = document.getElementById('modalOverlay');
+        
+        // Populate Modal
+        document.getElementById('mTitle').innerText = item.name;
+        document.getElementById('mType').innerText = item.type.toUpperCase();
+        document.getElementById('mDesc').innerText = item.desc;
+        document.getElementById('mImg').src = item.img;
+        
+        // Search Wiki Button
+        const btn = document.getElementById('mWikiBtn');
+        btn.onclick = () => window.open(`https://en.wikipedia.org/wiki/${item.name}`, '_blank');
+
+        // Show
+        modal.classList.add('open');
+    },
+
+    closeModal: function() {
+        document.getElementById('modalOverlay').classList.remove('open');
+    }
+};
+
+// --- GLOBAL BRIDGE FUNCTIONS (FOR HTML ONCLICK) ---
+
+// 1. Navigation
+window.switchPage = (id, el) => AppController.switchPage(id, el);
+
+// 2. Audio Player Bridge
+window.playAudio = (url, title, img) => AudioEngine.play(url, title, img);
+window.togglePlay = () => AudioEngine.toggle();
+window.prevTrack = () => alert("Previous track data not found in current playlist.");
+window.nextTrack = () => alert("End of playlist.");
+
+// 3. Modal
+window.closeModal = () => UI.closeModal();
+
+// 4. Archive Filters
+window.filterData = (type) => {
+    // Update buttons
+    const btns = document.querySelectorAll('.filter-btn');
+    btns.forEach(b => {
+        if(b.innerText.toLowerCase().includes(type) || (type==='all' && b.innerText==='ALL')) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+
+    // Filter Logic
+    const cards = document.querySelectorAll('.data-card');
+    cards.forEach(c => {
+        if(type === 'all' || c.dataset.type === type) c.style.display = 'flex';
+        else c.style.display = 'none';
+    });
+};
+
+// 5. Vault Filters
+window.filterVault = (type) => {
+    // Update buttons
+    const btns = document.querySelectorAll('.v-chip');
+    btns.forEach(b => {
+        // Simple logic for active class toggle based on click text is harder, 
+        // better to pass element or just use simple logic:
+        b.classList.remove('active');
+    });
+    // Add active to clicked (using event target logic inside inline onclick is messy, 
+    // so we just rely on visual filtering for now or use complex DOM traversal)
+    // For simplicity in this structure:
+    event.target.closest('button').classList.add('active');
+
+    // Filter Logic
+    const cards = document.querySelectorAll('.artifact-card');
+    cards.forEach(c => {
+        if(type === 'all' || c.dataset.type === type) c.style.display = 'flex';
+        else c.style.display = 'none';
+    });
+};
+
+// 6. Search Logic (Archive)
+document.getElementById('archiveSearch').addEventListener('keyup', (e) => {
+    const val = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll('#mainArchiveGrid .data-card');
+    cards.forEach(c => {
+        const title = c.querySelector('h3').innerText.toLowerCase();
+        c.style.display = title.includes(val) ? 'flex' : 'none';
+    });
+});
+
+// 7. Search Logic (Vault)
+document.getElementById('vaultSearch').addEventListener('keyup', (e) => {
+    const val = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll('#vaultGrid .artifact-card');
+    cards.forEach(c => {
+        const title = c.querySelector('h4').innerText.toLowerCase();
+        c.style.display = title.includes(val) ? 'flex' : 'none';
+    });
+});
+
+// 8. Gravity Calculator
+window.calculateGravity = () => {
+    const input = parseFloat(document.getElementById('massInput').value);
+    if(isNaN(input)) return;
+
+    // Factors
+    const G = { mercury: 0.38, venus: 0.91, moon: 0.166, mars: 0.38, jupiter: 2.52, saturn: 1.06, neutron: 140000000000 };
+
+    document.getElementById('g-mercury').innerText = (input * G.mercury).toFixed(1) + " KG";
+    document.getElementById('g-venus').innerText = (input * G.venus).toFixed(1) + " KG";
+    document.getElementById('g-moon').innerText = (input * G.moon).toFixed(1) + " KG";
+    document.getElementById('g-mars').innerText = (input * G.mars).toFixed(1) + " KG";
+    document.getElementById('g-jupiter').innerText = (input * G.jupiter).toFixed(1) + " KG";
+    document.getElementById('g-saturn').innerText = (input * G.saturn).toFixed(1) + " KG";
+    document.getElementById('g-neutron').innerText = (input * G.neutron).toExponential(2) + " KG";
+};
+
+// 9. NASA Manual Refresh
+window.fetchNasaData = () => AppController.fetchNasaFeed();
+
+// 10. Exam Logic (Simple)
+const EXAM_DB = [
+    { q: "Apa nama galaksi terdekat dengan Bima Sakti?", opts: ["Andromeda", "Triangulum", "Sombrero"], a: 0 },
+    { q: "Planet mana yang memiliki Bintik Merah Besar?", opts: ["Mars", "Jupiter", "Saturnus"], a: 1 },
+    { q: "Apa itu Event Horizon?", opts: ["Tepi Galaksi", "Pusat Bintang", "Batas Lubang Hitam"], a: 2 },
+    { q: "Bintang terdekat dengan Bumi adalah?", opts: ["Proxima Centauri", "Sirius", "Matahari"], a: 2 }, // Trick question
+    { q: "Cahaya membutuhkan waktu berapa lama dari Matahari ke Bumi?", opts: ["8 Detik", "8 Menit", "8 Jam"], a: 1 }
+];
+
+let examState = { score: 0, current: 0 };
+
+window.initiateExam = () => {
+    examState = { score: 0, current: 0 };
+    document.getElementById('score').innerText = "0000";
+    document.getElementById('startExBtn').style.display = 'none';
+    loadQuestion();
+};
+
+function loadQuestion() {
+    if(examState.current >= EXAM_DB.length) {
+        // Finish
+        document.getElementById('examQuestion').innerText = `ASSESSMENT COMPLETE. SCORE: ${examState.score} / ${EXAM_DB.length * 100}`;
+        document.getElementById('examOptions').innerHTML = '';
+        document.getElementById('startExBtn').style.display = 'block';
+        document.getElementById('startExBtn').innerHTML = 'RESTART EXAM <i class="fas fa-redo"></i>';
+        document.getElementById('nextExBtn').style.display = 'none';
+        return;
+    }
+
+    const q = EXAM_DB[examState.current];
+    document.getElementById('examQuestion').innerText = q.q;
+    document.getElementById('progress').innerText = `${examState.current + 1} / ${EXAM_DB.length}`;
+    
+    const optsDiv = document.getElementById('examOptions');
+    optsDiv.innerHTML = '';
+    
+    q.opts.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'exam-opt-btn';
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(idx, q.a, btn);
+        optsDiv.appendChild(btn);
+    });
+    
+    document.getElementById('nextExBtn').style.display = 'none';
+    document.getElementById('examFeedback').innerHTML = '';
 }
 
-// Event Listener: Protocol Checkbox
-document.getElementById('protocolCheck').addEventListener('change', (e) => {
-    const btn = document.getElementById('enterBtn');
-    if (e.target.checked) {
-        btn.classList.add('active');
-        btn.removeAttribute('disabled');
+function checkAnswer(selected, correct, btnElement) {
+    // Disable all
+    const all = document.querySelectorAll('.exam-opt-btn');
+    all.forEach(b => b.disabled = true);
+
+    if(selected === correct) {
+        btnElement.classList.add('correct');
+        examState.score += 100;
+        document.getElementById('score').innerText = examState.score;
+        document.getElementById('examFeedback').innerHTML = '<span style="color:#0f0">CORRECT // DATA VERIFIED</span>';
     } else {
-        btn.classList.remove('active');
-        btn.setAttribute('disabled', 'true');
+        btnElement.classList.add('wrong');
+        all[correct].classList.add('correct'); // Show right answer
+        document.getElementById('examFeedback').innerHTML = '<span style="color:red">INCORRECT // DATA CORRUPTED</span>';
     }
-});
+    
+    document.getElementById('nextExBtn').style.display = 'inline-flex';
+}
 
-// Event Listener: Enter System Button
-document.getElementById('enterBtn').addEventListener('click', () => {
-    const checkbox = document.getElementById('protocolCheck');
-    if (!checkbox.checked) return;
-
-    // Animasi Keluar Intro
-    const introLayer = document.getElementById('intro-layer');
-    introLayer.style.opacity = '0';
-    introLayer.style.visibility = 'hidden';
-
-    // Animasi Masuk App
-    const app = document.querySelector('.app-container');
-    setTimeout(() => {
-        app.classList.add('visible');
-        APP.init(); // Jalankan Aplikasi Utama
-    }, 800);
-});
-
-// Auto-Start Intro saat load
-window.onload = typeWriter;
-
-
-/* =================================================================
-   MODULE 3: MAIN APPLICATION LOGIC
-   ================================================================= */
-const APP = {
-    // --- Inisialisasi Utama ---
-    init: () => {
-        APP.archive.renderGrid(DATABASE);
-        APP.utils.startClock();
-    },
-
-    // --- Sub-Modul: Navigasi ---
-    nav: {
-        switchTab: (tabId) => {
-            // Sembunyikan semua section
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            // Matikan semua nav button
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-
-            // Aktifkan target
-            document.getElementById(`page-${tabId}`).classList.add('active');
-            
-            // Highlight icon dock yang sesuai
-            const dockIndex = ['archive', 'observatory', 'tools', 'academy'].indexOf(tabId);
-            if(dockIndex !== -1) {
-                document.querySelectorAll('.nav-item')[dockIndex].classList.add('active');
-            }
-
-            // Special Action: Fetch NASA jika tab observatory dibuka
-            if(tabId === 'observatory') APP.observatory.fetchAPOD();
-        }
-    },
-
-    // --- Sub-Modul: Archive (Database) ---
-    archive: {
-        renderGrid: (data) => {
-            const grid = document.getElementById('cosmosGrid');
-            grid.innerHTML = ""; // Bersihkan grid
-
-            data.forEach(obj => {
-                const card = document.createElement('div');
-                card.className = "card";
-                card.dataset.type = obj.type;
-                
-                // Fallback image handling
-                const imgSrc = obj.img || CONFIG.fallbackImage;
-
-                card.innerHTML = `
-                    <div class="card-img-holder">
-                        <img src="${imgSrc}" loading="lazy" alt="${obj.name}" onerror="this.src='${CONFIG.fallbackImage}'">
-                    </div>
-                    <div class="card-info">
-                        <div class="card-title">${obj.name}</div>
-                        <div class="card-type">${obj.type.toUpperCase()}</div>
-                    </div>
-                `;
-                
-                // Click Event untuk Modal
-                card.onclick = () => APP.archive.openModal(obj);
-                grid.appendChild(card);
-            });
-        },
-
-        filter: (type, btn) => {
-            // Update UI Button
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active'); // btn parameter opsional
-
-            // Filter Data
-            if (type === 'all') {
-                // Tampilkan semua (Reset display style)
-                document.querySelectorAll('.card').forEach(c => c.style.display = 'block');
-            } else {
-                document.querySelectorAll('.card').forEach(c => {
-                    c.style.display = (c.dataset.type === type) ? 'block' : 'none';
-                });
-            }
-        },
-
-        search: (query) => {
-            const term = query.toLowerCase();
-            const cards = document.querySelectorAll('.card');
-            
-            cards.forEach(c => {
-                const title = c.querySelector('.card-title').innerText.toLowerCase();
-                c.style.display = title.includes(term) ? 'block' : 'none';
-            });
-        },
-
-        openModal: (obj) => {
-            const modal = document.getElementById('infoModal');
-            document.getElementById('modalTitle').innerText = obj.name;
-            document.getElementById('modalType').innerText = obj.type.toUpperCase();
-            document.getElementById('modalDesc').innerText = obj.desc || "Data classified. No description available.";
-            document.getElementById('modalImg').src = obj.img;
-            
-            // Tombol Wiki Link
-            const btn = document.getElementById('modalLinkBtn');
-            btn.onclick = () => window.open(`https://en.wikipedia.org/wiki/${obj.wikiQuery}`, '_blank');
-
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('open'), 10); // Trigger animasi CSS
-        },
-
-        closeModal: () => {
-            const modal = document.getElementById('infoModal');
-            modal.classList.remove('open');
-            setTimeout(() => modal.style.display = 'none', 400); // Tunggu animasi selesai
-        }
-    },
-
-    // --- Sub-Modul: Observatory (NASA API) ---
-    observatory: {
-        isFetched: false,
-        fetchAPOD: async () => {
-            if (APP.observatory.isFetched) return; // Jangan fetch ulang jika sudah ada
-            
-            const titleEl = document.getElementById('apodTitle');
-            const descEl = document.getElementById('apodDesc');
-            
-            titleEl.innerText = "RECEIVING TRANSMISSION...";
-            
-            try {
-                // Fetch data dari NASA
-                const res = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${CONFIG.nasaApiKey}`);
-                
-                if (!res.ok) throw new Error("Signal Lost");
-
-                const data = await res.json();
-                
-                // Update UI
-                APP.observatory.isFetched = true;
-                titleEl.innerText = data.title.toUpperCase();
-                document.getElementById('apodDate').innerText = data.date;
-                descEl.innerText = data.explanation;
-
-                // Handle Video vs Image
-                if (data.media_type === "video") {
-                    document.getElementById('apodImg').style.display = 'none';
-                    const vid = document.getElementById('apodVideo');
-                    vid.style.display = 'block';
-                    vid.src = data.url;
-                } else {
-                    document.getElementById('apodImg').src = data.url;
-                }
-
-            } catch (error) {
-                // Fallback jika API Error/Limit Habis
-                console.error(error);
-                titleEl.innerText = "SIGNAL INTERRUPTED";
-                descEl.innerText = "Connection to NASA Mainframe unstable (API Rate Limit Exceeded). Displaying offline backup data.";
-                document.getElementById('apodImg').src = CONFIG.fallbackImage;
-            }
-        }
-    },
-
-    // --- Sub-Modul: Tools (Gravity) ---
-    tools: {
-        calculate: () => {
-            const earthWeight = parseFloat(document.getElementById('weightInput').value);
-            if (!earthWeight || isNaN(earthWeight)) return;
-
-            // Faktor Gravitasi (Relative terhadap Bumi = 1)
-            const G_FACTORS = {
-                mars: 0.38,
-                jupiter: 2.528,
-                moon: 0.165,
-                neutron: 140000000000 // Aproksimasi kasar
-            };
-
-            // Animasi Angka
-            APP.utils.animateValue('val-mars', earthWeight * G_FACTORS.mars);
-            APP.utils.animateValue('val-jupiter', earthWeight * G_FACTORS.jupiter);
-            APP.utils.animateValue('val-moon', earthWeight * G_FACTORS.moon);
-            
-            // Neutron Star (Format Scientific karena angkanya gila)
-            const neutronVal = earthWeight * G_FACTORS.neutron;
-            document.getElementById('val-neutron').innerText = neutronVal.toExponential(2) + " KG";
-        }
-    },
-
-    // --- Sub-Modul: Academy (Quiz) ---
-    academy: {
-        data: [
-            { q: "Apa nama galaksi terdekat dengan Bima Sakti?", a: ["Andromeda", "Triangulum", "Whirlpool", "Sombrero"], c: 0 },
-            { q: "Planet mana yang memiliki Bintik Merah Besar?", a: ["Mars", "Jupiter", "Saturnus", "Venus"], c: 1 },
-            { q: "Apa itu Event Horizon?", a: ["Tepi Galaksi", "Batas Lubang Hitam", "Pusat Matahari", "Garis Khatulistiwa"], c: 1 },
-            { q: "Berapa kecepatan cahaya?", a: ["300.000 km/s", "150.000 km/s", "1.000 km/jam", "Tak Terhingga"], c: 0 },
-            { q: "Bintang terdekat dengan Bumi adalah?", a: ["Proxima Centauri", "Sirius", "Matahari", "Betelgeuse"], c: 2 }
-        ],
-        score: 0,
-        currentIdx: 0,
-
-        start: () => {
-            APP.academy.score = 0;
-            APP.academy.currentIdx = 0;
-            document.getElementById('startQuizBtn').style.display = 'none';
-            APP.academy.loadQuestion();
-        },
-
-        loadQuestion: () => {
-            const quiz = APP.academy;
-            
-            // Cek jika kuis selesai
-            if (quiz.currentIdx >= quiz.data.length) {
-                document.getElementById('quizQuestion').innerText = `SIMULATION COMPLETE. FINAL SCORE: ${quiz.score} / ${quiz.data.length * 100}`;
-                document.getElementById('quizOptions').innerHTML = "";
-                document.getElementById('startQuizBtn').style.display = 'block';
-                document.getElementById('startQuizBtn').innerHTML = 'RESTART SIMULATION <i class="fas fa-redo"></i>';
-                document.getElementById('nextQuestion').style.display = 'none';
-                return;
-            }
-
-            const qData = quiz.data[quiz.currentIdx];
-            
-            // Render Soal
-            document.getElementById('qNum').innerText = quiz.currentIdx + 1;
-            document.getElementById('scoreVal').innerText = quiz.score;
-            document.getElementById('quizQuestion').innerText = qData.q;
-            document.getElementById('nextQuestion').style.display = 'none';
-            document.getElementById('quizResult').innerHTML = "";
-
-            // Render Opsi
-            const optsContainer = document.getElementById('quizOptions');
-            optsContainer.innerHTML = "";
-            
-            qData.a.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.innerText = opt;
-                btn.onclick = () => APP.academy.checkAnswer(idx, btn, qData.c);
-                optsContainer.appendChild(btn);
-            });
-        },
-
-        checkAnswer: (selectedIdx, btn, correctIdx) => {
-            const opts = document.getElementById('quizOptions').children;
-            
-            // Disable semua tombol
-            for (let b of opts) b.disabled = true;
-
-            if (selectedIdx === correctIdx) {
-                btn.classList.add('correct');
-                APP.academy.score += 100;
-                document.getElementById('scoreVal').innerText = APP.academy.score;
-                document.getElementById('quizResult').innerHTML = "<span style='color:#0aff0a'>CORRECT ANSWER // DATA VERIFIED</span>";
-            } else {
-                btn.classList.add('wrong');
-                opts[correctIdx].classList.add('correct'); // Tunjukkan jawaban benar
-                document.getElementById('quizResult').innerHTML = "<span style='color:#ff3333'>INCORRECT // DATA CORRUPTED</span>";
-            }
-
-            // Tampilkan tombol Next
-            document.getElementById('nextQuestion').style.display = 'block';
-        },
-
-        next: () => {
-            APP.academy.currentIdx++;
-            APP.academy.loadQuestion();
-        }
-    },
-
-    // --- Sub-Modul: Utilities ---
-    utils: {
-        startClock: () => {
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById('stardate').innerText = "SYS TIME: " + now.toLocaleTimeString();
-            }, 1000);
-        },
-        
-        animateValue: (id, end) => {
-            const obj = document.getElementById(id);
-            const start = 0;
-            const duration = 1000;
-            let startTime = null;
-
-            function step(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const progress = Math.min((timestamp - startTime) / duration, 1);
-                obj.innerHTML = (progress * end).toFixed(1) + " KG";
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            }
-            window.requestAnimationFrame(step);
-        }
-    }
+window.nextQuestion = () => {
+    examState.current++;
+    loadQuestion();
 };
 
 
-/* =================================================================
-   GLOBAL EVENT LISTENERS (BRIDGE)
-   Menghubungkan HTML onclick dengan Object APP
-   ================================================================= */
+/* ==========================================================================
+   8. SYSTEM BOOT
+   ========================================================================== */
+// Jalankan Boot Sequence saat halaman dimuat
+window.onload = () => Core.bootSystem();
 
-// Navigasi Tab
-window.switchTab = (id) => APP.nav.switchTab(id);
-
-// Archive
-window.filterGrid = (type) => APP.archive.filter(type, event.target);
-window.closeModal = () => APP.archive.closeModal();
-
-// Search Listener
-document.getElementById('searchInput').addEventListener('input', (e) => APP.archive.search(e.target.value));
-
-// Modal Outside Click
-window.onclick = (e) => {
-    const modal = document.getElementById('infoModal');
-    if (e.target == modal) APP.archive.closeModal();
-};
-
-// Tools
-window.calculateWeight = () => APP.tools.calculate();
-
-// Quiz
-window.startQuiz = () => APP.academy.start();
-window.nextQuiz = () => APP.academy.next();
-
-// Init (Backup trigger jika intro di-skip manual, meski jarang terjadi)
-// window.onload sudah di-handle di bagian INTRO
+/**
+ * END OF SYSTEM CORE
+ * IEA OMEGA INFINITY
+ */
