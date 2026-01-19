@@ -2,248 +2,520 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="IEA Omega Database - Advanced Astronomical Repository & Simulation Tool">
-    <meta name="theme-color" content="#020204">
-    <meta name="author" content="IEA Command">
-
-    <title>IEA OMEGA | COSMIC DATABASE</title>
+    
+    <meta name="description" content="IEA Royal Archives & Cosmic Database - The Ultimate Astronomical Knowledge Base">
+    <meta name="author" content="IEA High Command">
+    <meta name="theme-color" content="#020205">
+    
+    <title>IEA OMEGA | INFINITY COMMAND CENTER</title>
 
     <link rel="stylesheet" href="style.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
+<body class="theme-omega">
+
+    <div id="bg-layer">
+        <canvas id="star-canvas"></canvas>
+        
+        <div class="nebula-overlay purple"></div>
+        <div class="nebula-overlay blue"></div>
+        
+        <div id="dust-container">
+            </div>
+        
+        <div class="holo-grid"></div>
+        
+        <div class="scanlines"></div>
+    </div>
 
     <section id="intro-layer">
-        <div class="intro-box">
-            <div class="scan-line"></div>
+        <div class="intro-wrapper">
             
-            <div class="typewriter-text" id="introText">
-                </div>
+            <div class="terminal-window" id="bootLog">
+                <div class="line">IEA KERNEL v5.0.1-infinity loaded.</div>
+                <div class="line">Verifying integrity... <span class="status-ok">[OK]</span></div>
+                <div class="line">Mounting file system: /royal_vault... <span class="status-ok">[MOUNTED]</span></div>
+                <div class="line">Initializing Neural Link Protocol...</div>
+                <div class="line">Decrypting Omega Keys...</div>
+                <div class="line warning">WARNING: High Energy Readings Detected.</div>
+                <div class="line">Establishing secure uplink to NASA JPL...</div>
+                <div class="line">Optimization complete.</div>
+                <div class="line">System Ready.</div>
+                <div class="cursor">_</div>
+            </div>
 
-            <div class="agreement-area" id="agreementArea">
-                <label class="checkbox-wrapper">
-                    <input type="checkbox" id="protocolCheck">
-                    <span class="label-text">AUTHORIZE NEURAL LINK PROTOCOL</span>
-                </label>
-                <button id="enterBtn" class="enter-btn">
-                    INITIALIZE SYSTEM <i class="fas fa-power-off"></i>
-                </button>
+            <div class="logo-reveal-container" id="logoReveal">
+                <svg viewBox="0 0 200 200" class="intro-svg">
+                    <defs>
+                        <filter id="glow-p" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    
+                    <circle cx="100" cy="100" r="90" 
+                            fill="none" stroke="#00f2ff" stroke-width="2" 
+                            stroke-dasharray="20 10" 
+                            class="anim-ring-outer" />
+                    
+                    <circle cx="100" cy="100" r="70" 
+                            fill="none" stroke="#bc13fe" stroke-width="3" 
+                            class="anim-ring-mid" />
+                            
+                    <circle cx="100" cy="100" r="50" 
+                            fill="none" stroke="#ff0055" stroke-width="2" 
+                            class="anim-ring-inner" />
+                            
+                    <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle" 
+                          fill="#ffffff" font-family="Orbitron" font-weight="900" font-size="40" 
+                          filter="url(#glow-p)" class="anim-text">IEA</text>
+                </svg>
+
+                <h1 class="intro-title">WELCOME ARCHITECT</h1>
+                <p class="intro-sub">OMEGA ACCESS LEVEL: <span class="txt-red">COMMANDER</span></p>
+
+                <div class="auth-action">
+                    <button id="enterSystemBtn" class="cyber-btn-glitch">
+                        <span class="btn-content">ENTER SYSTEM <i class="fas fa-chevron-right"></i></span>
+                        <span class="btn-glitch"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
 
-    <main class="app-container">
+    <main class="app-interface" id="appMain">
         
-        <header class="hud-top">
-            <div class="hud-item left">
-                <i class="fas fa-wifi fa-pulse"></i> 
-                <span class="blink-text">IEA NETWORK: SECURE</span>
+        <header class="hud-header">
+            <div class="hud-left">
+                <div class="status-module">
+                    <div class="led-indicator green blink"></div>
+                    <span class="status-text">ONLINE</span>
+                </div>
+                <div class="status-module">
+                    <div class="led-indicator purple"></div>
+                    <span class="status-text">SECURE</span>
+                </div>
+                <div class="coord-text">
+                    SEC-09 // LAT: -6.2088
+                </div>
             </div>
-            <div class="hud-item right" id="stardate">
-                SYSTEM TIME: --:--:--
+
+            <div class="hud-center">
+                <div class="brand-display">
+                    <span class="txt-purple">IEA</span> <span class="txt-white">OMEGA</span> <span class="txt-blue">INFINITY</span>
+                </div>
+            </div>
+
+            <div class="hud-right">
+                <div class="time-display" id="clockDisplay">00:00:00</div>
+                <div class="date-display">STARDATE: 2026.01.20</div>
             </div>
         </header>
 
-        <section id="page-archive" class="page-section active">
-            <div class="page-header">
-                <h1>COSMIC DATABASE</h1>
-                <div class="subtitle">CLASSIFIED ASTRONOMICAL REPOSITORY</div>
-            </div>
+        <div class="viewport-content">
 
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" placeholder="Search Archives (e.g., 'Betelgeuse', 'Black Hole')..." autocomplete="off">
-            </div>
-
-            <div class="categories">
-                <button class="cat-btn active" onclick="filterGrid('all')">ALL DATA</button>
-                <button class="cat-btn" onclick="filterGrid('planet')"><i class="fas fa-globe"></i> PLANETS</button>
-                <button class="cat-btn" onclick="filterGrid('star')"><i class="fas fa-star"></i> STARS</button>
-                <button class="cat-btn" onclick="filterGrid('galaxy')"><i class="fas fa-circle-notch"></i> GALAXIES</button>
-                <button class="cat-btn" onclick="filterGrid('blackhole')"><i class="fas fa-dot-circle"></i> VOID</button>
-                <button class="cat-btn" onclick="filterGrid('nebula')"><i class="fas fa-cloud"></i> NEBULAE</button>
-            </div>
-
-            <div class="grid-wrapper">
-                <div class="grid" id="cosmosGrid">
-                    </div>
-            </div>
-        </section>
-
-        <section id="page-observatory" class="page-section">
-            <div class="page-header">
-                <h1>DEEP SPACE FEED</h1>
-                <div class="subtitle">NASA APOD LIVE TRANSMISSION</div>
-            </div>
-            
-            <article class="apod-container">
-                <div class="apod-frame">
-                    <img id="apodImg" src="" alt="Waiting for NASA signal..." onerror="this.style.display='none'">
-                    <iframe id="apodVideo" style="display:none;" src="" title="NASA Video" frameborder="0" allowfullscreen></iframe>
-                </div>
+            <section id="tab-archive" class="page-section active">
                 
-                <div class="apod-info">
-                    <div class="data-header">
-                        <h2 id="apodTitle">AWAITING SIGNAL...</h2>
-                        <span id="apodDate" class="date-badge">--/--/----</span>
+                <div class="section-header">
+                    <h2 class="glow-blue">COSMIC DATABASE</h2>
+                    <p class="subtitle">CLASSIFIED ASTRONOMICAL REPOSITORY</p>
+                    <div class="header-decoration"></div>
+                </div>
+
+                <div class="control-bar">
+                    <div class="search-module">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="archiveSearch" placeholder="Search celestial objects...">
                     </div>
-                    <p id="apodDesc">
-                        Establishing secure connection to NASA Jet Propulsion Laboratory servers. Please stand by...
-                    </p>
-                </div>
-            </article>
-        </section>
-
-        <section id="page-tools" class="page-section">
-            <div class="page-header">
-                <h1>GRAVITY SIMULATOR</h1>
-                <div class="subtitle">EXOPLANETARY MASS CALCULATOR</div>
-            </div>
-
-            <div class="tools-grid">
-                <div class="tool-card input-panel">
-                    <h3><i class="fas fa-user-astronaut"></i> TERRA MASS (KG)</h3>
-                    <input type="number" id="weightInput" placeholder="Enter Weight..." oninput="calculateWeight()">
-                    <div class="status-indicator">INPUT ACTIVE</div>
-                </div>
-
-                <div class="tool-card result-card mars-theme">
-                    <div class="card-icon"><i class="fas fa-globe-americas"></i></div>
-                    <h4>MARS</h4>
-                    <div class="val" id="val-mars">0 KG</div>
-                    <div class="g-label">GRAVITY: 3.721 m/s²</div>
-                </div>
-
-                <div class="tool-card result-card jupiter-theme">
-                    <div class="card-icon"><i class="fas fa-circle"></i></div>
-                    <h4>JUPITER</h4>
-                    <div class="val" id="val-jupiter">0 KG</div>
-                    <div class="g-label">GRAVITY: 24.79 m/s²</div>
-                </div>
-
-                <div class="tool-card result-card moon-theme">
-                    <div class="card-icon"><i class="fas fa-moon"></i></div>
-                    <h4>THE MOON</h4>
-                    <div class="val" id="val-moon">0 KG</div>
-                    <div class="g-label">GRAVITY: 1.62 m/s²</div>
-                </div>
-
-                <div class="tool-card result-card neutron-theme">
-                    <div class="card-icon"><i class="fas fa-atom"></i></div>
-                    <h4>NEUTRON STAR</h4>
-                    <div class="val" id="val-neutron">0 KG</div>
-                    <div class="g-label">GRAVITY: ~10¹² m/s²</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="page-academy" class="page-section">
-            <div class="page-header">
-                <h1>COSMIC EXAM</h1>
-                <div class="subtitle">PERSONNEL KNOWLEDGE ASSESSMENT</div>
-            </div>
-
-            <div class="quiz-container-large">
-                <div id="quiz-ui">
-                    <div class="quiz-stat-bar">
-                        <div class="stat-item">
-                            <span class="label">CURRENT SCORE</span>
-                            <b id="scoreVal" class="val">0</b>
-                        </div>
-                        <div class="stat-item">
-                            <span class="label">QUESTION</span>
-                            <b id="qNum" class="val">1</b><span class="total">/5</span>
-                        </div>
+                    <div class="filter-module">
+                        <button class="filter-btn active" onclick="filterData('all')">ALL</button>
+                        <button class="filter-btn" onclick="filterData('planet')"><i class="fas fa-globe"></i> PLANET</button>
+                        <button class="filter-btn" onclick="filterData('star')"><i class="fas fa-sun"></i> STAR</button>
+                        <button class="filter-btn" onclick="filterData('galaxy')"><i class="fas fa-atom"></i> GALAXY</button>
+                        <button class="filter-btn" onclick="filterData('void')"><i class="fas fa-ghost"></i> VOID</button>
                     </div>
+                </div>
 
-                    <div class="question-wrapper">
-                        <div id="quizQuestion" class="large-question">
-                            System Initializing Assessment Module...
-                        </div>
-                    </div>
-
-                    <div id="quizOptions" class="large-options">
-                        </div>
-
-                    <div id="quizResult" class="large-result"></div>
+                <div class="card-grid" id="mainArchiveGrid">
                     
-                    <div class="quiz-controls">
-                        <button id="nextQuestion" class="wiki-btn action-next" style="display:none;" onclick="nextQuiz()">
-                            NEXT DATA BLOCK <i class="fas fa-chevron-right"></i>
+                    <div class="data-card" data-type="star">
+                        <div class="card-visual">
+                            <div class="type-tag gold"><i class="fas fa-star"></i> STAR</div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg" alt="Sun">
+                            <div class="visual-overlay"></div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Matahari (The Sun)</h3>
+                            <div class="specs">
+                                <span>TYPE: G-Type</span>
+                                <span>AGE: 4.6B Yrs</span>
+                            </div>
+                            <p>Pusat tata surya. Sumber energi utama kehidupan.</p>
+                        </div>
+                    </div>
+
+                    <div class="data-card" data-type="planet">
+                        <div class="card-visual">
+                            <div class="type-tag blue"><i class="fas fa-globe"></i> PLANET</div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg" alt="Earth">
+                            <div class="visual-overlay"></div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Bumi (Earth)</h3>
+                            <div class="specs">
+                                <span>HABITABLE: Yes</span>
+                                <span>MOONS: 1</span>
+                            </div>
+                            <p>Satu-satunya planet yang diketahui menopang kehidupan.</p>
+                        </div>
+                    </div>
+
+                    <div class="data-card" data-type="void">
+                        <div class="card-visual">
+                            <div class="type-tag red"><i class="fas fa-dot-circle"></i> VOID</div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Black_Hole_in_the_universe.jpg" alt="Black Hole">
+                            <div class="visual-overlay"></div>
+                        </div>
+                        <div class="card-content">
+                            <h3>TON 618</h3>
+                            <div class="specs">
+                                <span>MASS: 66B Suns</span>
+                                <span>TYPE: Ultramassive</span>
+                            </div>
+                            <p>Lubang hitam terbesar yang pernah ditemukan.</p>
+                        </div>
+                    </div>
+
+                    </div>
+            </section>
+
+            <section id="tab-vault" class="page-section">
+                
+                <div class="section-header royal-mode">
+                    <h2 class="glow-purple">ROYAL ARCHIVES</h2>
+                    <p class="subtitle">RESTRICTED VAULT: BOOKS & AUDIO LOGS</p>
+                    <div class="header-decoration gold"></div>
+                </div>
+
+                <div class="vault-controls">
+                    <div class="search-module royal">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="vaultSearch" placeholder="Search archives...">
+                    </div>
+                    <div class="filter-module">
+                        <button class="filter-btn active" onclick="filterVault('all')">ALL</button>
+                        <button class="filter-btn" onclick="filterVault('book')"><i class="fas fa-book"></i> BOOKS</button>
+                        <button class="filter-btn" onclick="filterVault('audio')"><i class="fas fa-music"></i> AUDIO</button>
+                        <button class="filter-btn" onclick="filterVault('research')"><i class="fas fa-microscope"></i> RESEARCH</button>
+                    </div>
+                </div>
+
+                <div class="vault-grid" id="vaultGrid">
+                    
+                    <div class="artifact-card" data-type="book">
+                        <div class="art-visual">
+                            <div class="art-badge"><i class="fas fa-file-pdf"></i> PDF</div>
+                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800" alt="Book">
+                        </div>
+                        <div class="art-info">
+                            <h4>The Prince (Machiavelli)</h4>
+                            <div class="art-meta">
+                                <span><i class="fas fa-fingerprint"></i> ID-821</span>
+                                <span><i class="fas fa-clock"></i> 1532</span>
+                            </div>
+                            <p>Strategi politik dan kekuasaan klasik.</p>
+                            
+                            <div class="art-actions">
+                                <a href="https://drive.google.com/file/d/1qjMJWxjGmKs49-l7qSoGpTkPlHBqlkN2/view" target="_blank" class="act-btn read">
+                                    <i class="fas fa-eye"></i> READ
+                                </a>
+                                <a href="https://drive.google.com/uc?export=download&id=1qjMJWxjGmKs49-l7qSoGpTkPlHBqlkN2" class="act-btn download" title="Download PDF">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="artifact-card" data-type="audio">
+                        <div class="art-visual">
+                            <div class="art-badge"><i class="fas fa-music"></i> MP3</div>
+                            <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=800" alt="Audio">
+                        </div>
+                        <div class="art-info">
+                            <h4>Interstellar Ambience</h4>
+                            <div class="art-meta">
+                                <span><i class="fas fa-fingerprint"></i> ID-104</span>
+                                <span><i class="fas fa-clock"></i> 2026</span>
+                            </div>
+                            <p>Audio frekuensi rendah untuk fokus riset.</p>
+                            
+                            <div class="art-actions">
+                                <button class="act-btn play" onclick="playMusic('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Interstellar Ambience')">
+                                    <i class="fas fa-play"></i> PLAY
+                                </button>
+                                <a href="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" download class="act-btn download" title="Download Audio">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+            </section>
+
+            <section id="tab-feed" class="page-section">
+                <div class="section-header feed-mode">
+                    <h2 class="glow-red">DEEP SPACE FEED</h2>
+                    <p class="subtitle">NASA APOD LIVE TRANSMISSION</p>
+                    <div class="header-decoration red"></div>
+                </div>
+
+                <div class="feed-layout">
+                    <div class="feed-visual-box">
+                        <div class="visual-frame">
+                            <img id="nasaImg" src="" alt="Awaiting Signal..." style="display:none;">
+                            <iframe id="nasaVid" style="display:none;" frameborder="0"></iframe>
+                            
+                            <div class="loader-overlay" id="feedLoader">
+                                <i class="fas fa-satellite fa-spin"></i>
+                                <span>ACQUIRING SIGNAL...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feed-data-box">
+                        <div class="data-row-head">
+                            <h3 id="nasaTitle">AWAITING UPLINK</h3>
+                            <span class="date-tag" id="nasaDate">----/--/--</span>
+                        </div>
+                        <div class="data-scroll-area">
+                            <p id="nasaDesc">
+                                System is currently establishing a secure handshake with NASA Jet Propulsion Laboratory (JPL) servers. Please stand by for daily astronomical imagery transmission...
+                            </p>
+                        </div>
+                        <button class="nasa-refresh-btn" onclick="fetchNasaData()">
+                            <i class="fas fa-sync-alt"></i> REFRESH UPLINK
                         </button>
-                        <button id="startQuizBtn" class="wiki-btn action-start" onclick="startQuiz()">
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-tools" class="page-section">
+                <div class="section-header">
+                    <h2 class="glow-blue">GRAVITY ANALYZER</h2>
+                    <p class="subtitle">EXOPLANETARY MASS CONVERSION</p>
+                    <div class="header-decoration"></div>
+                </div>
+
+                <div class="tools-layout">
+                    <div class="tool-input-card">
+                        <div class="icon-wrap"><i class="fas fa-weight-hanging"></i></div>
+                        <h3>TERRA MASS INPUT</h3>
+                        <div class="input-field-group">
+                            <input type="number" id="massInput" placeholder="00" oninput="calculateGravity()">
+                            <span class="unit">KG</span>
+                        </div>
+                        <p class="hint">Enter object mass on Earth</p>
+                    </div>
+
+                    <div class="tool-result-grid">
+                        <div class="planet-card mercury">
+                            <i class="fas fa-circle"></i>
+                            <span class="p-name">MERCURY</span>
+                            <span class="p-val" id="g-mercury">0.0 KG</span>
+                        </div>
+                        <div class="planet-card venus">
+                            <i class="fas fa-circle"></i>
+                            <span class="p-name">VENUS</span>
+                            <span class="p-val" id="g-venus">0.0 KG</span>
+                        </div>
+                        <div class="planet-card moon">
+                            <i class="fas fa-moon"></i>
+                            <span class="p-name">THE MOON</span>
+                            <span class="p-val" id="g-moon">0.0 KG</span>
+                        </div>
+                        <div class="planet-card mars">
+                            <i class="fas fa-globe-americas"></i>
+                            <span class="p-name">MARS</span>
+                            <span class="p-val" id="g-mars">0.0 KG</span>
+                        </div>
+                        <div class="planet-card jupiter">
+                            <i class="fas fa-circle"></i>
+                            <span class="p-name">JUPITER</span>
+                            <span class="p-val" id="g-jupiter">0.0 KG</span>
+                        </div>
+                        <div class="planet-card saturn">
+                            <i class="fas fa-ring"></i>
+                            <span class="p-name">SATURN</span>
+                            <span class="p-val" id="g-saturn">0.0 KG</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-exam" class="page-section">
+                <div class="section-header royal-mode">
+                    <h2 class="glow-purple">COSMIC EXAM</h2>
+                    <p class="subtitle">PERSONNEL KNOWLEDGE ASSESSMENT</p>
+                    <div class="header-decoration purple"></div>
+                </div>
+
+                <div class="exam-interface">
+                    <div class="exam-hud">
+                        <div class="hud-item">
+                            <span class="lbl">SCORE</span>
+                            <span class="val" id="score">0000</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="lbl">PROGRESS</span>
+                            <span class="val" id="progress">1 / 5</span>
+                        </div>
+                    </div>
+
+                    <div class="question-frame">
+                        <div id="examQuestion" class="q-text">
+                            Simulation Standby. Initiate sequence to begin assessment.
+                        </div>
+                    </div>
+
+                    <div id="examOptions" class="options-container">
+                        </div>
+
+                    <div class="exam-controls">
+                        <div id="examFeedback"></div>
+                        <button id="nextExBtn" class="ctrl-btn next" style="display:none;" onclick="nextQuestion()">
+                            NEXT BLOCK <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button id="startExBtn" class="ctrl-btn start" onclick="initiateExam()">
                             BEGIN SIMULATION <i class="fas fa-play"></i>
                         </button>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-    </main> 
+        </div> </main>
 
     <nav class="nav-dock">
-        <button class="nav-item active" onclick="switchTab('archive')">
-            <div class="icon-box"><i class="fas fa-database"></i></div>
-            <span>ARCHIVE</span>
+        <button class="dock-btn active" onclick="switchPage('archive', this)">
+            <div class="icon"><i class="fas fa-database"></i></div>
+            <span class="label">ARCHIVE</span>
         </button>
-        <button class="nav-item" onclick="switchTab('observatory')">
-            <div class="icon-box"><i class="fas fa-satellite-dish"></i></div>
-            <span>FEED</span>
+        <button class="dock-btn" onclick="switchPage('vault', this)">
+            <div class="icon"><i class="fas fa-book-journal-whills"></i></div>
+            <span class="label">VAULT</span>
         </button>
-        <button class="nav-item" onclick="switchTab('tools')">
-            <div class="icon-box"><i class="fas fa-microchip"></i></div>
-            <span>TOOLS</span>
+        <button class="dock-btn" onclick="switchPage('feed', this)">
+            <div class="icon"><i class="fas fa-satellite-dish"></i></div>
+            <span class="label">FEED</span>
         </button>
-        <button class="nav-item" onclick="switchTab('academy')">
-            <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
-            <span>EXAM</span>
+        <button class="dock-btn" onclick="switchPage('tools', this)">
+            <div class="icon"><i class="fas fa-microchip"></i></div>
+            <span class="label">TOOLS</span>
+        </button>
+        <button class="dock-btn" onclick="switchPage('exam', this)">
+            <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+            <span class="label">EXAM</span>
         </button>
     </nav>
 
-    <div id="infoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
+    <div id="audio-deck" class="audio-deck-closed">
+        <div class="deck-left">
+            <div class="album-art" id="playerArt">
+                <img src="https://via.placeholder.com/60" id="playerImg">
+                <div class="center-hole"></div>
+            </div>
+            <div class="track-info">
+                <span class="t-title" id="playerTitle">SYSTEM IDLE</span>
+                <span class="t-status" id="playerStatus">WAITING...</span>
+            </div>
+        </div>
+
+        <div class="deck-center">
+            <div class="viz-container" id="visualizer">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+        </div>
+
+        <div class="deck-right">
+            <button class="media-btn" onclick="prevTrack()"><i class="fas fa-step-backward"></i></button>
+            <button class="media-btn play" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></button>
+            <button class="media-btn" onclick="nextTrack()"><i class="fas fa-step-forward"></i></button>
+        </div>
+
+        <audio id="audioCore"></audio>
+    </div>
+
+    <div id="modalOverlay" class="modal">
+        <div class="modal-card">
+            <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
             
-            <div class="modal-visual">
-                <img id="modalImg" src="" alt="Data Visual">
-                <div class="visual-overlay"></div>
+            <div class="modal-img-container">
+                <img id="mImg" src="" alt="Detail">
+                <div class="scan-overlay"></div>
+                <div class="gradient-overlay"></div>
             </div>
             
-            <div class="modal-data">
-                <div class="modal-header-inner">
-                    <h2 id="modalTitle">OBJECT DESIGNATION</h2>
-                    <span id="modalType" class="type-badge">UNKNOWN</span>
+            <div class="modal-body">
+                <div class="modal-head">
+                    <h2 id="mTitle">OBJECT DESIGNATION</h2>
+                    <span class="m-badge" id="mType">UNKNOWN</span>
                 </div>
                 
-                <div class="scrollable-desc">
-                    <p id="modalDesc" class="modal-desc">Retrieving data from secure archives...</p>
+                <div class="modal-desc-scroll">
+                    <p id="mDesc">Retrieving data blocks...</p>
                 </div>
                 
-                <div class="data-block">
-                    <div class="data-row">
-                        <span>DATA STATUS</span>
-                        <span style="color:#0f0;">VERIFIED <i class="fas fa-check-circle"></i></span>
+                <div class="modal-specs">
+                    <div class="spec-line">
+                        <span class="lbl">INTEGRITY</span>
+                        <span class="val green">100% VERIFIED</span>
                     </div>
-                    <div class="data-row">
-                        <span>SOURCE</span>
-                        <span>IEA / NASA / WIKI</span>
+                    <div class="spec-line">
+                        <span class="lbl">SOURCE</span>
+                        <span class="val">IEA / NASA ARCHIVES</span>
                     </div>
                 </div>
 
-                <button class="wiki-btn full-width" id="modalLinkBtn">
+                <button class="wiki-action-btn" id="mWikiBtn">
                     ACCESS FULL DOSSIER <i class="fas fa-external-link-alt"></i>
                 </button>
             </div>
         </div>
     </div>
 
+    <a href="admin.html" class="admin-secret-link" title="Admin Access"></a>
+
     <script src="script.js"></script>
+
+    <script>
+        // Force scroll reset on reload
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        } else {
+            window.onbeforeunload = function () {
+                window.scrollTo(0, 0);
+            }
+        }
+    </script>
+
 </body>
 </html>
