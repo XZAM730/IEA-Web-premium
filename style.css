@@ -1,32 +1,81 @@
-/* =================================================================
-   IEA OMEGA V2 - STYLE MAINFRAME
-   Code Name: "Deep Glass"
-   ================================================================= */
+/* ============================================================================
+   PROJECT: IEA OMEGA INFINITY (V.5.0)
+   STYLE CORE: "NEBULA TRINITY ENGINE"
+   ARCHITECT: COMMAND
+   
+   [TABLE OF CONTENTS]
+   01. ROOT VARIABLES & CONFIGURATION
+   02. RESET & GLOBAL UTILITIES
+   03. TYPOGRAPHY SYSTEM
+   04. BACKGROUND & ATMOSPHERE (LAYERS)
+   05. ANIMATION KEYFRAMES (THE ENGINE)
+   06. SCROLLBAR & SELECTION
+   07. UI COMPONENTS: BUTTONS
+   08. UI COMPONENTS: INPUTS & FORMS
+   09. UI COMPONENTS: CARDS (BASE)
+   10. LAYER 1: CINEMATIC INTRO
+   11. LAYER 2: HUD & HEADER
+   12. SECTION: COSMIC ARCHIVE
+   13. SECTION: ROYAL VAULT
+   14. SECTION: OBSERVATORY (NASA)
+   15. SECTION: TOOLS (GRAVITY)
+   16. SECTION: ACADEMY (EXAM)
+   17. DOCK NAVIGATION
+   18. MUSIC PLAYER DECK
+   19. MODAL SYSTEM
+   20. RESPONSIVE MEDIA QUERIES
+   ============================================================================
+*/
 
-/* --- 1. CORE VARIABLES & PALETTE --- */
+/* ==========================================================================
+   01. ROOT VARIABLES & CONFIGURATION
+   ========================================================================== */
 :root {
-    /* Background & Surfaces */
-    --bg-deep: #020204;
-    --glass-panel: rgba(15, 20, 25, 0.75);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-high: rgba(255, 255, 255, 0.15);
+    /* --- CORE PALETTE (VOID) --- */
+    --bg-deep: #020205;
+    --bg-space: #050508;
+    --bg-panel: rgba(12, 14, 20, 0.75);
+    --bg-glass: rgba(255, 255, 255, 0.03);
     
-    /* Neon Spectrum */
-    --neon-blue: #00f6ff;
-    --neon-purple: #bc13fe;
-    --neon-gold: #ffd700;
-    --neon-red: #ff3333;
-    --neon-green: #0aff0a;
+    /* --- IEA TRINITY NEON --- */
+    --purple-glow: #bc13fe;
+    --purple-dim: rgba(188, 19, 254, 0.15);
     
-    /* Text Colors */
-    --text-main: #e0e0e0;
-    --text-muted: #8899a6;
+    --blue-glow: #00f2ff;
+    --blue-dim: rgba(0, 242, 255, 0.15);
     
-    /* Spacing & Layout */
+    --red-glow: #ff0055;
+    --red-dim: rgba(255, 0, 85, 0.15);
+    
+    --gold-glow: #ffd700;
+    --green-glow: #0aff0a;
+    
+    /* --- TEXT COLORS --- */
+    --txt-main: #e0e0e0;
+    --txt-dim: #8899a6;
+    --txt-dark: #000000;
+    
+    /* --- BORDERS & SHADOWS --- */
+    --border-light: rgba(255, 255, 255, 0.1);
+    --border-glow-blue: rgba(0, 242, 255, 0.5);
+    --border-glow-purple: rgba(188, 19, 254, 0.5);
+    
+    --shadow-soft: 0 10px 30px rgba(0,0,0,0.5);
+    --shadow-neon-blue: 0 0 20px rgba(0, 242, 255, 0.3);
+    --shadow-neon-purple: 0 0 20px rgba(188, 19, 254, 0.3);
+    
+    /* --- DIMENSIONS --- */
     --dock-height: 80px;
+    --header-height: 70px;
+    
+    /* --- ANIMATION CURVES --- */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-/* --- 2. GLOBAL RESET & SCROLLBAR --- */
+/* ==========================================================================
+   02. RESET & GLOBAL UTILITIES
+   ========================================================================== */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -35,745 +84,1060 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Custom Scrollbar (Cyber Style) */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #050505; }
-::-webkit-scrollbar-thumb { 
-    background: #333; 
-    border-radius: 3px; 
-    border: 1px solid var(--bg-deep);
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Handled by internal scrolling */
 }
-::-webkit-scrollbar-thumb:hover { background: var(--neon-blue); }
 
-/* --- 3. BODY & ATMOSPHERE --- */
 body {
     background-color: var(--bg-deep);
-    color: var(--text-main);
+    color: var(--txt-main);
     font-family: 'Rajdhani', sans-serif;
-    font-weight: 500;
-    height: 100vh;
-    overflow: hidden; /* Prevent body scroll, handle in app-container */
-    display: flex;
-    flex-direction: column;
-    
-    /* BACKGROUND PREMIUM (Tanpa titik bergerak) */
-    background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=80');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-}
-
-/* Holographic Grid Overlay (Static & Clean) */
-body::after {
-    content: "";
-    position: fixed; inset: 0;
-    background-image: 
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    background-size: 100% 2px, 3px 100%;
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* Vignette Darkener */
-body::before {
-    content: "";
-    position: fixed; inset: 0;
-    background: radial-gradient(circle at center, transparent 0%, #000 90%);
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* --- 4. INTRO LAYER (GATE) --- */
-#intro-layer {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s;
-}
-
-.intro-box {
-    position: relative;
-    width: 90%;
-    max-width: 500px;
-    padding: 40px;
-    background: rgba(10, 10, 12, 0.95);
-    border: 1px solid var(--neon-blue);
-    box-shadow: 0 0 50px rgba(0, 246, 255, 0.15);
-    clip-path: polygon(
-        0 0, 100% 0, 
-        100% 85%, 95% 100%, 
-        0 100%, 0 15%
-    );
-}
-
-.scan-line {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 2px;
-    background: var(--neon-blue);
-    box-shadow: 0 0 10px var(--neon-blue);
-    animation: scan 3s linear infinite;
-    opacity: 0.7;
-}
-@keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
-
-.typewriter-text {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--neon-blue);
-    font-size: 1.1rem;
+    font-size: 16px;
     line-height: 1.6;
-    min-height: 80px;
-    margin-bottom: 30px;
-    text-shadow: 0 0 5px rgba(0, 246, 255, 0.5);
-}
-
-.agreement-area {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s ease;
-}
-.agreement-area.visible { opacity: 1; transform: translateY(0); }
-
-.checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 25px;
-    cursor: pointer;
-    font-family: 'Rajdhani';
-    letter-spacing: 2px;
-    color: #666;
-    transition: 0.3s;
-}
-.checkbox-wrapper:hover { color: #fff; }
-input[type="checkbox"] {
-    appearance: none;
-    width: 18px; height: 18px;
-    border: 1px solid #555;
-    background: #111;
-    cursor: pointer;
+    font-weight: 500;
     position: relative;
 }
-input[type="checkbox"]:checked {
-    background: var(--neon-blue);
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 10px var(--neon-blue);
-}
 
-.enter-btn {
-    width: 100%;
-    padding: 15px;
-    background: transparent;
-    border: 1px solid #333;
-    color: #444;
-    font-family: 'Orbitron';
-    font-weight: 700;
-    letter-spacing: 3px;
+/* Utilities */
+.txt-blue { color: var(--blue-glow) !important; }
+.txt-purple { color: var(--purple-glow) !important; }
+.txt-red { color: var(--red-glow) !important; }
+.txt-gold { color: var(--gold-glow) !important; }
+.txt-white { color: #fff !important; }
+
+.hidden { display: none !important; }
+.fade-in { animation: fadeIn 0.5s ease forwards; }
+
+/* ==========================================================================
+   03. TYPOGRAPHY SYSTEM
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
     text-transform: uppercase;
-    cursor: not-allowed;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-.enter-btn.active {
-    border-color: var(--neon-blue);
-    color: var(--neon-blue);
-    cursor: pointer;
-}
-.enter-btn.active:hover {
-    background: var(--neon-blue);
-    color: #000;
-    box-shadow: 0 0 30px var(--neon-blue);
+    color: #fff;
+    margin: 0;
 }
 
-/* --- 5. MAIN APP LAYOUT --- */
-.app-container {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 120px; /* Space for Dock */
-    opacity: 0;
-    transition: opacity 1.5s ease;
-    z-index: 2;
-    position: relative;
-}
-.app-container.visible { opacity: 1; }
-
-/* HUD Header */
-.hud-top {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 25px;
-    background: rgba(2, 2, 4, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--glass-border);
-    font-family: 'Share Tech Mono';
-    font-size: 0.8rem;
-    color: var(--neon-blue);
-    letter-spacing: 1px;
-}
-.blink-text { animation: blink 2s infinite; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-/* --- 6. PAGE SECTIONS & TYPOGRAPHY --- */
-.page-section {
-    display: none;
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.page-section.active { display: block; }
-@keyframes fadeUp { 
-    from { opacity: 0; transform: translateY(30px) scale(0.98); } 
-    to { opacity: 1; transform: translateY(0) scale(1); } 
-}
-
-.page-header {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
-}
-.page-header h1 {
-    font-family: 'Orbitron';
+.intro-title {
+    font-size: 3rem;
     font-weight: 900;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: 4px;
-    background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
     margin-bottom: 10px;
+    text-align: center;
 }
-.page-header .subtitle {
-    font-family: 'Share Tech Mono';
-    color: var(--neon-blue);
-    letter-spacing: 4px;
-    text-transform: uppercase;
+
+.intro-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    color: var(--txt-dim);
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+.subtitle {
+    font-family: 'Share Tech Mono', monospace;
     font-size: 0.9rem;
+    color: var(--blue-glow);
+    letter-spacing: 2px;
     opacity: 0.8;
 }
 
-/* --- 7. ARCHIVE: SEARCH & CATEGORIES --- */
-.search-container {
-    position: relative;
-    max-width: 600px;
-    margin: 0 auto 30px;
-}
-.search-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--neon-blue);
-    font-size: 1.2rem;
-}
-#searchInput {
-    width: 100%;
-    padding: 18px 20px 18px 55px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    color: #fff;
-    font-family: 'Rajdhani';
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-}
-#searchInput:focus {
-    background: rgba(0, 0, 0, 0.6);
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 25px rgba(0, 246, 255, 0.15);
+/* ==========================================================================
+   04. BACKGROUND & ATMOSPHERE (LAYERS)
+   ========================================================================== */
+#bg-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    background: #000;
+    overflow: hidden;
 }
 
-.categories {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
+#star-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0.8;
 }
-.cat-btn {
-    background: rgba(10, 15, 20, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-muted);
-    padding: 10px 20px;
-    border-radius: 50px;
+
+.nebula-overlay {
+    position: absolute;
+    width: 80vw;
+    height: 80vw;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+    animation: pulseNebula 10s infinite alternate;
+}
+
+.nebula-overlay.purple {
+    top: -20%; left: -20%;
+    background: radial-gradient(circle, var(--purple-glow), transparent);
+}
+
+.nebula-overlay.blue {
+    bottom: -20%; right: -20%;
+    background: radial-gradient(circle, var(--blue-glow), transparent);
+    animation-delay: 5s;
+}
+
+.holo-grid {
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    animation: gridMove 20s linear infinite;
+    mask-image: linear-gradient(to top, black, transparent 80%);
+    -webkit-mask-image: linear-gradient(to top, black, transparent 80%);
+}
+
+.scanlines {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.15;
+}
+
+/* ==========================================================================
+   05. ANIMATION KEYFRAMES (THE ENGINE)
+   ========================================================================== */
+@keyframes gridMove {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+}
+
+@keyframes pulseNebula {
+    0% { transform: scale(1); opacity: 0.1; }
+    100% { transform: scale(1.2); opacity: 0.2; }
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes spinRev { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* IEA Rings Animation */
+.anim-ring-outer { transform-origin: center; animation: spin 20s linear infinite; }
+.anim-ring-mid { transform-origin: center; animation: spinRev 15s linear infinite; }
+.anim-ring-inner { transform-origin: center; animation: spin 10s linear infinite; }
+.anim-text { animation: pulseText 2s infinite alternate; }
+
+@keyframes pulseText { 0% { opacity: 0.8; } 100% { opacity: 1; filter: drop-shadow(0 0 10px #fff); } }
+
+/* ==========================================================================
+   06. SCROLLBAR & SELECTION
+   ========================================================================== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--blue-glow); }
+
+::selection {
+    background: var(--blue-glow);
+    color: #000;
+}
+
+/* ==========================================================================
+   07. UI COMPONENTS: BUTTONS
+   ========================================================================== */
+/* Cyber Glitch Button (Intro) */
+.cyber-btn-glitch {
+    position: relative;
+    padding: 15px 40px;
+    background: transparent;
+    border: 1px solid var(--blue-glow);
+    color: var(--blue-glow);
+    font-family: 'Orbitron';
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.3s;
+    margin-top: 30px;
+}
+
+.cyber-btn-glitch:hover {
+    background: var(--blue-glow);
+    color: #000;
+    box-shadow: 0 0 30px var(--blue-glow);
+}
+
+/* Action Button (Read/Download) */
+.act-btn {
+    padding: 10px 15px;
+    border: 1px solid var(--border-light);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
     font-family: 'Orbitron';
     font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.act-btn:hover {
+    border-color: #fff;
+    background: rgba(255,255,255,0.15);
+}
+
+.act-btn.read:hover { border-color: var(--blue-glow); color: var(--blue-glow); }
+.act-btn.play:hover { border-color: var(--purple-glow); color: var(--purple-glow); }
+.act-btn.download:hover { border-color: var(--red-glow); color: var(--red-glow); }
+
+/* Filter Chips */
+.filter-btn, .v-chip, .chip {
+    padding: 8px 16px;
+    border: 1px solid var(--border-light);
+    background: rgba(0,0,0,0.5);
+    color: var(--txt-dim);
+    font-family: 'Rajdhani';
+    font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: 0.3s;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-btn:hover, .v-chip:hover, .chip:hover { color: #fff; border-color: #fff; }
+
+.filter-btn.active { background: var(--blue-glow); color: #000; border-color: var(--blue-glow); }
+.v-chip.active { background: var(--purple-glow); color: #000; border-color: var(--purple-glow); }
+.chip.active { background: var(--blue-glow); color: #000; border-color: var(--blue-glow); }
+
+/* ==========================================================================
+   08. UI COMPONENTS: INPUTS & FORMS
+   ========================================================================== */
+input[type="text"], input[type="number"] {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-light);
+    color: #fff;
+    font-family: 'Rajdhani';
+    padding: 12px 15px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: var(--blue-glow);
+    box-shadow: 0 0 15px var(--blue-dim);
+    background: #000;
+}
+
+/* ==========================================================================
+   09. UI COMPONENTS: CARDS (BASE)
+   ========================================================================== */
+.card-grid, .vault-grid, .output-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding-bottom: 50px;
+}
+
+.data-card, .artifact-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.data-card:hover, .artifact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.card-visual, .art-visual {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.card-visual img, .art-visual img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: 0.5s;
+}
+
+.data-card:hover img, .artifact-card:hover img {
+    transform: scale(1.1);
+}
+
+.type-tag, .art-badge {
+    position: absolute;
+    top: 10px; right: 10px;
+    padding: 4px 10px;
+    font-family: 'Share Tech Mono';
+    font-size: 0.7rem;
+    color: #000;
+    font-weight: 700;
+    border-radius: 2px;
+    z-index: 2;
+}
+
+.type-tag.blue { background: var(--blue-glow); }
+.type-tag.purple { background: var(--purple-glow); }
+.type-tag.red { background: var(--red-glow); }
+.type-tag.gold { background: var(--gold-glow); }
+.art-badge { background: #000; color: #fff; border: 1px solid #fff; }
+
+.card-content, .art-info {
+    padding: 20px;
+}
+
+.card-content h3, .art-info h4 {
+    font-family: 'Orbitron';
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.specs, .art-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: var(--txt-dim);
+    margin-bottom: 10px;
+    font-family: 'Share Tech Mono';
+}
+
+/* ==========================================================================
+   10. LAYER 1: CINEMATIC INTRO
+   ========================================================================== */
+#intro-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1s ease;
+}
+
+.intro-wrapper {
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+}
+
+/* Terminal Window */
+.terminal-window {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--blue-glow);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 5px var(--blue-dim);
+}
+
+.terminal-window .line {
+    margin-bottom: 5px;
+    opacity: 0; /* JS handles display */
+    display: none;
+    animation: fadeIn 0.1s forwards;
+}
+
+.status-ok { color: var(--green-glow); }
+.warning { color: var(--red-glow); }
+
+.cursor {
+    display: inline-block;
+    animation: blink 0.8s infinite;
+}
+
+/* Logo Reveal */
+.logo-reveal-container {
+    display: none; /* JS toggles this */
+    flex-direction: column;
+    align-items: center;
+    animation: fadeUp 1s var(--ease-out-expo);
+}
+
+.intro-svg {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px var(--purple-glow));
+}
+
+/* ==========================================================================
+   11. LAYER 2: HUD & HEADER
+   ========================================================================== */
+.app-interface {
+    display: none; /* Initially hidden */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.hud-header {
+    height: var(--header-height);
+    background: rgba(5, 5, 8, 0.9);
+    border-bottom: 1px solid var(--border-light);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    position: relative;
+    z-index: 50;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.hud-left, .hud-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 300px;
+}
+
+.hud-right { justify-content: flex-end; }
+
+.status-module {
     display: flex;
     align-items: center;
     gap: 8px;
-    backdrop-filter: blur(5px);
-}
-.cat-btn i { font-size: 0.9rem; }
-.cat-btn:hover { border-color: #fff; color: #fff; }
-.cat-btn.active {
-    background: var(--neon-blue);
-    color: #000;
-    border-color: var(--neon-blue);
-    box-shadow: 0 0 20px rgba(0, 246, 255, 0.4);
-    font-weight: 700;
-}
-
-/* --- 8. ARCHIVE: GRID & CARDS (MASTERPIECE) --- */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 30px;
-}
-
-.card {
-    background: var(--glass-panel);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-/* Card Hover Effects */
-.card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    z-index: 10;
-}
-.card[data-type="star"]:hover { border-color: var(--neon-gold); box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
-.card[data-type="planet"]:hover { border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 246, 255, 0.2); }
-.card[data-type="galaxy"]:hover { border-color: var(--neon-purple); box-shadow: 0 0 30px rgba(188, 19, 254, 0.2); }
-.card[data-type="blackhole"]:hover { border-color: var(--neon-red); box-shadow: 0 0 30px rgba(255, 51, 51, 0.2); }
-.card[data-type="nebula"]:hover { border-color: var(--neon-green); box-shadow: 0 0 30px rgba(10, 255, 10, 0.2); }
-
-.card-img-holder {
-    height: 160px;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-.card-img-holder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-}
-.card:hover img { transform: scale(1.15); }
-
-/* Gradient Overlay on Image */
-.card-img-holder::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-}
-
-.card-info {
-    padding: 20px;
-    position: relative;
-}
-.card-title {
-    font-family: 'Orbitron';
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 6px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-.card-type {
     font-family: 'Share Tech Mono';
     font-size: 0.75rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    color: var(--txt-dim);
 }
 
-/* --- 9. MODULE: OBSERVATORY (NASA) --- */
-.apod-container {
-    background: var(--glass-panel);
-    border: 1px solid var(--glass-border);
+.led-indicator {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+}
+.led-indicator.green { background: var(--green-glow); box-shadow: 0 0 5px var(--green-glow); }
+.led-indicator.purple { background: var(--purple-glow); box-shadow: 0 0 5px var(--purple-glow); }
+.led-indicator.blink { animation: blink 2s infinite; }
+
+.coord-text {
+    font-family: 'Share Tech Mono';
+    font-size: 0.7rem;
+    color: #444;
+}
+
+.brand-display {
+    font-family: 'Orbitron';
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+.time-display {
+    font-family: 'Share Tech Mono';
+    font-size: 1.2rem;
+    color: var(--blue-glow);
+}
+
+.date-display {
+    font-family: 'Rajdhani';
+    font-size: 0.8rem;
+    color: var(--txt-dim);
+    text-align: right;
+}
+
+/* ==========================================================================
+   12. VIEWPORT & SECTIONS (SHARED)
+   ========================================================================== */
+.viewport-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 5% 150px; /* Padding bottom for dock */
+    position: relative;
+}
+
+.page-section {
+    display: none;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeUp 0.5s var(--ease-out-expo);
+}
+.page-section.active { display: block; }
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+.glow-blue { text-shadow: 0 0 20px var(--blue-dim); color: #fff; }
+.glow-purple { text-shadow: 0 0 20px var(--purple-dim); color: #fff; }
+.glow-red { text-shadow: 0 0 20px var(--red-dim); color: #fff; }
+
+.header-decoration {
+    width: 60px; height: 3px;
+    background: var(--blue-glow);
+    margin: 15px auto;
+    box-shadow: 0 0 10px var(--blue-glow);
+}
+.royal-mode .header-decoration { background: var(--purple-glow); box-shadow: 0 0 10px var(--purple-glow); }
+.feed-mode .header-decoration { background: var(--red-glow); box-shadow: 0 0 10px var(--red-glow); }
+
+/* Control Bar */
+.control-bar, .vault-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-light);
+    padding: 15px 25px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.search-module {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+}
+.search-module i {
+    position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+    color: var(--blue-glow);
+}
+.royal .search-module i { color: var(--purple-glow); }
+
+.search-module input {
+    padding-left: 40px;
+    width: 100%;
+}
+
+.filter-module { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ==========================================================================
+   13. SECTION: ROYAL VAULT
+   ========================================================================== */
+.art-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.act-btn.download {
+    width: 40px;
+    padding: 0;
+    font-size: 1rem;
+}
+
+/* ==========================================================================
+   14. SECTION: OBSERVATORY (NASA)
+   ========================================================================== */
+.feed-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
     border-radius: 20px;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    height: 500px;
 }
-@media(min-width: 900px) { .apod-container { flex-direction: row; height: 500px; } }
 
-.apod-frame {
-    flex: 1.5;
-    background: #000;
+.feed-visual-box {
     position: relative;
+    background: #000;
     overflow: hidden;
 }
-.apod-frame img, .apod-frame iframe {
-    width: 100%; height: 100%; object-fit: cover;
+
+.visual-frame { width: 100%; height: 100%; position: relative; }
+.visual-frame img, .visual-frame iframe { width: 100%; height: 100%; object-fit: cover; }
+
+.loader-overlay {
+    position: absolute; inset: 0;
+    background: #000;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: var(--red-glow);
+    gap: 15px;
+    z-index: 5;
 }
 
-.apod-info {
-    flex: 1;
+.feed-data-box {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    border-left: 1px solid var(--glass-border);
+    border-left: 1px solid var(--border-light);
 }
-.data-header {
+
+.data-row-head {
     border-bottom: 1px solid #333;
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
-#apodTitle {
-    font-family: 'Orbitron';
-    color: var(--neon-gold);
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    line-height: 1.2;
-}
-.date-badge {
-    background: rgba(255, 215, 0, 0.1);
-    color: var(--neon-gold);
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-family: 'Share Tech Mono';
-    font-size: 0.8rem;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-}
-#apodDesc {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #ccc;
-    max-height: 250px;
-    overflow-y: auto;
-}
 
-/* --- 10. MODULE: TOOLS (GRAVITY) --- */
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 25px;
-}
-.tool-card {
-    background: var(--glass-panel);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 30px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Input Card Style */
-.input-panel { border-color: var(--neon-blue); background: rgba(0, 246, 255, 0.02); }
-.input-panel input {
-    width: 100%;
-    margin-top: 20px;
-    padding: 15px;
-    background: #000;
-    border: 1px solid #333;
-    color: #fff;
-    text-align: center;
+.data-row-head h3 {
     font-family: 'Orbitron';
+    color: var(--red-glow);
     font-size: 1.5rem;
-    border-radius: 8px;
-}
-.input-panel input:focus { border-color: var(--neon-blue); }
-.status-indicator {
-    margin-top: 10px; font-size: 0.7rem; color: var(--neon-blue); animation: blink 1s infinite;
-}
-
-/* Result Cards */
-.result-card h4 { font-family: 'Orbitron'; margin: 15px 0; color: #aaa; letter-spacing: 2px; }
-.result-card .val { font-family: 'Share Tech Mono'; font-size: 2rem; color: #fff; margin-bottom: 5px; }
-.result-card .g-label { font-size: 0.75rem; color: #555; font-family: 'Rajdhani'; }
-.card-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.8; }
-
-/* Themes */
-.mars-theme { border-top: 3px solid var(--neon-red); }
-.mars-theme .card-icon, .mars-theme .val { color: var(--neon-red); }
-
-.jupiter-theme { border-top: 3px solid var(--neon-gold); }
-.jupiter-theme .card-icon, .jupiter-theme .val { color: var(--neon-gold); }
-
-.moon-theme { border-top: 3px solid #fff; }
-.moon-theme .card-icon, .moon-theme .val { color: #fff; }
-
-.neutron-theme { border-top: 3px solid var(--neon-purple); }
-.neutron-theme .card-icon, .neutron-theme .val { color: var(--neon-purple); }
-
-/* --- 11. MODULE: ACADEMY (QUIZ) --- */
-.quiz-container-large {
-    background: var(--glass-panel);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 0 50px rgba(0, 246, 255, 0.05);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-.quiz-stat-bar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 15px;
-}
-.stat-item { display: flex; flex-direction: column; }
-.stat-item .label { font-size: 0.7rem; color: #666; font-family: 'Orbitron'; }
-.stat-item .val { font-size: 1.5rem; color: var(--neon-gold); font-family: 'Share Tech Mono'; }
-
-.large-question {
-    font-size: 1.4rem;
-    line-height: 1.5;
-    margin-bottom: 30px;
-    min-height: 80px;
-}
-.large-options button {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 18px 25px;
-    margin-bottom: 15px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #ccc;
-    font-family: 'Rajdhani';
-    font-size: 1.1rem;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: 0.2s;
-}
-.large-options button:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: #fff;
-    padding-left: 35px; /* Slight slide effect */
-}
-.large-options button.correct {
-    background: rgba(10, 255, 10, 0.1);
-    border-color: var(--neon-green);
-    color: var(--neon-green);
-}
-.large-options button.wrong {
-    background: rgba(255, 51, 51, 0.1);
-    border-color: var(--neon-red);
-    color: var(--neon-red);
-}
-
-.action-start, .action-next { width: 100%; margin-top: 20px; }
-
-/* --- 12. NAVIGATION DOCK (THE FLOATING BAR) --- */
-.nav-dock {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(5, 5, 8, 0.9);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 24px;
-    padding: 10px 20px;
-    display: flex;
-    gap: 15px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    z-index: 1000;
-}
-
-.nav-item {
-    background: transparent;
-    border: none;
-    color: #666;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    position: relative;
-}
-
-.icon-box {
-    font-size: 1.4rem;
     margin-bottom: 5px;
-    transition: 0.3s;
-}
-.nav-item span {
-    font-size: 0.6rem;
-    font-family: 'Orbitron';
-    font-weight: 700;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: 0.3s;
 }
 
-/* Hover Effects on Dock */
-.nav-item:hover { color: #fff; width: 85px; }
-.nav-item:hover .icon-box { transform: translateY(-5px) scale(1.2); }
-.nav-item:hover span { opacity: 1; transform: translateY(0); }
-
-/* Active State */
-.nav-item.active { color: var(--neon-blue); }
-.nav-item.active .icon-box { text-shadow: 0 0 15px var(--neon-blue); }
-.nav-item.active::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    width: 20px; height: 3px;
-    background: var(--neon-blue);
-    border-radius: 2px;
-    box-shadow: 0 0 10px var(--neon-blue);
-}
-
-/* --- 13. MODAL SYSTEM (DETAIL POPUP) --- */
-.modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(8px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.modal.open .modal-content { opacity: 1; transform: scale(1); }
-
-.modal-content {
-    background: #08080a;
-    width: 100%;
-    max-width: 1000px;
-    height: 80vh;
-    border: 1px solid var(--neon-blue);
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 100px rgba(0, 246, 255, 0.1);
-    opacity: 0;
-    transform: scale(0.95);
-    transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
-@media(min-width: 900px) { .modal-content { flex-direction: row; } }
-
-.modal-visual {
-    flex: 1;
-    background: #000;
-    position: relative;
-    overflow: hidden;
-}
-.modal-visual img { width: 100%; height: 100%; object-fit: cover; }
-.visual-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, #08080a, transparent);
-}
-
-.modal-data {
-    flex: 1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow-y: auto;
-}
-.close-modal {
-    position: absolute; top: 20px; right: 30px;
-    font-size: 2rem; color: #fff; cursor: pointer; z-index: 10;
-    transition: 0.3s;
-}
-.close-modal:hover { color: var(--neon-red); transform: rotate(90deg); }
-
-.modal-header-inner {
-    border-bottom: 2px solid #222;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-#modalTitle {
-    font-family: 'Orbitron';
-    font-size: 2rem;
-    color: var(--neon-blue);
-    margin: 0;
-    text-shadow: 0 0 20px rgba(0, 246, 255, 0.3);
-}
-.type-badge {
-    background: #151515;
-    border: 1px solid #444;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
+.date-tag {
     font-family: 'Share Tech Mono';
+    background: rgba(255, 0, 85, 0.1);
+    color: var(--red-glow);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 0, 85, 0.3);
 }
 
-.scrollable-desc {
+.data-scroll-area {
     flex: 1;
     overflow-y: auto;
+    font-size: 1rem;
+    color: #ccc;
+    line-height: 1.8;
     margin-bottom: 20px;
     padding-right: 10px;
 }
-.modal-desc {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #d0d0d0;
-}
 
-.data-block {
-    background: rgba(255,255,255,0.03);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-.data-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    font-size: 0.9rem;
-}
-.data-row span:first-child { color: var(--neon-blue); font-family: 'Orbitron'; font-size: 0.75rem; }
-
-.wiki-btn {
+.nasa-refresh-btn {
     width: 100%;
     padding: 15px;
     background: transparent;
-    border: 1px solid var(--neon-blue);
-    color: var(--neon-blue);
+    border: 1px solid var(--red-glow);
+    color: var(--red-glow);
     font-family: 'Orbitron';
     font-weight: 700;
     cursor: pointer;
     transition: 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+
+.nasa-refresh-btn:hover { background: var(--red-glow); color: #000; box-shadow: 0 0 20px var(--red-dim); }
+
+/* ==========================================================================
+   15. SECTION: TOOLS (GRAVITY SIM)
+   ========================================================================== */
+.tools-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.tool-input-card {
+    background: rgba(0, 242, 255, 0.05);
+    border: 1px solid var(--blue-glow);
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tool-input-card .icon-wrap {
+    font-size: 2.5rem;
+    color: var(--blue-glow);
+    margin-bottom: 15px;
+}
+
+.input-field-group {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-}
-.wiki-btn:hover {
-    background: var(--neon-blue);
-    color: #000;
-    box-shadow: 0 0 30px var(--neon-blue);
+    margin-top: 20px;
 }
 
-/* --- 14. RESPONSIVE ADJUSTMENTS --- */
+.input-field-group input {
+    background: #000;
+    font-size: 2rem;
+    text-align: center;
+    width: 150px;
+    border-color: var(--blue-glow);
+}
+
+.unit { font-family: 'Orbitron'; font-weight: 700; color: #fff; }
+
+.tool-result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.planet-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center;
+    transition: 0.3s;
+}
+
+.planet-card i { font-size: 2rem; margin-bottom: 10px; color: #555; }
+.planet-card .p-name { font-family: 'Orbitron'; font-size: 0.9rem; color: #888; margin-bottom: 5px; }
+.planet-card .p-val { font-family: 'Share Tech Mono'; font-size: 1.5rem; color: #fff; }
+
+.planet-card.mars:hover { border-color: var(--red-glow); }
+.planet-card.mars:hover i { color: var(--red-glow); }
+
+.planet-card.jupiter:hover { border-color: var(--gold-glow); }
+.planet-card.jupiter:hover i { color: var(--gold-glow); }
+
+.planet-card.neutron:hover { border-color: var(--purple-glow); }
+.planet-card.neutron:hover i { color: var(--purple-glow); }
+
+/* ==========================================================================
+   16. SECTION: ACADEMY (EXAM)
+   ========================================================================== */
+.exam-interface {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--bg-panel);
+    border: 1px solid var(--purple-glow);
+    box-shadow: 0 0 30px var(--purple-dim);
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.exam-hud {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.hud-item { display: flex; flex-direction: column; }
+.hud-item .lbl { font-size: 0.7rem; color: #666; font-family: 'Orbitron'; }
+.hud-item .val { font-size: 1.5rem; color: var(--purple-glow); font-family: 'Share Tech Mono'; }
+
+.q-text {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    min-height: 80px;
+    text-align: center;
+}
+
+.exam-opt-btn {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    text-align: left;
+    font-family: 'Rajdhani';
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 8px;
+}
+
+.exam-opt-btn:hover { background: rgba(188, 19, 254, 0.2); border-color: var(--purple-glow); }
+.exam-opt-btn.correct { background: rgba(10, 255, 10, 0.2); border-color: var(--green-glow); color: var(--green-glow); }
+.exam-opt-btn.wrong { background: rgba(255, 0, 85, 0.2); border-color: var(--red-glow); color: var(--red-glow); }
+
+.exam-controls { margin-top: 30px; text-align: center; }
+.ctrl-btn {
+    padding: 12px 30px;
+    background: var(--purple-glow);
+    border: none;
+    color: #000;
+    font-weight: 700;
+    font-family: 'Orbitron';
+    cursor: pointer;
+    border-radius: 4px;
+}
+.ctrl-btn:hover { box-shadow: 0 0 20px var(--purple-glow); color: #fff; }
+
+/* ==========================================================================
+   17. DOCK NAVIGATION
+   ========================================================================== */
+.nav-dock {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(2, 2, 4, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 10px 20px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    z-index: 9000;
+    height: var(--dock-height);
+    align-items: center;
+}
+
+.dock-btn {
+    background: none;
+    border: none;
+    color: #666;
+    display: flex; flex-direction: column; align-items: center;
+    width: 60px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dock-btn .icon { font-size: 1.4rem; margin-bottom: 4px; }
+.dock-btn .label { font-size: 0.6rem; font-family: 'Orbitron'; opacity: 0; transform: translateY(10px); transition: 0.3s; }
+
+.dock-btn:hover { color: #fff; transform: translateY(-5px); }
+.dock-btn:hover .label { opacity: 1; transform: translateY(0); }
+
+.dock-btn.active { color: var(--blue-glow); }
+.dock-btn.active .icon { text-shadow: 0 0 15px var(--blue-glow); }
+
+/* ==========================================================================
+   18. MUSIC PLAYER DECK
+   ========================================================================== */
+#audio-deck {
+    position: fixed;
+    bottom: 110px; /* Above dock */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%; max-width: 500px;
+    background: rgba(10, 10, 15, 0.95);
+    border: 1px solid var(--purple-glow);
+    border-radius: 50px;
+    height: 70px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
+    z-index: 8000;
+    transition: 0.5s var(--ease-elastic);
+}
+
+.audio-deck-closed {
+    transform: translateX(-50%) translateY(200%) !important;
+    opacity: 0;
+}
+
+.deck-left { display: flex; align-items: center; gap: 15px; flex: 1; }
+
+.album-art {
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #222;
+    position: relative;
+    animation: spin 5s linear infinite;
+    animation-play-state: paused;
+}
+.album-art.playing { animation-play-state: running; border-color: var(--purple-glow); }
+.album-art img { width: 100%; height: 100%; object-fit: cover; }
+.center-hole {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 10px; height: 10px; background: #111; border-radius: 50%;
+}
+
+.track-info { display: flex; flex-direction: column; overflow: hidden; }
+.t-title { font-family: 'Orbitron'; font-size: 0.8rem; color: #fff; white-space: nowrap; }
+.t-status { font-family: 'Share Tech Mono'; font-size: 0.65rem; color: var(--purple-glow); }
+
+.deck-center { flex: 1; display: flex; justify-content: center; }
+.viz-container { display: flex; gap: 3px; align-items: flex-end; height: 20px; }
+.bar { width: 3px; background: var(--blue-glow); height: 5px; transition: height 0.1s; }
+.viz-container.active .bar { animation: bounce 0.5s infinite; }
+@keyframes bounce { 0%, 100% { height: 5px; } 50% { height: 20px; } }
+
+.deck-right { display: flex; gap: 10px; }
+.media-btn {
+    background: none; border: none; color: #fff; cursor: pointer; font-size: 1rem;
+    transition: 0.2s;
+}
+.media-btn:hover { color: var(--purple-glow); }
+.media-btn.play {
+    width: 35px; height: 35px;
+    background: var(--purple-glow);
+    border-radius: 50%;
+    color: #000;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* ==========================================================================
+   19. MODAL SYSTEM
+   ========================================================================== */
+.modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: 0.3s;
+}
+.modal.open { opacity: 1; pointer-events: auto; }
+
+.modal-card {
+    width: 90%; max-width: 900px;
+    height: 80vh;
+    background: #08080a;
+    border: 1px solid var(--border-glow-blue);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.1);
+    transform: scale(0.9); transition: 0.4s var(--ease-out-expo);
+}
+.modal.open .modal-card { transform: scale(1); }
+
+@media(min-width: 800px) { .modal-card { flex-direction: row; } }
+
+.modal-img-container {
+    flex: 1;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
+.modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
+.gradient-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, #08080a, transparent);
+}
+
+.modal-body {
+    flex: 1;
+    padding: 40px;
+    display: flex; flex-direction: column;
+}
+
+.modal-head {
+    border-bottom: 2px solid #222;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.modal-head h2 { font-size: 1.8rem; color: var(--blue-glow); }
+.m-badge {
+    background: #111; color: var(--txt-dim); padding: 4px 8px;
+    font-family: 'Share Tech Mono'; font-size: 0.8rem; border: 1px solid #333;
+}
+
+.modal-desc-scroll {
+    flex: 1; overflow-y: auto; color: #ccc; line-height: 1.7; margin-bottom: 20px;
+}
+
+.modal-specs {
+    background: rgba(255,255,255,0.03);
+    padding: 15px; border-radius: 8px; margin-bottom: 20px;
+}
+.spec-line {
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05); padding: 5px 0;
+    font-size: 0.9rem;
+}
+
+.wiki-action-btn {
+    width: 100%; padding: 15px;
+    background: transparent; border: 1px solid var(--blue-glow);
+    color: var(--blue-glow); font-family: 'Orbitron'; font-weight: 700;
+    cursor: pointer; transition: 0.3s;
+}
+.wiki-action-btn:hover { background: var(--blue-glow); color: #000; }
+
+.close-modal {
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: none; color: #fff; font-size: 1.5rem;
+    cursor: pointer; z-index: 10;
+}
+
+/* ==========================================================================
+   20. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+/* Tablet */
+@media (max-width: 1024px) {
+    .viewport-content { padding-left: 3%; padding-right: 3%; }
+    .intro-title { font-size: 2.5rem; }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
-    .page-header h1 { font-size: 2rem; }
-    .nav-dock { width: 95%; bottom: 15px; padding: 10px; }
-    .nav-item { width: auto; }
-    .nav-item span { display: none; } /* Hide labels on mobile dock */
-    .modal-content { height: 90vh; }
-    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+    /* Header */
+    .hud-header { padding: 0 15px; height: 60px; }
+    .hud-left, .hud-right { display: none; } /* Hide extra data on mobile */
+    .hud-center { width: 100%; text-align: center; }
+    
+    /* Intro */
+    .intro-title { font-size: 2rem; }
+    .intro-svg { width: 140px; height: 140px; }
+    
+    /* Grids */
+    .card-grid, .vault-grid, .output-grid { grid-template-columns: 1fr; }
+    
+    /* Feed */
+    .feed-layout { display: flex; flex-direction: column; height: auto; }
+    .visual-frame { height: 250px; }
+    
+    /* Dock */
+    .nav-dock { width: 95%; padding: 10px; }
+    .dock-label { display: none; } /* Icons only on mobile */
+    
+    /* Music Deck */
+    #audio-deck { width: 95%; bottom: 80px; }
+    .deck-center { display: none; } /* Hide viz on mobile */
+    
+    /* Tools */
+    .tools-layout { gap: 20px; }
+    
+    /* Modal */
+    .modal-card { flex-direction: column; height: 90vh; }
+    .modal-img-container { height: 200px; flex: none; }
+}
+
+/* 4K / Ultra Wide */
+@media (min-width: 2000px) {
+    body { font-size: 20px; }
+    .viewport-content { max-width: 1800px; margin: 0 auto; }
 }
