@@ -1141,3 +1141,52 @@ input:focus {
     body { font-size: 20px; }
     .viewport-content { max-width: 1800px; margin: 0 auto; }
 }
+
+/* ==========================================================
+   EMERGENCY SCROLL PATCH (FIX MACET)
+   Tempel kode ini di baris paling bawah style.css
+   ========================================================== */
+
+/* 1. Pastikan Intro tidak menghalangi layar setelah hilang */
+#intro-layer {
+    pointer-events: none !important; /* Tembus pandang secara klik/scroll */
+}
+#intro-layer .intro-wrapper {
+    pointer-events: auto !important; /* Kembalikan klik hanya untuk tombol intro */
+}
+
+/* 2. Paksa Struktur Layout Agar Scroll Berfungsi */
+html, body {
+    overflow: hidden !important; /* Body tetap diam */
+    height: 100% !important;
+    width: 100% !important;
+    position: fixed; /* Kunci layar utama */
+}
+
+.app-interface {
+    height: 100vh !important; /* Paksa tinggi layar penuh */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden !important;
+    position: relative;
+    z-index: 5;
+}
+
+/* 3. INI KUNCINYA: Area Konten Wajib Scroll */
+.viewport-content {
+    flex: 1; /* Ambil sisa ruang yang ada */
+    height: 100% !important;
+    overflow-y: auto !important; /* Paksa scroll vertikal aktif */
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch; /* Agar licin di HP (iPhone/Android) */
+    
+    /* Pastikan padding bawah cukup agar konten tidak tertutup menu */
+    padding-bottom: 180px !important; 
+    position: relative;
+    z-index: 10;
+}
+
+/* 4. Perbaikan Z-Index Background agar tidak menutupi konten */
+#bg-layer {
+    z-index: -1 !important;
+}
