@@ -28,15 +28,10 @@
 
     <div id="bg-layer">
         <canvas id="star-canvas"></canvas>
-        
         <div class="nebula-overlay purple"></div>
         <div class="nebula-overlay blue"></div>
-        
-        <div id="dust-container">
-            </div>
-        
+        <div id="dust-container"></div>
         <div class="holo-grid"></div>
-        
         <div class="scanlines"></div>
     </div>
 
@@ -44,7 +39,7 @@
         <div class="intro-wrapper">
             
             <div class="terminal-window" id="bootLog">
-                <div class="line">IEA KERNEL v5.0.1-infinity loaded.</div>
+                <div class="line">IEA infinity loaded.</div>
                 <div class="line">Verifying integrity... <span class="status-ok">[OK]</span></div>
                 <div class="line">Mounting file system: /royal_vault... <span class="status-ok">[MOUNTED]</span></div>
                 <div class="line">Initializing Neural Link Protocol...</div>
@@ -131,7 +126,6 @@
         <div class="viewport-content">
 
             <section id="tab-archive" class="page-section active">
-                
                 <div class="section-header">
                     <h2 class="glow-blue">COSMIC DATABASE</h2>
                     <p class="subtitle">CLASSIFIED ASTRONOMICAL REPOSITORY</p>
@@ -153,7 +147,6 @@
                 </div>
 
                 <div class="card-grid" id="mainArchiveGrid">
-                    
                     <div class="data-card" data-type="star">
                         <div class="card-visual">
                             <div class="type-tag gold"><i class="fas fa-star"></i> STAR</div>
@@ -201,12 +194,10 @@
                             <p>Lubang hitam terbesar yang pernah ditemukan.</p>
                         </div>
                     </div>
-
-                    </div>
+                </div>
             </section>
 
             <section id="tab-vault" class="page-section">
-                
                 <div class="section-header royal-mode">
                     <h2 class="glow-purple">ROYAL ARCHIVES</h2>
                     <p class="subtitle">RESTRICTED VAULT: BOOKS & AUDIO LOGS</p>
@@ -227,7 +218,6 @@
                 </div>
 
                 <div class="vault-grid" id="vaultGrid">
-                    
                     <div class="artifact-card" data-type="book">
                         <div class="art-visual">
                             <div class="art-badge"><i class="fas fa-file-pdf"></i> PDF</div>
@@ -240,14 +230,9 @@
                                 <span><i class="fas fa-clock"></i> 1532</span>
                             </div>
                             <p>Strategi politik dan kekuasaan klasik.</p>
-                            
                             <div class="art-actions">
-                                <a href="https://drive.google.com/file/d/1qjMJWxjGmKs49-l7qSoGpTkPlHBqlkN2/view" target="_blank" class="act-btn read">
-                                    <i class="fas fa-eye"></i> READ
-                                </a>
-                                <a href="https://drive.google.com/uc?export=download&id=1qjMJWxjGmKs49-l7qSoGpTkPlHBqlkN2" class="act-btn download" title="Download PDF">
-                                    <i class="fas fa-download"></i>
-                                </a>
+                                <a href="https://drive.google.com/file/d/1qjMJWxjGmKs49-l7qSoGpTkPlHBqlkN2/view" target="_blank" class="act-btn read"><i class="fas fa-eye"></i> READ</a>
+                                <a href="https://drive.google.com/uc?export=download&id=1qjMJWxjGmKs49-l7qSoGpTkPlHBqlkN2" class="act-btn download" title="Download PDF"><i class="fas fa-download"></i></a>
                             </div>
                         </div>
                     </div>
@@ -264,19 +249,13 @@
                                 <span><i class="fas fa-clock"></i> 2026</span>
                             </div>
                             <p>Audio frekuensi rendah untuk fokus riset.</p>
-                            
                             <div class="art-actions">
-                                <button class="act-btn play" onclick="playMusic('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Interstellar Ambience')">
-                                    <i class="fas fa-play"></i> PLAY
-                                </button>
-                                <a href="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" download class="act-btn download" title="Download Audio">
-                                    <i class="fas fa-download"></i>
-                                </a>
+                                <button class="act-btn play" onclick="playMusic('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Interstellar Ambience')"><i class="fas fa-play"></i> PLAY</button>
+                                <a href="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" download class="act-btn download" title="Download Audio"><i class="fas fa-download"></i></a>
                             </div>
                         </div>
                     </div>
-
-                    </div>
+                </div>
             </section>
 
             <section id="tab-feed" class="page-section">
@@ -291,7 +270,6 @@
                         <div class="visual-frame">
                             <img id="nasaImg" src="" alt="Awaiting Signal..." style="display:none;">
                             <iframe id="nasaVid" style="display:none;" frameborder="0"></iframe>
-                            
                             <div class="loader-overlay" id="feedLoader">
                                 <i class="fas fa-satellite fa-spin"></i>
                                 <span>ACQUIRING SIGNAL...</span>
@@ -305,9 +283,7 @@
                             <span class="date-tag" id="nasaDate">----/--/--</span>
                         </div>
                         <div class="data-scroll-area">
-                            <p id="nasaDesc">
-                                System is currently establishing a secure handshake with NASA Jet Propulsion Laboratory (JPL) servers. Please stand by for daily astronomical imagery transmission...
-                            </p>
+                            <p id="nasaDesc">System is currently establishing a secure handshake with NASA Jet Propulsion Laboratory (JPL) servers...</p>
                         </div>
                         <button class="nasa-refresh-btn" onclick="fetchNasaData()">
                             <i class="fas fa-sync-alt"></i> REFRESH UPLINK
@@ -335,36 +311,12 @@
                     </div>
 
                     <div class="tool-result-grid">
-                        <div class="planet-card mercury">
-                            <i class="fas fa-circle"></i>
-                            <span class="p-name">MERCURY</span>
-                            <span class="p-val" id="g-mercury">0.0 KG</span>
-                        </div>
-                        <div class="planet-card venus">
-                            <i class="fas fa-circle"></i>
-                            <span class="p-name">VENUS</span>
-                            <span class="p-val" id="g-venus">0.0 KG</span>
-                        </div>
-                        <div class="planet-card moon">
-                            <i class="fas fa-moon"></i>
-                            <span class="p-name">THE MOON</span>
-                            <span class="p-val" id="g-moon">0.0 KG</span>
-                        </div>
-                        <div class="planet-card mars">
-                            <i class="fas fa-globe-americas"></i>
-                            <span class="p-name">MARS</span>
-                            <span class="p-val" id="g-mars">0.0 KG</span>
-                        </div>
-                        <div class="planet-card jupiter">
-                            <i class="fas fa-circle"></i>
-                            <span class="p-name">JUPITER</span>
-                            <span class="p-val" id="g-jupiter">0.0 KG</span>
-                        </div>
-                        <div class="planet-card saturn">
-                            <i class="fas fa-ring"></i>
-                            <span class="p-name">SATURN</span>
-                            <span class="p-val" id="g-saturn">0.0 KG</span>
-                        </div>
+                        <div class="planet-card mercury"><i class="fas fa-circle"></i><span class="p-name">MERCURY</span><span class="p-val" id="g-mercury">0.0 KG</span></div>
+                        <div class="planet-card venus"><i class="fas fa-circle"></i><span class="p-name">VENUS</span><span class="p-val" id="g-venus">0.0 KG</span></div>
+                        <div class="planet-card moon"><i class="fas fa-moon"></i><span class="p-name">THE MOON</span><span class="p-val" id="g-moon">0.0 KG</span></div>
+                        <div class="planet-card mars"><i class="fas fa-globe-americas"></i><span class="p-name">MARS</span><span class="p-val" id="g-mars">0.0 KG</span></div>
+                        <div class="planet-card jupiter"><i class="fas fa-circle"></i><span class="p-name">JUPITER</span><span class="p-val" id="g-jupiter">0.0 KG</span></div>
+                        <div class="planet-card saturn"><i class="fas fa-ring"></i><span class="p-name">SATURN</span><span class="p-val" id="g-saturn">0.0 KG</span></div>
                     </div>
                 </div>
             </section>
@@ -378,143 +330,81 @@
 
                 <div class="exam-interface">
                     <div class="exam-hud">
-                        <div class="hud-item">
-                            <span class="lbl">SCORE</span>
-                            <span class="val" id="score">0000</span>
-                        </div>
-                        <div class="hud-item">
-                            <span class="lbl">PROGRESS</span>
-                            <span class="val" id="progress">1 / 5</span>
-                        </div>
+                        <div class="hud-item"><span class="lbl">SCORE</span><span class="val" id="score">0000</span></div>
+                        <div class="hud-item"><span class="lbl">PROGRESS</span><span class="val" id="progress">1 / 5</span></div>
                     </div>
-
                     <div class="question-frame">
-                        <div id="examQuestion" class="q-text">
-                            Simulation Standby. Initiate sequence to begin assessment.
-                        </div>
+                        <div id="examQuestion" class="q-text">Simulation Standby. Initiate sequence to begin assessment.</div>
                     </div>
-
-                    <div id="examOptions" class="options-container">
-                        </div>
-
+                    <div id="examOptions" class="options-container"></div>
                     <div class="exam-controls">
                         <div id="examFeedback"></div>
-                        <button id="nextExBtn" class="ctrl-btn next" style="display:none;" onclick="nextQuestion()">
-                            NEXT BLOCK <i class="fas fa-arrow-right"></i>
-                        </button>
-                        <button id="startExBtn" class="ctrl-btn start" onclick="initiateExam()">
-                            BEGIN SIMULATION <i class="fas fa-play"></i>
-                        </button>
+                        <button id="nextExBtn" class="ctrl-btn next" style="display:none;" onclick="nextQuestion()">NEXT BLOCK <i class="fas fa-arrow-right"></i></button>
+                        <button id="startExBtn" class="ctrl-btn start" onclick="initiateExam()">BEGIN SIMULATION <i class="fas fa-play"></i></button>
                     </div>
                 </div>
             </section>
 
-        </div> </main>
+        </div>
+    </main>
 
     <nav class="nav-dock">
-        <button class="dock-btn active" onclick="switchPage('archive', this)">
-            <div class="icon"><i class="fas fa-database"></i></div>
-            <span class="label">ARCHIVE</span>
-        </button>
-        <button class="dock-btn" onclick="switchPage('vault', this)">
-            <div class="icon"><i class="fas fa-book-journal-whills"></i></div>
-            <span class="label">VAULT</span>
-        </button>
-        <button class="dock-btn" onclick="switchPage('feed', this)">
-            <div class="icon"><i class="fas fa-satellite-dish"></i></div>
-            <span class="label">FEED</span>
-        </button>
-        <button class="dock-btn" onclick="switchPage('tools', this)">
-            <div class="icon"><i class="fas fa-microchip"></i></div>
-            <span class="label">TOOLS</span>
-        </button>
-        <button class="dock-btn" onclick="switchPage('exam', this)">
-            <div class="icon"><i class="fas fa-graduation-cap"></i></div>
-            <span class="label">EXAM</span>
-        </button>
+        <button class="dock-btn active" onclick="switchPage('archive', this)"><div class="icon"><i class="fas fa-database"></i></div><span class="label">ARCHIVE</span></button>
+        <button class="dock-btn" onclick="switchPage('vault', this)"><div class="icon"><i class="fas fa-book-journal-whills"></i></div><span class="label">VAULT</span></button>
+        <button class="dock-btn" onclick="switchPage('feed', this)"><div class="icon"><i class="fas fa-satellite-dish"></i></div><span class="label">FEED</span></button>
+        <button class="dock-btn" onclick="switchPage('tools', this)"><div class="icon"><i class="fas fa-microchip"></i></div><span class="label">TOOLS</span></button>
+        <button class="dock-btn" onclick="switchPage('exam', this)"><div class="icon"><i class="fas fa-graduation-cap"></i></div><span class="label">EXAM</span></button>
     </nav>
 
     <div id="audio-deck" class="audio-deck-closed">
         <div class="deck-left">
-            <div class="album-art" id="playerArt">
-                <img src="https://via.placeholder.com/60" id="playerImg">
-                <div class="center-hole"></div>
-            </div>
-            <div class="track-info">
-                <span class="t-title" id="playerTitle">SYSTEM IDLE</span>
-                <span class="t-status" id="playerStatus">WAITING...</span>
-            </div>
+            <div class="album-art" id="playerArt"><img src="https://via.placeholder.com/60" id="playerImg"><div class="center-hole"></div></div>
+            <div class="track-info"><span class="t-title" id="playerTitle">SYSTEM IDLE</span><span class="t-status" id="playerStatus">WAITING...</span></div>
         </div>
-
         <div class="deck-center">
             <div class="viz-container" id="visualizer">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </div>
-
         <div class="deck-right">
             <button class="media-btn" onclick="prevTrack()"><i class="fas fa-step-backward"></i></button>
             <button class="media-btn play" onclick="togglePlay()"><i class="fas fa-play" id="playIcon"></i></button>
             <button class="media-btn" onclick="nextTrack()"><i class="fas fa-step-forward"></i></button>
         </div>
-
         <audio id="audioCore"></audio>
     </div>
 
     <div id="modalOverlay" class="modal">
         <div class="modal-card">
             <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
-            
             <div class="modal-img-container">
                 <img id="mImg" src="" alt="Detail">
                 <div class="scan-overlay"></div>
                 <div class="gradient-overlay"></div>
             </div>
-            
             <div class="modal-body">
                 <div class="modal-head">
                     <h2 id="mTitle">OBJECT DESIGNATION</h2>
                     <span class="m-badge" id="mType">UNKNOWN</span>
                 </div>
-                
-                <div class="modal-desc-scroll">
-                    <p id="mDesc">Retrieving data blocks...</p>
-                </div>
-                
+                <div class="modal-desc-scroll"><p id="mDesc">Retrieving data blocks...</p></div>
                 <div class="modal-specs">
-                    <div class="spec-line">
-                        <span class="lbl">INTEGRITY</span>
-                        <span class="val green">100% VERIFIED</span>
-                    </div>
-                    <div class="spec-line">
-                        <span class="lbl">SOURCE</span>
-                        <span class="val">IEA / NASA ARCHIVES</span>
-                    </div>
+                    <div class="spec-line"><span class="lbl">INTEGRITY</span><span class="val green">100% VERIFIED</span></div>
+                    <div class="spec-line"><span class="lbl">SOURCE</span><span class="val">IEA / NASA ARCHIVES</span></div>
                 </div>
-
-                <button class="wiki-action-btn" id="mWikiBtn">
-                    ACCESS FULL DOSSIER <i class="fas fa-external-link-alt"></i>
-                </button>
+                <button class="wiki-action-btn" id="mWikiBtn">ACCESS FULL DOSSIER <i class="fas fa-external-link-alt"></i></button>
             </div>
         </div>
     </div>
 
     <a href="admin.html" class="admin-secret-link" title="Admin Access"></a>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 
     <script>
-        // Force scroll reset on reload
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        } else {
-            window.onbeforeunload = function () {
-                window.scrollTo(0, 0);
-            }
-        }
+        if (history.scrollRestoration) { history.scrollRestoration = 'manual'; }
+        else { window.onbeforeunload = function () { window.scrollTo(0, 0); } }
     </script>
 
 </body>
